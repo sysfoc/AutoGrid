@@ -158,7 +158,7 @@ export default function SellMyCar() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 mt-20">
+    <div className="min-h-screen bg-white dark:bg-gray-900 mt-16">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-zinc-900 to-stone-900">
         <div className="absolute inset-0 bg-black/20"></div>

@@ -17,6 +17,7 @@ import { AuthProvider } from "./context/UserContext"
 import { SidebarProvider } from './context/SidebarContext'
 import { DistanceProvider } from "./context/DistanceContext"
 import { Suspense } from "react"
+import Banner from "./components/Banner"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -114,6 +115,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={`dark:bg-gray-800 dark:text-gray-200 ${poppins.className}`}>
+        <Banner/>
         <SidebarProvider>
         <ThemeModeScript />
         <GoogleAnalytics />

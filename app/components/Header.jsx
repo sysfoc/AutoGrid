@@ -80,6 +80,11 @@ const Header = () => {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const mountedRef = useRef(true);
+  const [listingsDropdownOpen, setListingsDropdownOpen] = useState(false);
+const [pagesDropdownOpen, setPagesDropdownOpen] = useState(false);
+const [isVisible, setIsVisible] = useState(true);
+  const [scrollY, setScrollY] = useState(0);
+  
 
   const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebar();
 
@@ -109,6 +114,28 @@ const Header = () => {
     } else {
       document.documentElement.classList.remove("dark");
     }
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrollY(currentScrollY);
+      
+      // Calculate hero section height (87vh)
+      const heroHeight = window.innerHeight * 0.87;
+      const scrollThreshold = heroHeight * 0.2; // 20% of hero section
+      
+      setIsVisible(currentScrollY > scrollThreshold);
+    };
+
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Check initial scroll position
+    handleScroll();
+
+    // Cleanup
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Enhanced settings fetch with cache integration
@@ -304,18 +331,105 @@ const Header = () => {
 
   return (
     <>
-      <nav className="fixed left-0 right-0 top-0 z-50 bg-white shadow-lg backdrop-blur-lg transition-all duration-300 border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-        <Banner/>
+    {/* <Banner/> */}
+      <nav 
+      className={`fixed left-0 right-0 top-16 z-20 bg-white shadow-lg backdrop-blur-lg transition-all duration-300 border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700 ${
+          isVisible 
+            ? 'translate-y-0 opacity-100' 
+            : '-translate-y-full opacity-0'
+        }`}
+      >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4">
           <div className="flex h-16 items-center justify-between">
             {LogoComponent}
             
             <div className="hidden items-center space-x-6 lg:flex">
-              {quickLinks.map((link, index) => {
+              {/* Listings Dropdown */}
+              <div 
+                className="relative group"
+                onMouseEnter={() => setListingsDropdownOpen(true)}
+                onMouseLeave={() => setListingsDropdownOpen(false)}
+              >
+                <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white">
+                  <span>Listings</span>
+                  <svg className={`h-4 w-4 transition-transform duration-300 ${listingsDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {listingsDropdownOpen && (
+                  <div 
+                    className="absolute top-full left-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 z-50"
+                    onMouseEnter={() => setListingsDropdownOpen(true)}
+                    onMouseLeave={() => setListingsDropdownOpen(false)}
+                  >
+                    <div className="py-2">
+                      <Link
+                        href="/car-for-sale"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-400 transition-colors duration-200"
+                      >
+                        Cars for Sale
+                      </Link>
+                      <Link
+                        href="/cars/leasing"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-400 transition-colors duration-200"
+                      >
+                        Lease Deals
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Pages Dropdown */}
+              <div 
+                className="relative group"
+                onMouseEnter={() => setPagesDropdownOpen(true)}
+                onMouseLeave={() => setPagesDropdownOpen(false)}
+              >
+                <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white">
+                  <span>Pages</span>
+                  <svg className={`h-4 w-4 transition-transform duration-300 ${pagesDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {pagesDropdownOpen && (
+                  <div 
+                    className="absolute top-full left-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 z-50"
+                    onMouseEnter={() => setPagesDropdownOpen(true)}
+                    onMouseLeave={() => setPagesDropdownOpen(false)}
+                  >
+                    <div className="py-2">
+                      <Link
+                        href="/about"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-400 transition-colors duration-200"
+                      >
+                        About
+                      </Link>
+                      <Link
+                        href="/contact"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-400 transition-colors duration-200"
+                      >
+                        Contact
+                      </Link>
+                      <Link
+                        href="/blogs"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-400 transition-colors duration-200"
+                      >
+                        Blogs
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Keep existing Car Valuation and Vehicle Services */}
+              {quickLinks.filter(link => link.name === 'Car valuation' || link.name === 'Vehicle Services').map((link, index) => {
                 const IconComponent = link.icon;
                 return (
                   <Link
-                    key={link.href} // Use href as key for better stability
+                    key={link.href}
                     href={link.href}
                     className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white"
                   >
@@ -354,15 +468,6 @@ const Header = () => {
                     d="M4 6h16M4 12h16M4 18h16"
                   />
                 </svg>
-              </button>
-
-              {/* Search Button - Hidden on smaller screens */}
-              <button
-                onClick={toggleSearchSidebar}
-                aria-label="Open Search"
-                className="group relative hidden rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-red-500 hover:to-red-600 hover:shadow-lg hover:shadow-red-500/25 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-white lg:block dark:bg-gray-800 dark:focus:ring-offset-gray-900"
-              >
-                <FaSearch className="h-5 w-5 text-gray-700 transition-colors duration-300 group-hover:text-white dark:text-gray-300" />
               </button>
 
               {!topSettings.hideFavourite && (
@@ -444,13 +549,59 @@ const Header = () => {
           </div>
           
           <div className="flex-1 space-y-2 p-4">
-            {mobileMenuLinks.map((link) => {
+            {/* Mobile Listings Section */}
+            <div className="mb-4">
+              <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2">Listings</h3>
+              <Link
+                href="/car-for-sale"
+                onClick={handleMobileMenuClose}
+                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+              >
+                <span>Cars for Sale</span>
+              </Link>
+              <Link
+                href="/cars/leasing"
+                onClick={handleMobileMenuClose}
+                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+              >
+                <span>Lease Deals</span>
+              </Link>
+            </div>
+
+            {/* Mobile Pages Section */}
+            <div className="mb-4">
+              <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2">Pages</h3>
+              <Link
+                href="/about"
+                onClick={handleMobileMenuClose}
+                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+              >
+                <span>About</span>
+              </Link>
+              <Link
+                href="/contact"
+                onClick={handleMobileMenuClose}
+                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+              >
+                <span>Contact</span>
+              </Link>
+              <Link
+                href="/blogs"
+                onClick={handleMobileMenuClose}
+                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+              >
+                <span>Blogs</span>
+              </Link>
+            </div>
+
+            {/* Keep existing Car Valuation and Vehicle Services in mobile */}
+            {mobileMenuLinks.filter(link => link.name === 'Car Valuation' || link.name === 'Vehicle Services').map((link) => {
               const IconComponent = link.icon;
               return (
                 <Link
-                  key={link.href} // Use href as key for better stability
+                  key={link.href}
                   href={link.href}
-                  onClick={handleMobileMenuClose} // Close menu on link click
+                  onClick={handleMobileMenuClose}
                   className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
                 >
                   <IconComponent className="h-5 w-5" />

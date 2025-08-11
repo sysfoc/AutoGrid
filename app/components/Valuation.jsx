@@ -121,7 +121,7 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative min-h-screen w-full overflow-hidden mt-20">
+      <section className="relative min-h-screen w-full overflow-hidden mt-16">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{

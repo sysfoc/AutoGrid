@@ -3,10 +3,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { MdOutlineArrowOutward, MdSearch } from "react-icons/md";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 
 const BlogsPage = () => {
-  const t = useTranslations("BlogsPage");
 
   const [blogs, setBlogs] = useState([]);
   const [filteredBlogs, setFilteredBlogs] = useState([]);

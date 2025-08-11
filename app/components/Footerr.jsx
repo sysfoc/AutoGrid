@@ -123,7 +123,6 @@ const Footerr = ({ isDarkMode }) => {
     } catch (error) {
       console.error("Failed to fetch homepage data:", error);
       
-      // Try to use stale cache as fallback
       const staleCache = localStorage.getItem(CACHE_KEYS.HOMEPAGE_DATA);
       if (staleCache) {
         try {
@@ -142,7 +141,6 @@ const Footerr = ({ isDarkMode }) => {
     if (!mountedRef.current) return;
 
     try {
-      // Check cache first
       const cachedData = CacheManager.get(CACHE_KEYS.SOCIAL_MEDIA);
       if (cachedData) {
         setFetchedSocials(cachedData);

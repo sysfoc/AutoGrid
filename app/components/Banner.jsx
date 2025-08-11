@@ -3,12 +3,19 @@
 import { useState } from "react";
 import { ChevronDown, Bell } from "lucide-react";
 import { TbSettingsCode } from "react-icons/tb";
+import { FaBlog } from "react-icons/fa";
+import Link from "next/link";
 
 const Banner = () => {
   const [selectedWebsite, setSelectedWebsite] = useState("windscreen");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const websiteOptions = [
+    {
+      value: "auto",
+      label: "Automotive Solutions",
+      url: "https://automotivewebsolutions.com",
+    },
     {
       value: "cruise",
       label: "Cruise Control",
@@ -37,8 +44,8 @@ const Banner = () => {
   );
 
   return (
-    <div className="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 text-white">
-      <div className="mx-auto flex h-14 max-w-7xl items-center px-2 sm:h-16 sm:px-4">
+    <div className="bg-gradient-to-r from-slate-800 fixed w-full z-50 top-0 left-0 right-0 via-slate-900 to-slate-800 text-white">
+      <div className="mx-auto flex h-16 max-w-7xl items-center px-2 sm:h-16 sm:px-4">
         <div className="flex w-full items-center justify-between gap-2 sm:gap-4">
           {/* Left Section - Brand and Dropdown */}
           <div className="flex min-w-0 flex-shrink-0 items-center gap-2 sm:gap-4">
@@ -99,6 +106,16 @@ const Banner = () => {
               Get a free quote
             </p>
           </div>
+
+          <Link
+            href="/blogs"
+            className="hidden flex-shrink-0 flex-col items-center text-center lg:flex"
+          >
+            <div className="mb-0.5 flex items-center gap-1">
+              <FaBlog size={28} className="text-blue-300" />
+              <h2 className="text-lg font-semibold text-white">Blogs</h2>
+            </div>
+          </Link>
 
           {/* Right Section */}
           <div className="flex flex-shrink-0 items-center gap-1 sm:gap-3">

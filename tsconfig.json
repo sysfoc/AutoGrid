@@ -38,6 +38,6 @@
     "app/signup/page.jsx",
     "app/login/page.jsx",
     "app/api/cars/route.js"
-, "app/api/blog/slug/[slug]/route.ts", "app/components/Cookiebox.tsx", "app/components/SidebarFilters.tsx", "app/api/users/favorites/route.ts", "app/api/blog/[slug]/route.js", "app/admin/contact/page.jsx", "app/admin/create-dealer/page.jsx", "app/cars/about-us/page.tsx", "app/components/Car-search-sidebar.jsx", "app/admin/manage-website/testimonial/page.jsx"  ],
+, "app/api/blog/slug/[slug]/route.ts", "app/components/Cookiebox.tsx", "app/components/SidebarFilters.tsx", "app/api/users/favorites/route.ts", "app/api/blog/[slug]/route.js", "app/admin/contact/page.jsx", "app/admin/create-dealer/page.jsx", "app/cars/about-us/page.tsx", "app/components/Car-search-sidebar.jsx", "app/admin/manage-website/testimonial/page.jsx", "app/components/BrandsList.jsx"  ],
   "exclude": ["node_modules"]
 }

@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import { useCurrency } from "../context/CurrencyContext";
 import { useDistance } from "../context/DistanceContext";
 import { FaRegHeart } from "react-icons/fa6";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const VehicleCard = ({
   vehicle,
@@ -24,130 +24,235 @@ const VehicleCard = ({
   selectedCurrency,
   currency,
 }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const images = vehicle.imageUrls || [];
+  const hasMultipleImages = images.length > 1;
+
+  // Automatic image carousel
+  useEffect(() => {
+    if (!hasMultipleImages) return;
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 3000); // Change image every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [hasMultipleImages, images.length]);
+
+  const nextImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const goToImage = (index, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentImageIndex(index);
+  };
+
+  // Format vehicle title with condition
+  const getVehicleTitle = () => {
+    const condition = vehicle.condition ? vehicle.condition.charAt(0).toUpperCase() + vehicle.condition.slice(1).toLowerCase() : '';
+    const make = vehicle.make || '';
+    const model = vehicle.model || '';
+    
+    if (condition && condition !== 'Default') {
+      return `${condition} ${make} ${model}`.trim();
+    }
+    return `${make} ${model}`.trim();
+  };
+
   return (
-    <div className="w-full transform overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:bg-slate-800 dark:shadow-slate-900/20">
-      {/* Image Section - Reduced height */}
-      <div className="relative">
-        <div className="relative aspect-[4/2.8] overflow-hidden">
-          <Image
-            src={
-              (vehicle.imageUrls && vehicle.imageUrls[0]) || "/placeholder.svg"
-            }
-            fill
-            alt={`${vehicle.make} ${vehicle.model}`}
-            className="object-cover transition-all duration-500 hover:scale-105"
-          />
-        </div>
-
-        {!vehicle.sold && vehicle.tag && vehicle.tag !== "default" && (
-          <div className="absolute right-3 top-3 z-20">
-            <span className="rounded-full bg-red-600 px-3 py-1.5 text-xs font-semibold text-white shadow-lg">
-              {vehicle.tag.toUpperCase()}
-            </span>
+    <Link href={`/car-detail/${vehicle.slug || vehicle._id}`}>
+      <div className="w-full transform overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-800 dark:shadow-slate-900/20 cursor-pointer group">
+        {/* Image Section */}
+        <div className="relative">
+          <div className="relative aspect-[4/3] overflow-hidden">
+            {hasMultipleImages ? (
+              /* Image Container with Smooth Sliding */
+              <div 
+                className="flex transition-transform duration-500 ease-in-out h-full"
+                style={{ 
+                  transform: `translateX(-${currentImageIndex * (100 / images.length)}%)`,
+                  width: `${images.length * 100}%` 
+                }}
+              >
+                {images.map((image, index) => (
+                  <div key={index} className="h-full flex-shrink-0 relative aspect-[4/3]" style={{ width: `${100 / images.length}%` }}>
+                    <Image
+                      src={image || "/placeholder.svg"}
+                      fill
+                      alt={`${getVehicleTitle()} - Image ${index + 1}`}
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              /* Single Image Display */
+              <Image
+                src={images[0] || "/placeholder.svg"}
+                fill
+                alt={getVehicleTitle()}
+                className="object-cover"
+              />
+            )}
+            
+            {/* Image Navigation Arrows - Only show on hover */}
+            {hasMultipleImages && (
+              <>
+                <button
+                  onClick={prevImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-all duration-200 hover:bg-black/80 group-hover:opacity-100 backdrop-blur-sm z-10"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-all duration-200 hover:bg-black/80 group-hover:opacity-100 backdrop-blur-sm z-10"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </>
+            )}
           </div>
-        )}
-        <div className="absolute left-5 top-20 z-10">
-          <div
-            className={`origin-bottom-left -translate-x-6 -translate-y-5 -rotate-45 transform shadow-lg ${
-              vehicle.sold ? "bg-red-500" : "bg-green-500"
-            }`}
-          >
-            <div className="w-32 px-0 py-2 text-center text-xs font-bold text-white">
-              {vehicle.sold ? "SOLD" : "AVAILABLE"}
+
+          {/* Image Progress Indicators */}
+          {hasMultipleImages && (
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1 z-10">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={(e) => goToImage(index, e)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    index === currentImageIndex
+                      ? "w-6 bg-white shadow-md"
+                      : "w-1.5 bg-white/60 hover:bg-white/80"
+                  }`}
+                />
+              ))}
             </div>
-          </div>
-        </div>
-
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            handleLikeToggle(vehicle._id);
-          }}
-          className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:shadow-xl dark:bg-slate-800/95"
-        >
-          {userLikedCars &&
-          Array.isArray(userLikedCars) &&
-          userLikedCars.includes(vehicle._id) ? (
-            <FaHeart className="h-3.5 w-3.5 text-red-500" />
-          ) : (
-            <FaRegHeart className="h-3.5 w-3.5 text-gray-600 hover:text-red-500" />
           )}
-        </button>
-      </div>
 
-      <div className="p-5">
-        <div className="mb-4 flex items-start justify-between">
-          <div className="flex-1">
-            <h3 className="mb-1 text-lg font-bold leading-tight text-gray-800 dark:text-white">
-              {vehicle.make} {vehicle.model}
-            </h3>
+          {/* Tag Badge - Keep this one */}
+          {!vehicle.sold && vehicle.tag && vehicle.tag !== "default" && (
+            <div className="absolute right-2 top-2 z-20">
+              <span className="rounded-full bg-red-600 px-2 py-1 text-xs font-medium text-white shadow-lg">
+                {vehicle.tag.toUpperCase()}
+              </span>
+            </div>
+          )}
+
+           <div className="absolute left-5 top-20 z-10">
+                    <div
+                      className={`origin-bottom-left -translate-x-6 -translate-y-5 -rotate-45 transform shadow-lg ${
+                        vehicle.sold ? "bg-red-500" : "bg-green-500"
+                      }`}
+                    >
+                      <div className="w-32 px-0 py-2 text-center text-xs font-bold text-white">
+                        {vehicle.sold ? "SOLD" : "AVAILABLE"}
+                      </div>
+                    </div>
+                  </div>
+
+
+          {/* Like Button */}
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleLikeToggle(vehicle._id);
+            }}
+            className="absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-white/95 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:shadow-xl dark:bg-slate-800/95"
+          >
+            {userLikedCars &&
+            Array.isArray(userLikedCars) &&
+            userLikedCars.includes(vehicle._id) ? (
+              <FaHeart className="h-3 w-3 text-red-500" />
+            ) : (
+              <FaRegHeart className="h-3 w-3 text-gray-600 hover:text-red-500" />
+            )}
+          </button>
+        </div>
+
+        {/* Content Section */}
+        <div className="p-4">
+          {/* Title and Price */}
+          <div className="mb-3 flex items-start justify-between">
+            <div className="flex-1">
+              <h3 className="text-base font-bold leading-tight text-gray-800 dark:text-white line-clamp-1">
+                {getVehicleTitle()}
+              </h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {vehicle.modelYear}
+              </p>
+            </div>
+            <div className="ml-3 text-right">
+              <div className="text-lg font-bold text-gray-800 dark:text-red-400">
+                {selectedCurrency && selectedCurrency.symbol}{" "}
+                {Math.round(
+                  (vehicle &&
+                    vehicle.price *
+                      ((selectedCurrency && selectedCurrency.value) || 1)) /
+                    ((currency && currency.value) || 1),
+                ).toLocaleString()}
+              </div>
+            </div>
           </div>
-          <div className="ml-4 text-right">
-            <div className="text-xl font-bold text-gray-800 dark:text-red-400">
-              {selectedCurrency && selectedCurrency.symbol}{" "}
-              {Math.round(
-                (vehicle &&
-                  vehicle.price *
-                    ((selectedCurrency && selectedCurrency.value) || 1)) /
-                  ((currency && currency.value) || 1),
-              ).toLocaleString()}
+
+          {/* Vehicle Stats */}
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="flex flex-col items-center">
+              <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+                <IoSpeedometer className="h-3 w-3 text-gray-600 dark:text-gray-300" />
+              </div>
+              <div className="text-xs font-semibold text-gray-800 dark:text-white">
+                {convertedValues.kms}
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                {convertedValues.unit && convertedValues.unit.toUpperCase()}
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+                <GiGasPump className="h-3 w-3 text-gray-600 dark:text-gray-300" />
+              </div>
+              <div className="text-xs font-semibold text-gray-800 dark:text-white">
+                {vehicle && vehicle.fuelType}
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Fuel</div>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+                <TbManualGearbox className="h-3 w-3 text-gray-600 dark:text-gray-300" />
+              </div>
+              <div className="text-xs font-semibold text-gray-800 dark:text-white">
+                {vehicle && vehicle.gearbox}
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                Trans
+              </div>
             </div>
           </div>
         </div>
-
-        <div className="mb-4 grid grid-cols-3 gap-3 text-center">
-          <div className="flex flex-col items-center">
-            <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
-              <IoSpeedometer className="h-4 w-4 text-gray-600 dark:text-gray-300" />
-            </div>
-            <div className="text-sm font-semibold text-gray-800 dark:text-white">
-              {convertedValues.kms}
-            </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">
-              {convertedValues.unit && convertedValues.unit.toUpperCase()}
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
-              <GiGasPump className="h-4 w-4 text-gray-600 dark:text-gray-300" />
-            </div>
-            <div className="text-sm font-semibold text-gray-800 dark:text-white">
-              {vehicle && vehicle.fuelType}
-            </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">Fuel</div>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
-              <TbManualGearbox className="h-4 w-4 text-gray-600 dark:text-gray-300" />
-            </div>
-            <div className="text-sm font-semibold text-gray-800 dark:text-white">
-              {vehicle && vehicle.gearbox}
-            </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">
-              Trans
-            </div>
-          </div>
-        </div>
-
-        {/* View Details Button - Now inside the card */}
-        <Link
-          href={`/car-detail/${vehicle.slug || vehicle._id}`}
-          className="block w-fit rounded-xl bg-gradient-to-r from-red-600 to-red-600/90 px-3 py-3 text-center text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-red-700 hover:to-red-700 hover:shadow-xl dark:from-red-600 dark:to-red-600/90 dark:hover:from-red-700 dark:hover:to-red-700"
-          onClick={(e) => e.stopPropagation()}
-        >
-          View Details
-        </Link>
       </div>
-    </div>
+    </Link>
   );
 };
 
 const VehicalsList = ({ loadingState }) => {
   const t = useTranslations("HomePage");
   const [vehicles, setVehicles] = useState([]);
+  const [filteredVehicles, setFilteredVehicles] = useState([]);
   const [loading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { currency, selectedCurrency } = useCurrency();
@@ -156,6 +261,7 @@ const VehicalsList = ({ loadingState }) => {
   const [user, setUser] = useState(null);
   const [visibleVehiclesCount, setVisibleVehiclesCount] = useState(6);
   const [listingData, setListingData] = useState(null);
+  const [activeFilter, setActiveFilter] = useState("all");
 
   useEffect(() => {
     const fetchListingData = async () => {
@@ -224,6 +330,7 @@ const VehicalsList = ({ loadingState }) => {
         (car) => car.status === 1 || car.status === "1",
       );
       setVehicles(filteredCars);
+      setFilteredVehicles(filteredCars);
       setIsLoading(false);
     } catch (err) {
       setError(err.message);
@@ -271,12 +378,29 @@ const VehicalsList = ({ loadingState }) => {
   };
 
   const handleToggleVisibility = () => {
-    if (visibleVehiclesCount >= vehicles.length) {
+    if (visibleVehiclesCount >= filteredVehicles.length) {
       setVisibleVehiclesCount(3);
     } else {
       setVisibleVehiclesCount((prevCount) =>
-        Math.min(prevCount + 3, vehicles.length),
+        Math.min(prevCount + 3, filteredVehicles.length),
       );
+    }
+  };
+
+  const handleFilterChange = (filterType) => {
+    setActiveFilter(filterType);
+    setVisibleVehiclesCount(6); // Reset visible count when filtering
+    
+    if (filterType === "all") {
+      setFilteredVehicles(vehicles);
+    } else {
+      const filtered = vehicles.filter((vehicle) => {
+        if (filterType === "for-sale") {
+          return !vehicle.sold;
+        }
+        return !vehicle.sold && vehicle.tag && vehicle.tag.toLowerCase() === filterType.toLowerCase();
+      });
+      setFilteredVehicles(filtered);
     }
   };
 
@@ -312,15 +436,61 @@ const VehicalsList = ({ loadingState }) => {
             <BiTachometer className="h-4 w-4" />
             <span>Premium Collection</span>
           </div>
-          <h2 className="mb-6 bg-gradient-to-br from-gray-800 via-gray-800/90 to-gray-800/70 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300 md:text-5xl lg:text-6xl">
+          <h2 className="mb-8 bg-gradient-to-br from-gray-800 via-gray-800/90 to-gray-800/70 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300 md:text-5xl lg:text-6xl">
             {listingData && listingData.heading}
           </h2>
+
+          
           <Link href={"/car-for-sale"}>
             <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-red-600 to-red-600/90 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-red-700 hover:to-red-700 hover:shadow-2xl dark:from-red-600 dark:to-red-600/90 dark:hover:from-red-700 dark:hover:to-red-700">
               <span>{t("viewAll")}</span>
               <MdOutlineArrowOutward className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
             </div>
           </Link>
+
+          {/* Filter Tabs */}
+          <div className="my-8 flex flex-wrap justify-center gap-2 sm:gap-3">
+            <button
+              onClick={() => handleFilterChange("all")}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                activeFilter === "all"
+                  ? "bg-red-600 text-white shadow-lg"
+                  : "bg-white text-gray-600 shadow-md hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700 dark:hover:text-red-400"
+              }`}
+            >
+              All Cars
+            </button>
+            <button
+              onClick={() => handleFilterChange("for-sale")}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                activeFilter === "for-sale"
+                  ? "bg-red-600 text-white shadow-lg"
+                  : "bg-white text-gray-600 shadow-md hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700 dark:hover:text-red-400"
+              }`}
+            >
+              For Sale
+            </button>
+            <button
+              onClick={() => handleFilterChange("featured")}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                activeFilter === "featured"
+                  ? "bg-red-600 text-white shadow-lg"
+                  : "bg-white text-gray-600 shadow-md hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700 dark:hover:text-red-400"
+              }`}
+            >
+              Featured
+            </button>
+            <button
+              onClick={() => handleFilterChange("promotion")}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                activeFilter === "promotion"
+                  ? "bg-red-600 text-white shadow-lg"
+                  : "bg-white text-gray-600 shadow-md hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700 dark:hover:text-red-400"
+              }`}
+            >
+              Promotion
+            </button>
+          </div>
         </div>
       </div>
 
@@ -330,31 +500,30 @@ const VehicalsList = ({ loadingState }) => {
               .fill()
               .map((_, index) => (
                 <div
-                  className="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-xl dark:border-slate-700 dark:bg-slate-800"
+                  className="overflow-hidden rounded-lg border border-slate-100 bg-white shadow-md dark:border-slate-700 dark:bg-slate-800"
                   key={index}
                 >
                   <div className="relative">
-                    <Skeleton className="h-40 w-full" />
+                    <Skeleton className="h-32 w-full" />
                   </div>
-                  <div className="space-y-4 p-5">
+                  <div className="space-y-3 p-4">
                     <div className="flex items-start justify-between">
-                      <Skeleton height={24} width="60%" />
-                      <Skeleton height={28} width="30%" />
+                      <Skeleton height={20} width="60%" />
+                      <Skeleton height={24} width="30%" />
                     </div>
-                    <div className="grid grid-cols-3 gap-3">
+                    <div className="grid grid-cols-3 gap-2">
                       {[...Array(3)].map((_, i) => (
                         <div key={i} className="flex flex-col items-center">
-                          <Skeleton circle width={32} height={32} />
-                          <Skeleton height={14} width="80%" className="mt-2" />
+                          <Skeleton circle width={28} height={28} />
+                          <Skeleton height={12} width="80%" className="mt-1" />
                           <Skeleton height={10} width="60%" className="mt-1" />
                         </div>
                       ))}
                     </div>
-                    <Skeleton height={40} width="100%" />
                   </div>
                 </div>
               ))
-          : vehicles.slice(0, visibleVehiclesCount).map((vehicle) => {
+          : filteredVehicles.slice(0, visibleVehiclesCount).map((vehicle) => {
               const convertedValues = getConvertedValues(vehicle);
               return (
                 <VehicleCard
@@ -370,18 +539,18 @@ const VehicalsList = ({ loadingState }) => {
             })}
       </div>
 
-      {!loading && vehicles.length > 3 && (
+      {!loading && filteredVehicles.length > 3 && (
         <div className="mt-10 text-center">
           <button
             onClick={handleToggleVisibility}
             className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-red-600 to-red-600/90 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-red-700 hover:to-red-700 hover:shadow-2xl dark:from-red-600 dark:to-red-600/90 dark:hover:from-red-700 dark:hover:to-red-700"
           >
             <span>
-              {visibleVehiclesCount >= vehicles.length
+              {visibleVehiclesCount >= filteredVehicles.length
                 ? "Show less"
                 : "Show more"}
             </span>
-            {visibleVehiclesCount >= vehicles.length ? (
+            {visibleVehiclesCount >= filteredVehicles.length ? (
               <ChevronUp className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1" />
             ) : (
               <ChevronDown className="h-5 w-5 transition-transform duration-300 group-hover:translate-y-1" />
@@ -390,7 +559,7 @@ const VehicalsList = ({ loadingState }) => {
         </div>
       )}
 
-      {vehicles.length === 0 && !loading && (
+      {filteredVehicles.length === 0 && !loading && (
         <div className="py-20 text-center">
           <div className="mx-auto mb-8 flex h-32 w-32 items-center justify-center rounded-full bg-slate-50 shadow-inner dark:bg-slate-800">
             <svg
@@ -408,11 +577,12 @@ const VehicalsList = ({ loadingState }) => {
             </svg>
           </div>
           <h3 className="mb-4 text-2xl font-bold text-gray-800 dark:text-white">
-            No Vehicles Available
+            {activeFilter === "all" ? "No Vehicles Available" : `No ${activeFilter === "for-sale" ? "Cars For Sale" : activeFilter.charAt(0).toUpperCase() + activeFilter.slice(1) + " Cars"} Available`}
           </h3>
           <p className="mx-auto max-w-md text-lg text-gray-600 dark:text-slate-400">
-            Our premium collection is currently being updated. Please check back
-            soon for the latest additions.
+            {activeFilter === "all" 
+              ? "Our premium collection is currently being updated. Please check back soon for the latest additions."
+              : `No ${activeFilter === "for-sale" ? "cars for sale" : activeFilter + " cars"} found. Try selecting a different filter or check back later.`}
           </p>
         </div>
       )}
