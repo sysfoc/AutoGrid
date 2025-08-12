@@ -57,7 +57,7 @@ export default function LayoutRenderer({ children }) {
       <Navbar isDarkMode={isDarkMode} />
       {children}
       <WhatsAppChat/>
-      <ScrolltoTop />
+      {/* <ScrolltoTop /> */}
       <Cookiebox />
       <Footer isDarkMode={isDarkMode} />
     </>
