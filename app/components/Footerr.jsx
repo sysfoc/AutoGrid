@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import LanguageSwitching from "../components/LanguageSwitching";

@@ -70,7 +70,6 @@ const DEFAULT_SETTINGS = {
 };
 
 const Header = () => {
-  const t = useTranslations("HomePage");
   const [darkMode, setDarkMode] = useState(false);
   const [logo, setLogo] = useState("");
   const [logoError, setLogoError] = useState(false);

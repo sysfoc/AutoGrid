@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -13,7 +13,12 @@ import { useTranslations } from "next-intl";
 import { useCurrency } from "../context/CurrencyContext";
 import { useDistance } from "../context/DistanceContext";
 import { FaRegHeart } from "react-icons/fa6";
-import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 const VehicleCard = ({
   vehicle,
@@ -58,11 +63,14 @@ const VehicleCard = ({
 
   // Format vehicle title with condition
   const getVehicleTitle = () => {
-    const condition = vehicle.condition ? vehicle.condition.charAt(0).toUpperCase() + vehicle.condition.slice(1).toLowerCase() : '';
-    const make = vehicle.make || '';
-    const model = vehicle.model || '';
-    
-    if (condition && condition !== 'Default') {
+    const condition = vehicle.condition
+      ? vehicle.condition.charAt(0).toUpperCase() +
+        vehicle.condition.slice(1).toLowerCase()
+      : "";
+    const make = vehicle.make || "";
+    const model = vehicle.model || "";
+
+    if (condition && condition !== "Default") {
       return `${condition} ${make} ${model}`.trim();
     }
     return `${make} ${model}`.trim();
@@ -70,21 +78,25 @@ const VehicleCard = ({
 
   return (
     <Link href={`/car-detail/${vehicle.slug || vehicle._id}`}>
-      <div className="w-full transform overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-800 dark:shadow-slate-900/20 cursor-pointer group">
+      <div className="group w-full transform cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-800 dark:shadow-slate-900/20">
         {/* Image Section */}
         <div className="relative">
           <div className="relative aspect-[4/3] overflow-hidden">
             {hasMultipleImages ? (
               /* Image Container with Smooth Sliding */
-              <div 
-                className="flex transition-transform duration-500 ease-in-out h-full"
-                style={{ 
+              <div
+                className="flex h-full transition-transform duration-500 ease-in-out"
+                style={{
                   transform: `translateX(-${currentImageIndex * (100 / images.length)}%)`,
-                  width: `${images.length * 100}%` 
+                  width: `${images.length * 100}%`,
                 }}
               >
                 {images.map((image, index) => (
-                  <div key={index} className="h-full flex-shrink-0 relative aspect-[4/3]" style={{ width: `${100 / images.length}%` }}>
+                  <div
+                    key={index}
+                    className="relative aspect-[4/3] h-full flex-shrink-0"
+                    style={{ width: `${100 / images.length}%` }}
+                  >
                     <Image
                       src={image || "/placeholder.svg"}
                       fill
@@ -103,19 +115,19 @@ const VehicleCard = ({
                 className="object-cover"
               />
             )}
-            
+
             {/* Image Navigation Arrows - Only show on hover */}
             {hasMultipleImages && (
               <>
                 <button
                   onClick={prevImage}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-all duration-200 hover:bg-black/80 group-hover:opacity-100 backdrop-blur-sm z-10"
+                  className="absolute left-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white opacity-0 backdrop-blur-sm transition-all duration-200 hover:bg-black/80 group-hover:opacity-100"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
                 <button
                   onClick={nextImage}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-all duration-200 hover:bg-black/80 group-hover:opacity-100 backdrop-blur-sm z-10"
+                  className="absolute right-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white opacity-0 backdrop-blur-sm transition-all duration-200 hover:bg-black/80 group-hover:opacity-100"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
@@ -125,7 +137,7 @@ const VehicleCard = ({
 
           {/* Image Progress Indicators */}
           {hasMultipleImages && (
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1 z-10">
+            <div className="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 space-x-1">
               {images.map((_, index) => (
                 <button
                   key={index}
@@ -149,18 +161,15 @@ const VehicleCard = ({
             </div>
           )}
 
-           <div className="absolute left-5 top-20 z-10">
-                    <div
-                      className={`origin-bottom-left -translate-x-6 -translate-y-5 -rotate-45 transform shadow-lg ${
-                        vehicle.sold ? "bg-red-500" : "bg-green-500"
-                      }`}
-                    >
-                      <div className="w-32 px-0 py-2 text-center text-xs font-bold text-white">
-                        {vehicle.sold ? "SOLD" : "AVAILABLE"}
-                      </div>
-                    </div>
-                  </div>
-
+          {vehicle.sold && (
+            <div className="absolute left-5 top-20 z-10">
+              <div className="origin-bottom-left -translate-x-6 -translate-y-5 -rotate-45 transform bg-red-500 shadow-lg">
+                <div className="w-32 px-0 py-2 text-center text-xs font-bold text-white">
+                  SOLD
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Like Button */}
           <button
@@ -186,7 +195,7 @@ const VehicleCard = ({
           {/* Title and Price */}
           <div className="mb-2 flex items-start justify-between">
             <div className="flex-1">
-              <h3 className="text-base font-bold leading-tight text-gray-800 dark:text-white line-clamp-1">
+              <h3 className="line-clamp-1 text-base font-bold leading-tight text-gray-800 dark:text-white">
                 {getVehicleTitle()}
               </h3>
               <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -230,7 +239,9 @@ const VehicleCard = ({
               <div className="text-xs font-semibold text-gray-800 dark:text-white">
                 {vehicle && vehicle.fuelType}
               </div>
-              <div className="text-[10px] text-gray-500 dark:text-gray-400">Fuel</div>
+              <div className="text-[10px] text-gray-500 dark:text-gray-400">
+                Fuel
+              </div>
             </div>
 
             <div className="flex flex-col items-center">
@@ -392,7 +403,7 @@ const VehicalsList = ({ loadingState }) => {
   const handleFilterChange = (filterType) => {
     setActiveFilter(filterType);
     setVisibleVehiclesCount(6); // Reset visible count when filtering
-    
+
     if (filterType === "all") {
       setFilteredVehicles(vehicles);
     } else {
@@ -400,7 +411,11 @@ const VehicalsList = ({ loadingState }) => {
         if (filterType === "for-sale") {
           return !vehicle.sold;
         }
-        return !vehicle.sold && vehicle.tag && vehicle.tag.toLowerCase() === filterType.toLowerCase();
+        return (
+          !vehicle.sold &&
+          vehicle.tag &&
+          vehicle.tag.toLowerCase() === filterType.toLowerCase()
+        );
       });
       setFilteredVehicles(filtered);
     }
@@ -434,14 +449,14 @@ const VehicalsList = ({ loadingState }) => {
     <section className="my-7 rounded-xl bg-slate-50 py-7 dark:bg-slate-900 sm:mx-8 md:my-10 md:py-10">
       <div className="mb-10">
         {/* Header with title and filters */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+        <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           {/* Title Section */}
           <div className="flex-1">
             <h2 className="text-3xl font-bold leading-tight text-gray-800 dark:text-white md:text-4xl">
               {listingData && listingData.heading}
             </h2>
           </div>
-          
+
           {/* View All Button - Top Right */}
           <div className="flex items-center gap-4">
             <Link href={"/car-for-sale"}>
@@ -454,7 +469,7 @@ const VehicalsList = ({ loadingState }) => {
         </div>
 
         {/* Filter Tabs - Professional Rectangular Style */}
-        <div className="flex flex-wrap gap-1 mb-8">
+        <div className="mb-8 flex flex-wrap gap-1">
           <button
             onClick={() => handleFilterChange("all")}
             className={`px-4 py-2 text-sm font-medium transition-all duration-200 ${
@@ -581,10 +596,12 @@ const VehicalsList = ({ loadingState }) => {
             </svg>
           </div>
           <h3 className="mb-4 text-2xl font-bold text-gray-800 dark:text-white">
-            {activeFilter === "all" ? "No Vehicles Available" : `No ${activeFilter === "for-sale" ? "Cars For Sale" : activeFilter.charAt(0).toUpperCase() + activeFilter.slice(1) + " Cars"} Available`}
+            {activeFilter === "all"
+              ? "No Vehicles Available"
+              : `No ${activeFilter === "for-sale" ? "Cars For Sale" : activeFilter.charAt(0).toUpperCase() + activeFilter.slice(1) + " Cars"} Available`}
           </h3>
           <p className="mx-auto max-w-md text-lg text-gray-600 dark:text-slate-400">
-            {activeFilter === "all" 
+            {activeFilter === "all"
               ? "Our inventory is currently being updated. Please check back soon for the latest additions."
               : `No ${activeFilter === "for-sale" ? "cars for sale" : activeFilter + " cars"} found. Try selecting a different filter or check back later.`}
           </p>

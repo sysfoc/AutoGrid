@@ -98,7 +98,6 @@ const HeroSection = () => {
   const t = useTranslations("HomePage");
   const router = useRouter();
   const [imageCached, setImageCached] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
   const [logo, setLogo] = useState("");
   const [logoError, setLogoError] = useState(false);
   const [topSettings, setTopSettings] = useState({
@@ -108,6 +107,7 @@ const HeroSection = () => {
   });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [listingsDropdownOpen, setListingsDropdownOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const [pagesDropdownOpen, setPagesDropdownOpen] = useState(false);
   const mountedRef = useRef(true);
   const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebar();
@@ -145,17 +145,6 @@ const HeroSection = () => {
     setIsMobileMenuOpen(false);
   }, []);
 
-  const toggleDarkMode = useCallback(() => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    localStorage.setItem("theme", newDarkMode ? "dark" : "light");
-    if (newDarkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
   const fetchCarSearchData = useCallback(async () => {
     try {
       setCarSearchLoading(true);
@@ -171,6 +160,22 @@ const HeroSection = () => {
     }
   }, []);
 
+
+  const toggleDarkMode = useCallback(() => {
+      const newDarkMode = !darkMode;
+      setDarkMode(newDarkMode);
+      
+      // Persist preference
+      localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
+      
+      // Apply immediately
+      if (newDarkMode) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    }, [darkMode]);
+
   const preloadAndCacheImage = useCallback(async (src) => {
     return new Promise((resolve, reject) => {
       const img = new window.Image();
@@ -184,18 +189,6 @@ const HeroSection = () => {
     });
   }, []);
 
-  useEffect(() => {
-    fetchCarSearchData();
-    
-    if (typeof window !== "undefined") {
-      preloadAndCacheImage(heroImage).catch(console.warn);
-      const savedTheme = localStorage.getItem("theme");
-      setDarkMode(savedTheme === "dark");
-      if (savedTheme === "dark") {
-        document.documentElement.classList.add("dark");
-      }
-    }
-  }, [ fetchCarSearchData, preloadAndCacheImage, heroImage]);
 
   useEffect(() => {
     const fetchLogo = async () => {
@@ -456,6 +449,29 @@ const ConditionTab = ({ condition, label, selected, onClick }) => (
     </div>
   </div>
 </div>
+{isMobileMenuOpen && (
+  <div className="fixed inset-0 z-50 lg:hidden">
+    <div className="fixed inset-0 bg-black/50" onClick={handleMobileMenuClose}></div>
+    <div className="fixed top-0 right-0 h-full w-80 bg-white dark:bg-gray-900 shadow-xl transform transition-transform duration-300">
+      <div className="p-6">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Menu</h2>
+          <button onClick={handleMobileMenuClose} className="p-2">
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <nav className="space-y-4">
+          <Link href="/car-for-sale" onClick={handleMobileMenuClose} className="block py-2 text-gray-900 dark:text-white">Cars for Sale</Link>
+          <Link href="/cars/leasing" onClick={handleMobileMenuClose} className="block py-2 text-gray-900 dark:text-white">Lease Deals</Link>
+          <Link href="/about" onClick={handleMobileMenuClose} className="block py-2 text-gray-900 dark:text-white">About</Link>
+          <Link href="/contact" onClick={handleMobileMenuClose} className="block py-2 text-gray-900 dark:text-white">Contact</Link>
+        </nav>
+      </div>
+    </div>
+  </div>
+)}
       </section>
 
       <div className="relative -top-24 mx-auto w-full max-w-6xl px-4">

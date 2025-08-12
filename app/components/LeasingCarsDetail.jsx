@@ -16,16 +16,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { GrSort } from "react-icons/gr";
 import { FiGrid, FiList } from "react-icons/fi";
-import {
-  FaLocationCrosshairs,
-  FaCalendarCheck,
-  FaHeart,
-  FaRegHeart,
-} from "react-icons/fa6";
-import { IoSpeedometer } from "react-icons/io5";
-import { GiGasPump, GiCarDoor, GiCarSeat } from "react-icons/gi";
-import { TbManualGearbox } from "react-icons/tb";
-import { IoIosColorPalette } from "react-icons/io";
+import { FaRegHeart, FaHeart } from "react-icons/fa6";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
@@ -42,17 +33,6 @@ const CardetailCard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [isPageTransitioning, setIsPageTransitioning] = useState(false);
-  const [userLikedCars, setUserLikedCars] = useState([]);
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
-  const { distance: defaultUnit, loading: distanceLoading } = useDistance();
-  const [recaptchaSiteKey, setRecaptchaSiteKey] = useState(null);
-  const [recaptchaStatus, setRecaptchaStatus] = useState("inactive");
-
-  const parseBooleanParam = (param) => {
-    return param === "true";
-  };
-
   const [selectedCar, setSelectedCar] = useState(null);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -63,6 +43,16 @@ const CardetailCard = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  const [userLikedCars, setUserLikedCars] = useState([]);
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
+  const { distance: defaultUnit, loading: distanceLoading } = useDistance();
+  const [recaptchaSiteKey, setRecaptchaSiteKey] = useState(null);
+  const [recaptchaStatus, setRecaptchaStatus] = useState("inactive");
+
+  const parseBooleanParam = (param) => {
+    return param === "true";
+  };
 
   const fetchUserData = async () => {
     try {
@@ -77,6 +67,38 @@ const CardetailCard = () => {
     } catch (error) {
       return;
     }
+  };
+
+  const handleLikeToggle = async (carId) => {
+    try {
+      const response = await fetch("/api/users/liked-cars", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ carId }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setUserLikedCars(Array.isArray(data.likedCars) ? data.likedCars : []);
+        setUser((prev) => ({
+          ...prev,
+          likedCars: data.likedCars,
+        }));
+      } else {
+        console.error("Failed to update liked cars");
+      }
+    } catch (error) {
+      console.error("Error updating liked cars:", error);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
   };
 
   useEffect(() => {
@@ -102,47 +124,12 @@ const CardetailCard = () => {
     fetchRecaptchaSettings();
   }, []);
 
-  const handleLikeToggle = async (carId) => {
-    try {
-      const response = await fetch("/api/users/liked-cars", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ carId }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUserLikedCars(Array.isArray(data.likedCars) ? data.likedCars : []);
-
-        setUser((prev) => ({
-          ...prev,
-          likedCars: data.likedCars,
-        }));
-      } else {
-        console.error("Failed to update liked cars");
-      }
-    } catch (error) {
-      console.error("Error updating liked cars:", error);
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-  };
-
   const handleEnquirySubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage("");
 
     let recaptchaToken = null;
-
     if (
       recaptchaStatus === "active" &&
       recaptchaSiteKey &&
@@ -188,6 +175,7 @@ const CardetailCard = () => {
         },
         body: JSON.stringify(enquiryData),
       });
+
       const result = await response.json();
       if (response.ok) {
         setSubmitMessage(
@@ -218,14 +206,10 @@ const CardetailCard = () => {
     }
   };
 
-  // 2. ADD THESE PAGINATION CALCULATIONS (after your existing useMemo declarations)
-
-  // Get all filters at once
   const filters = useMemo(() => {
     return Object.fromEntries(searchParams.entries());
   }, [searchParams]);
 
-  // Parse array parameters from query string
   const parseArrayParam = (param) => {
     if (!param) return [];
     return Array.isArray(param) ? param : [param];
@@ -234,81 +218,71 @@ const CardetailCard = () => {
   const parseNumberParam = (param) => {
     if (!param) return [];
     const parsed = Array.isArray(param)
-      ? param.map((p) => parseInt(p, 10)).filter(Number.isInteger)
-      : [parseInt(param, 10)].filter(Number.isInteger);
+      ? param.map((p) => Number.parseInt(p, 10)).filter(Number.isInteger)
+      : [Number.parseInt(param, 10)].filter(Number.isInteger);
     return parsed;
   };
 
   const sortCars = (cars, sortBy) => {
     if (!cars || cars.length === 0) return cars;
     const sortedCars = [...cars];
-
-    const cleanPrice = (price) => {
-      if (typeof price === "number") return price;
-      const cleaned = String(price).replace(/[^\d]/g, "");
-      return parseInt(cleaned) || 0;
-    };
-
     switch (sortBy) {
       case "price-lh":
         return sortedCars.sort((a, b) => {
-          const priceA = cleanPrice(a.price);
-          const priceB = cleanPrice(b.price);
+          const priceA = Number.parseInt(a.price) || 0;
+          const priceB = Number.parseInt(b.price) || 0;
           return priceA - priceB;
         });
-
       case "price-hl":
         return sortedCars.sort((a, b) => {
-          const priceA = cleanPrice(a.price);
-          const priceB = cleanPrice(b.price);
+          const priceA = Number.parseInt(a.price) || 0;
+          const priceB = Number.parseInt(b.price) || 0;
           return priceB - priceA;
         });
-
       case "model-latest":
         return sortedCars.sort((a, b) => {
-          const yearA = parseInt(a.year || a.modelYear) || 0;
-          const yearB = parseInt(b.year || b.modelYear) || 0;
+          const yearA = Number.parseInt(a.year || a.modelYear) || 0;
+          const yearB = Number.parseInt(b.year || b.modelYear) || 0;
           return yearB - yearA;
         });
-
       case "model-oldest":
         return sortedCars.sort((a, b) => {
-          const yearA = parseInt(a.year || a.modelYear) || 0;
-          const yearB = parseInt(b.year || b.modelYear) || 0;
+          const yearA = Number.parseInt(a.year || a.modelYear) || 0;
+          const yearB = Number.parseInt(b.year || b.modelYear) || 0;
           return yearA - yearB;
         });
-
       case "mileage-lh":
         return sortedCars.sort((a, b) => {
           const getMileage = (car) => {
             const mileageField = car.mileage || car.kms || "0";
-            return parseInt(String(mileageField).replace(/[^\d]/g, "")) || 0;
+            return (
+              Number.parseInt(String(mileageField).replace(/[^\d]/g, "")) || 0
+            );
           };
           return getMileage(a) - getMileage(b);
         });
-
       case "mileage-hl":
         return sortedCars.sort((a, b) => {
           const getMileage = (car) => {
             const mileageField = car.mileage || car.kms || "0";
-            return parseInt(String(mileageField).replace(/[^\d]/g, "")) || 0;
+            return (
+              Number.parseInt(String(mileageField).replace(/[^\d]/g, "")) || 0
+            );
           };
           return getMileage(b) - getMileage(a);
         });
-
       default:
         return sortedCars;
     }
   };
 
-  // Parsed filter values
   const parsedFilters = useMemo(() => {
     return {
       keyword: filters.keyword || "",
       condition: parseArrayParam(filters.condition),
       location: parseArrayParam(filters.location),
-      minPrice: filters.minPrice ? parseInt(filters.minPrice, 10) : null,
-      maxPrice: filters.maxPrice ? parseInt(filters.maxPrice, 10) : null,
+      minPrice: filters.minPrice ? Number.parseInt(filters.minPrice, 10) : null,
+      maxPrice: filters.maxPrice ? Number.parseInt(filters.maxPrice, 10) : null,
       minYear: filters.minYear || "",
       maxYear: filters.maxYear || "",
       model: parseArrayParam(filters.model),
@@ -337,57 +311,6 @@ const CardetailCard = () => {
   const [isGridView, setIsGridView] = useState(true);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
-
-  // Conversion functions
-  const convertKmToMiles = (km) => {
-    const numericKm = Number.parseFloat(km);
-    return isNaN(numericKm) ? km : (numericKm * 0.621371).toFixed(1);
-  };
-
-  const convertMilesToKm = (miles) => {
-    const numericMiles = Number.parseFloat(miles);
-    return isNaN(numericMiles) ? miles : (numericMiles * 1.60934).toFixed(1);
-  };
-
-  // Function to convert car values based on default unit
-  const getConvertedValues = (vehicle) => {
-    if (distanceLoading || !defaultUnit || !vehicle.unit) {
-      return {
-        kms: vehicle.kms,
-        mileage: vehicle.mileage,
-        unit: vehicle.unit || defaultUnit,
-      };
-    }
-
-    // If car's unit matches default unit, no conversion needed
-    if (vehicle.unit === defaultUnit) {
-      return {
-        kms: vehicle.kms,
-        mileage: vehicle.mileage,
-        unit: vehicle.unit,
-      };
-    }
-
-    // Convert based on units
-    let convertedKms = vehicle.kms;
-    let convertedMileage = vehicle.mileage;
-
-    if (vehicle.unit === "km" && defaultUnit === "miles") {
-      // Convert from km to miles
-      convertedKms = convertKmToMiles(vehicle.kms);
-      convertedMileage = convertKmToMiles(vehicle.mileage);
-    } else if (vehicle.unit === "miles" && defaultUnit === "km") {
-      // Convert from miles to km
-      convertedKms = convertMilesToKm(vehicle.kms);
-      convertedMileage = convertMilesToKm(vehicle.mileage);
-    }
-
-    return {
-      kms: convertedKms,
-      mileage: convertedMileage,
-      unit: defaultUnit,
-    };
-  };
 
   useEffect(() => {
     const query = new URLSearchParams(filters).toString();
@@ -432,7 +355,8 @@ const CardetailCard = () => {
         : true;
 
       const matchesLease = car.isLease === true;
-      const carPrice = car.price ? parseInt(car.price, 10) : null;
+
+      const carPrice = car.price ? Number.parseInt(car.price, 10) : null;
       const matchesPrice =
         (parsedFilters.minPrice === null && parsedFilters.maxPrice === null) ||
         (carPrice !== null &&
@@ -441,18 +365,16 @@ const CardetailCard = () => {
           (parsedFilters.maxPrice === null ||
             carPrice <= parsedFilters.maxPrice));
 
-      // Use modelYear if year is not available
       const carYear = car.year || car.modelYear;
-
       const matchesYear =
-        // Pass if no year filters are applied
         (!parsedFilters.minYear && !parsedFilters.maxYear) ||
-        // OR if car has year and passes filters
         (carYear &&
           (!parsedFilters.minYear ||
-            parseInt(carYear, 10) >= parseInt(parsedFilters.minYear, 10)) &&
+            Number.parseInt(carYear, 10) >=
+              Number.parseInt(parsedFilters.minYear, 10)) &&
           (!parsedFilters.maxYear ||
-            parseInt(carYear, 10) <= parseInt(parsedFilters.maxYear, 10)));
+            Number.parseInt(carYear, 10) <=
+              Number.parseInt(parsedFilters.maxYear, 10)));
 
       const matchesModel = parsedFilters.model.length
         ? parsedFilters.model.some((modelVal) => {
@@ -463,17 +385,19 @@ const CardetailCard = () => {
           })
         : true;
 
-      // Use kms field if mileage is not available
       const carMileageField = car.mileage || car.kms;
       const matchesMileage = carMileageField
         ? (() => {
             const carMileage =
-              parseInt(String(carMileageField).replace(/[^\d]/g, ""), 10) || 0;
+              Number.parseInt(
+                String(carMileageField).replace(/[^\d]/g, ""),
+                10,
+              ) || 0;
             const from = parsedFilters.millageFrom
-              ? parseInt(parsedFilters.millageFrom, 10)
+              ? Number.parseInt(parsedFilters.millageFrom, 10)
               : null;
             const to = parsedFilters.millageTo
-              ? parseInt(parsedFilters.millageTo, 10)
+              ? Number.parseInt(parsedFilters.millageTo, 10)
               : null;
             return (!from || carMileage >= from) && (!to || carMileage <= to);
           })()
@@ -491,22 +415,18 @@ const CardetailCard = () => {
         ? parsedFilters.color.includes(car.color?.toLowerCase())
         : true;
 
-      // Convert to number if string
       const carDoors =
         typeof car.doors === "string" && car.doors !== "Select"
-          ? parseInt(car.doors, 10)
+          ? Number.parseInt(car.doors, 10)
           : car.doors;
-
       const matchesDoors = parsedFilters.doors.length
         ? parsedFilters.doors.includes(carDoors)
         : true;
 
-      // Convert to number if string
       const carSeats =
         typeof car.seats === "string" && car.seats !== "Select"
-          ? parseInt(car.seats, 10)
+          ? Number.parseInt(car.seats, 10)
           : car.seats;
-
       const matchesSeats = parsedFilters.seats.length
         ? parsedFilters.seats.includes(carSeats)
         : true;
@@ -523,10 +443,10 @@ const CardetailCard = () => {
         ? (() => {
             const batteryRange =
               parsedFilters.battery !== "Any"
-                ? parseInt(parsedFilters.battery, 10)
+                ? Number.parseInt(parsedFilters.battery, 10)
                 : null;
             const carBatteryRange = car.batteryRange
-              ? parseInt(car.batteryRange, 10)
+              ? Number.parseInt(car.batteryRange, 10)
               : null;
             return batteryRange ? carBatteryRange >= batteryRange : true;
           })()
@@ -536,10 +456,10 @@ const CardetailCard = () => {
         ? (() => {
             const chargingTime =
               parsedFilters.charging !== "Any"
-                ? parseInt(parsedFilters.charging, 10)
+                ? Number.parseInt(parsedFilters.charging, 10)
                 : null;
             const carChargingTime = car.chargingTime
-              ? parseInt(car.chargingTime, 10)
+              ? Number.parseInt(car.chargingTime, 10)
               : null;
             return chargingTime ? carChargingTime >= chargingTime : true;
           })()
@@ -547,28 +467,28 @@ const CardetailCard = () => {
 
       const matchesEngineSize =
         (!parsedFilters.engineSizeFrom ||
-          parseInt(String(car.engineSize), 10) >=
-            parseInt(parsedFilters.engineSizeFrom, 10)) &&
+          Number.parseInt(String(car.engineSize), 10) >=
+            Number.parseInt(parsedFilters.engineSizeFrom, 10)) &&
         (!parsedFilters.engineSizeTo ||
-          parseInt(String(car.engineSize), 10) <=
-            parseInt(parsedFilters.engineSizeTo, 10));
+          Number.parseInt(String(car.engineSize), 10) <=
+            Number.parseInt(parsedFilters.engineSizeTo, 10));
 
       const matchesEnginePower =
         (!parsedFilters.enginePowerFrom ||
-          parseInt(String(car.enginePower), 10) >=
-            parseInt(parsedFilters.enginePowerFrom, 10)) &&
+          Number.parseInt(String(car.enginePower), 10) >=
+            Number.parseInt(parsedFilters.enginePowerFrom, 10)) &&
         (!parsedFilters.enginePowerTo ||
-          parseInt(String(car.enginePower), 10) <=
-            parseInt(parsedFilters.enginePowerTo, 10));
+          Number.parseInt(String(car.enginePower), 10) <=
+            Number.parseInt(parsedFilters.enginePowerTo, 10));
 
       const matchesFuelConsumption = car.fuelConsumption
         ? (() => {
             const selectedFuelConsumption =
               parsedFilters.fuelConsumption !== "Any"
-                ? parseInt(parsedFilters.fuelConsumption, 10)
+                ? Number.parseInt(parsedFilters.fuelConsumption, 10)
                 : null;
             const carFuelConsumption = car.fuelConsumption
-              ? parseInt(car.fuelConsumption, 10)
+              ? Number.parseInt(car.fuelConsumption, 10)
               : null;
             return selectedFuelConsumption
               ? carFuelConsumption === selectedFuelConsumption
@@ -580,10 +500,10 @@ const CardetailCard = () => {
         ? (() => {
             const selectedCo2Emission =
               parsedFilters.co2Emission !== "Any"
-                ? parseInt(parsedFilters.co2Emission, 10)
+                ? Number.parseInt(parsedFilters.co2Emission, 10)
                 : null;
             const carCo2Emission = car.co2Emission
-              ? parseInt(car.co2Emission, 10)
+              ? Number.parseInt(car.co2Emission, 10)
               : null;
             return selectedCo2Emission
               ? carCo2Emission === selectedCo2Emission
@@ -629,6 +549,7 @@ const CardetailCard = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentItems = sortedAndFilteredCars.slice(startIndex, endIndex);
+
     return {
       totalItems,
       totalPages,
@@ -644,14 +565,11 @@ const CardetailCard = () => {
     if (newPage === currentPage || isPageTransitioning) return;
 
     setIsPageTransitioning(true);
-
-    // Smooth scroll to top
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
 
-    // Small delay for smooth transition
     setTimeout(() => {
       setCurrentPage(newPage);
       setIsPageTransitioning(false);
@@ -660,7 +578,7 @@ const CardetailCard = () => {
 
   const getVisiblePageNumbers = () => {
     const { totalPages } = paginationData;
-    const delta = 2; // Number of pages to show around current page
+    const delta = 2;
     const range = [];
     const rangeWithDots = [];
 
@@ -693,21 +611,65 @@ const CardetailCard = () => {
     setCurrentPage(1);
   }, [parsedFilters]);
 
-  // Loading State
+  const convertKmToMiles = (km) => {
+    const numericKm = Number.parseFloat(km);
+    return isNaN(numericKm) ? km : (numericKm * 0.621371).toFixed(1);
+  };
+
+  const convertMilesToKm = (miles) => {
+    const numericMiles = Number.parseFloat(miles);
+    return isNaN(numericMiles) ? miles : (numericMiles * 1.60934).toFixed(1);
+  };
+
+  const getConvertedValues = (vehicle) => {
+    if (distanceLoading || !defaultUnit || !vehicle.unit) {
+      return {
+        kms: vehicle.kms,
+        mileage: vehicle.mileage,
+        unit: vehicle.unit || defaultUnit,
+      };
+    }
+
+    if (vehicle.unit === defaultUnit) {
+      return {
+        kms: vehicle.kms,
+        mileage: vehicle.mileage,
+        unit: vehicle.unit,
+      };
+    }
+
+    let convertedKms = vehicle.kms;
+    let convertedMileage = vehicle.mileage;
+
+    if (vehicle.unit === "km" && defaultUnit === "miles") {
+      convertedKms = convertKmToMiles(vehicle.kms);
+      convertedMileage = convertKmToMiles(vehicle.mileage);
+    } else if (vehicle.unit === "miles" && defaultUnit === "km") {
+      convertedKms = convertMilesToKm(vehicle.miles);
+      convertedMileage = convertMilesToKm(vehicle.mileage);
+    }
+
+    return {
+      kms: convertedKms,
+      mileage: convertedMileage,
+      unit: defaultUnit,
+    };
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
-        <div className="flex items-center space-x-4 rounded-2xl border border-slate-200 bg-white px-8 py-6 shadow-2xl dark:border-gray-700 dark:bg-gray-800">
+        <div className="flex items-center space-x-4 rounded-2xl bg-white px-8 py-6 shadow-sm">
           <Spinner
             aria-label="Loading vehicles"
             size="lg"
-            className="text-white"
+            className="text-orange-500"
           />
           <div>
-            <span className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+            <span className="text-lg font-semibold text-gray-900">
               Loading vehicles...
             </span>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-sm text-gray-500">
               Please wait while we fetch the latest listings
             </p>
           </div>
@@ -716,14 +678,13 @@ const CardetailCard = () => {
     );
   }
 
-  // No Results State
   if (!sortedAndFilteredCars.length) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center p-8 text-center">
-        <div className="max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-xl dark:border-gray-700 dark:bg-gray-800">
-          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 dark:bg-gray-700">
+        <div className="max-w-md rounded-2xl bg-white p-8 shadow-sm">
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
             <svg
-              className="h-10 w-10 text-slate-400 dark:text-gray-500"
+              className="h-10 w-10 text-gray-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -736,10 +697,10 @@ const CardetailCard = () => {
               />
             </svg>
           </div>
-          <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white">
+          <h3 className="mb-3 text-xl font-bold text-gray-900">
             No vehicles found
           </h3>
-          <p className="mb-6 text-gray-500 dark:text-gray-400">
+          <p className="mb-6 text-gray-500">
             We could not find any vehicles matching your current filters. Try
             adjusting your search criteria or clearing some filters.
           </p>
@@ -747,32 +708,27 @@ const CardetailCard = () => {
       </div>
     );
   }
+
   return (
     <>
-      <div className="my-5">
-        <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-gradient-to-r from-slate-50 to-slate-50 p-4 dark:border-gray-600 dark:from-gray-800 dark:to-gray-700 sm:flex-row sm:items-center sm:justify-between sm:p-6">
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2">
-              <div className="h-3 w-3 animate-pulse rounded-full bg-app-button"></div>
-              <span className="text-base font-semibold text-app-text dark:text-gray-200 sm:text-lg">
-                <span className="text-app-button dark:text-app-button">
-                  {paginationData.startIndex + 1}-{paginationData.endIndex}
-                </span>
-                <span className="mx-2 text-gray-500 dark:text-gray-400">
-                  of
-                </span>
-                <span className="text-app-text dark:text-gray-200">
-                  {paginationData.totalItems}
-                </span>
-                <span className="ml-2 text-gray-500 dark:text-gray-400">
-                  vehicles found
-                </span>
-              </span>
-            </div>
+      <div className="mb-6">
+        <div className="flex flex-col gap-4 rounded-lg bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-medium text-gray-600">
+              <span className="font-semibold text-gray-900">
+                {paginationData.startIndex + 1}-{paginationData.endIndex}
+              </span>{" "}
+              of{" "}
+              <span className="font-semibold text-gray-900">
+                {paginationData.totalItems}
+              </span>{" "}
+              vehicles
+            </span>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Select
-              className="w-full min-w-0 flex-shrink rounded-xl border-slate-300 bg-white text-sm font-medium shadow-sm dark:border-gray-600 dark:bg-gray-700 sm:w-auto sm:min-w-[130px]"
+              className="min-w-[120px] text-sm"
               value={itemsPerPage}
               onChange={(e) => {
                 setItemsPerPage(Number.parseInt(e.target.value));
@@ -784,9 +740,10 @@ const CardetailCard = () => {
               <option value={9}>9 per page</option>
               <option value={12}>12 per page</option>
             </Select>
+
             <Select
               icon={GrSort}
-              className="w-full min-w-0 flex-shrink rounded-xl border-slate-300 bg-white text-sm font-medium shadow-sm dark:border-gray-600 dark:bg-gray-700 sm:w-auto sm:min-w-[180px]"
+              className="min-w-[160px] text-sm"
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
             >
@@ -798,57 +755,54 @@ const CardetailCard = () => {
               <option value="mileage-lh">{t("mileageLowToHigh")}</option>
               <option value="mileage-hl">{t("mileageHighToLow")}</option>
             </Select>
-            <div className="flex justify-center sm:justify-start">
-              <div className="flex rounded-xl border border-slate-300 bg-white p-1 shadow-sm dark:border-gray-600 dark:bg-gray-700">
-                <button
-                  onClick={() => setIsGridView(false)}
-                  className={`rounded-lg p-2.5 transition-all duration-200 ${
-                    !isGridView
-                      ? "bg-app-button text-white shadow-md"
-                      : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                  }`}
-                >
-                  <FiList size={18} />
-                </button>
-                <button
-                  onClick={() => setIsGridView(true)}
-                  className={`rounded-lg p-2.5 transition-all duration-200 ${
-                    isGridView
-                      ? "bg-app-button text-white shadow-md"
-                      : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                  }`}
-                >
-                  <FiGrid size={18} />
-                </button>
-              </div>
+
+            <div className="flex rounded-lg border border-gray-200 bg-white p-1">
+              <button
+                onClick={() => setIsGridView(false)}
+                className={`rounded p-2 transition-colors ${
+                  !isGridView
+                    ? "bg-orange-500 text-white"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                <FiList size={16} />
+              </button>
+              <button
+                onClick={() => setIsGridView(true)}
+                className={`rounded p-2 transition-colors ${
+                  isGridView
+                    ? "bg-orange-500 text-white"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                <FiGrid size={16} />
+              </button>
             </div>
           </div>
         </div>
       </div>
+
       <div
-        className={`gap-4 transition-opacity duration-200 ${
-          isPageTransitioning ? "opacity-50" : "opacity-100"
-        } ${isGridView ? "grid grid-cols-1 sm:grid-cols-2" : "space-y-6"}`}
+        className={`transition-opacity duration-200 ${isPageTransitioning ? "opacity-50" : "opacity-100"} ${
+          isGridView
+            ? "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+            : "space-y-6"
+        }`}
       >
         {paginationData.currentItems.map((car, index) => (
-          <div key={car._id} className="relative">
+          <div key={car._id} className="group">
             <Link href={`car-detail/${car.slug}`}>
               <div
-                className={`group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800 ${
-                  isGridView
-                    ? "flex h-full flex-col"
-                    : "mx-auto flex max-w-5xl flex-col sm:flex-row"
+                className={`overflow-hidden rounded-lg bg-white shadow-sm transition-all duration-300 hover:shadow-md ${
+                  isGridView ? "flex flex-col" : "flex flex-col sm:flex-row"
                 }`}
               >
-                {/* Image Section */}
                 <div
-                  className={`relative flex-shrink-0 ${
-                    isGridView ? "h-44 w-full" : "h-60 sm:h-64 sm:w-80 md:w-96"
-                  }`}
+                  className={`relative ${isGridView ? "h-48 w-full" : "h-48 w-full flex-shrink-0 sm:h-40 sm:w-64"}`}
                 >
                   <Carousel
                     slideInterval={3000}
-                    className="h-full w-full overflow-hidden rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none"
+                    className="h-full w-full overflow-hidden rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none"
                   >
                     {Array.isArray(car.imageUrls) &&
                     car.imageUrls.length > 0 ? (
@@ -862,17 +816,16 @@ const CardetailCard = () => {
                             }
                             width={600}
                             height={400}
-                            className="h-full w-full object-cover object-center"
+                            className="h-full w-full object-cover"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                         </div>
                       ))
                     ) : (
-                      <div className="flex h-full items-center justify-center bg-slate-100 dark:bg-gray-700">
+                      <div className="flex h-full items-center justify-center bg-gray-100">
                         <div className="text-center">
-                          <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-slate-200 dark:bg-gray-600">
+                          <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-gray-200">
                             <svg
-                              className="h-8 w-8 text-slate-400"
+                              className="h-8 w-8 text-gray-400"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -885,7 +838,7 @@ const CardetailCard = () => {
                               />
                             </svg>
                           </div>
-                          <span className="text-sm text-slate-500 dark:text-gray-400">
+                          <span className="text-sm text-gray-500">
                             No images available
                           </span>
                         </div>
@@ -893,38 +846,41 @@ const CardetailCard = () => {
                     )}
                   </Carousel>
 
-                  {/* Overlay Badges */}
-                  <div className="absolute left-0 top-0 z-10">
-                    {!car.sold && (
-                      <div className="relative h-16 w-16 overflow-hidden">
-                        <div className="absolute left-[-18px] top-2 w-[75px] rotate-[-45deg] bg-app-button shadow-md">
-                          <span className="block py-[2px] text-center text-[10px] font-bold uppercase text-white">
-                            {(car.condition && car.condition !== "Select"
-                              ? car.condition
-                              : car.type || "Used"
-                            ).substring(0, 4)}
-                          </span>
-                        </div>
+                  {/* Featured banner */}
+                  {!car.sold && (
+                    <div className="absolute left-0 top-0">
+                      <div className="bg-orange-500 px-3 py-1 text-xs font-bold text-white">
+                        Featured
                       </div>
-                    )}
+                    </div>
+                  )}
 
-                    {car.sold && (
-                      <div className="relative h-16 w-16 overflow-hidden">
-                        <div className="absolute left-0 top-0 h-6 w-14 translate-x-[-8px] translate-y-[12px] -rotate-45 transform bg-red-500 shadow-md">
-                          <span className="absolute inset-0 flex items-center justify-center text-xs font-bold uppercase text-white">
-                            SOLD
-                          </span>
-                        </div>
+                  {/* Sold banner */}
+                  {car.sold && (
+                    <div className="absolute left-0 top-0">
+                      <div className="bg-red-500 px-3 py-1 text-xs font-bold text-white">
+                        SOLD
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
-                  {/* Wishlist & Image Counter */}
-                  <div className="absolute right-3 top-3 flex items-center gap-1.5">
+                  {/* Heart icon and image count */}
+                  <div className="absolute right-3 top-3 flex items-center gap-2">
                     {Array.isArray(car.imageUrls) &&
                       car.imageUrls.length > 1 && (
-                        <div className="rounded-full bg-black/70 px-2 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
-                          1/{car.imageUrls.length}
+                        <div className="flex items-center gap-1 rounded bg-black/70 px-2 py-1 text-xs text-white">
+                          <svg
+                            className="h-3 w-3"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                          {car.imageUrls.length}
                         </div>
                       )}
                     <button
@@ -933,345 +889,164 @@ const CardetailCard = () => {
                         e.preventDefault();
                         handleLikeToggle(car._id);
                       }}
-                      aria-label={
-                        userLikedCars?.includes(car._id)
-                          ? "Unlike Car"
-                          : "Like Car"
-                      }
-                      className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-slate-600 shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:shadow-xl"
+                      className="rounded-full bg-white p-2 shadow-sm transition-colors hover:bg-gray-50"
                     >
                       {userLikedCars &&
                       Array.isArray(userLikedCars) &&
                       userLikedCars.includes(car._id) ? (
                         <FaHeart className="h-4 w-4 text-red-500" />
                       ) : (
-                        <FaRegHeart className="h-4 w-4 hover:text-red-500" />
+                        <FaRegHeart className="h-4 w-4 text-gray-600" />
                       )}
                     </button>
                   </div>
                 </div>
 
-                {/* Content Section */}
                 <div
-                  className={`flex flex-1 flex-col ${
-                    isGridView ? "p-2.5 pb-14" : "p-5 pb-20 sm:p-6"
-                  }`}
+                  className={`flex flex-1 flex-col p-4 ${!isGridView ? "sm:p-6" : ""}`}
                 >
-                  {/* Header */}
+                  {/* Title and Price */}
                   <div
                     className={`flex items-start justify-between ${isGridView ? "mb-3" : "mb-4"}`}
                   >
-                    <div className="flex-1 pr-3">
-                      <div className="group/link">
-                        <h3
-                          className={`line-clamp-1 font-bold text-gray-900 transition-colors group-hover/link:text-blue-600 dark:text-white dark:group-hover/link:text-blue-400 ${
-                            isGridView
-                              ? "text-base leading-tight"
-                              : "text-xl sm:text-2xl"
-                          }`}
-                        >
-                          {loading ? (
-                            <Skeleton height={28} />
-                          ) : (
-                            `${car.make || "Unknown"} ${car.model || "Unknown"}`
-                          )}
-                        </h3>
-                      </div>
-
-                      {(car.year || car.modelYear) && (
-                        <div className={`${isGridView ? "mt-1" : "mt-2"}`}>
-                          <span
-                            className={`inline-flex items-center rounded-lg bg-slate-100 px-2 py-0.5 font-semibold text-slate-700 dark:bg-gray-700 dark:text-gray-300 ${
-                              isGridView ? "text-xs" : "text-xs"
-                            }`}
-                          >
-                            {car.year || car.modelYear} Model
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="text-right">
-                      <div
-                        className={`font-bold text-blue-600 dark:text-blue-400 ${
-                          isGridView ? "text-lg" : "text-2xl sm:text-3xl"
+                    <div className="flex-1">
+                      <h3
+                        className={`font-bold text-gray-900 ${
+                          isGridView ? "text-lg" : "text-xl"
                         }`}
                       >
                         {loading ? (
-                          <Skeleton height={32} width={120} />
+                          <Skeleton height={24} />
                         ) : (
-                          `${selectedCurrency?.symbol} ${Math.round(car.price) || 0}`
+                          `${car.make || "Unknown"} ${car.model || "Unknown"}`
+                        )}
+                      </h3>
+
+                      {!isGridView && car.features?.length > 0 && (
+                        <p className="mt-1 text-sm text-gray-500">
+                          {car.features.join(" • ")}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className={`text-right ${!isGridView ? "ml-4" : ""}`}>
+                      <div
+                        className={`font-bold text-orange-500 ${isGridView ? "text-xl" : "text-2xl"}`}
+                      >
+                        {loading ? (
+                          <Skeleton height={28} width={100} />
+                        ) : (
+                          `${selectedCurrency?.symbol}${Math.round(car.price) || 0}`
                         )}
                       </div>
-                      <p
-                        className={`mt-0.5 text-slate-500 dark:text-gray-400 ${
-                          isGridView ? "text-xs" : "text-xs"
-                        }`}
-                      >
-                        Starting price
-                      </p>
+                      {!isGridView && (
+                        <button className="mt-1 text-sm text-gray-500 underline">
+                          Calculate financing
+                        </button>
+                      )}
                     </div>
                   </div>
 
-                  {/* Key Specifications */}
-                  <div className={`flex-1 ${isGridView ? "mb-3" : "mb-8"}`}>
-                    <div
-                      className={`grid gap-2 ${
-                        isGridView
-                          ? "grid-cols-2"
-                          : "grid grid-cols-2 lg:grid-cols-3"
+                  <div
+                    className={`flex flex-wrap gap-2 ${isGridView ? "mb-4" : "mb-6"}`}
+                  >
+                    <span className="rounded bg-orange-500 px-2 py-1 text-xs font-medium text-white">
+                      {car.year || car.modelYear || "N/A"}
+                    </span>
+                    {/* {!isGridView && (
+                      <span className="text-sm text-gray-600">
+                        {(() => {
+                          const convertedValues = getConvertedValues(car);
+                          return `${convertedValues.kms || "N/A"} ${convertedValues.unit || ""}`;
+                        })()}
+                      </span>
+                    )}
+                    <span className="text-sm text-gray-600">
+                      {car.gearbox || ""}
+                    </span>
+                    <span className="text-sm text-gray-600">
+                      {car.fuelType || ""}
+                    </span>
+                    {!isGridView && car.driveType && (
+                      <span className="text-sm text-gray-600">
+                        {car.driveType}
+                      </span>
+                    )} */}
+                  <div className="flex flex-wrap items-center text-sm text-gray-600">
+  {[
+    !isGridView && (() => {
+      const v = getConvertedValues(car);
+      return `${v.kms || "N/A"} ${v.unit || ""}`;
+    })(),
+    car.gearbox,
+    car.fuelType,
+    !isGridView && car.driveType
+  ]
+    .filter(Boolean) // remove empty ones
+    .join(" • ")}
+</div>
+                  </div>
+
+                  {!isGridView && (
+                    <div className="mb-4">
+                      <span className="text-sm text-gray-500">
+                        <span className="text-orange-500">Location:</span>{" "}
+                        {car.location || "Not specified"}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Action button */}
+                  <div className="mt-auto">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setSelectedCar(car);
+                        setOpenModal(true);
+                      }}
+                      className={`w-fit rounded-lg bg-orange-500 px-2 font-medium text-white transition-colors hover:bg-orange-600 ${
+                        isGridView ? "py-2 text-sm" : "py-3"
                       }`}
                     >
-                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                        <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30 ${
-                            isGridView ? "h-6 w-6" : "h-8 w-8"
-                          }`}
-                        >
-                          <FaLocationCrosshairs
-                            className={`text-blue-600 dark:text-blue-400 ${
-                              isGridView ? "h-3 w-3" : "h-4 w-4"
-                            }`}
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p
-                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                              isGridView ? "text-[9px]" : "text-[10px]"
-                            }`}
-                          >
-                            Location
-                          </p>
-                          <p
-                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
-                              isGridView ? "text-xs" : "text-xs"
-                            }`}
-                          >
-                            {car.location
-                              ? car.location.length > 12
-                                ? `${car.location.substring(0, 12)}...`
-                                : car.location
-                              : "Not specified"}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                        <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/30 ${
-                            isGridView ? "h-6 w-6" : "h-8 w-8"
-                          }`}
-                        >
-                          <IoSpeedometer
-                            className={`text-emerald-600 dark:text-emerald-400 ${
-                              isGridView ? "h-3 w-3" : "h-4 w-4"
-                            }`}
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p
-                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                              isGridView ? "text-[9px]" : "text-[10px]"
-                            }`}
-                          >
-                            Mileage
-                          </p>
-                          <p
-                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
-                              isGridView ? "text-xs" : "text-xs"
-                            }`}
-                          >
-                            {(() => {
-                              const convertedValues = getConvertedValues(car);
-                              return `${convertedValues.kms || "Not specified"} ${convertedValues.unit?.toUpperCase() || ""}`;
-                            })()}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                        <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/30 ${
-                            isGridView ? "h-6 w-6" : "h-8 w-8"
-                          }`}
-                        >
-                          <GiGasPump
-                            className={`text-amber-600 dark:text-amber-400 ${
-                              isGridView ? "h-3 w-3" : "h-4 w-4"
-                            }`}
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p
-                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                              isGridView ? "text-[9px]" : "text-[10px]"
-                            }`}
-                          >
-                            Fuel
-                          </p>
-                          <p
-                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
-                              isGridView ? "text-xs" : "text-xs"
-                            }`}
-                          >
-                            {car.fuelType || "Not specified"}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                        <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/30 ${
-                            isGridView ? "h-6 w-6" : "h-8 w-8"
-                          }`}
-                        >
-                          <TbManualGearbox
-                            className={`text-purple-600 dark:text-purple-400 ${
-                              isGridView ? "h-3 w-3" : "h-4 w-4"
-                            }`}
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p
-                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                              isGridView ? "text-[9px]" : "text-[10px]"
-                            }`}
-                          >
-                            Gearbox
-                          </p>
-                          <p
-                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
-                              isGridView ? "text-xs" : "text-xs"
-                            }`}
-                          >
-                            {car.gearbox || "Not specified"}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                        <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-rose-100 dark:bg-rose-900/30 ${
-                            isGridView ? "h-6 w-6" : "h-8 w-8"
-                          }`}
-                        >
-                          <IoIosColorPalette
-                            className={`text-rose-600 dark:text-rose-400 ${
-                              isGridView ? "h-3 w-3" : "h-4 w-4"
-                            }`}
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p
-                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                              isGridView ? "text-[9px]" : "text-[10px]"
-                            }`}
-                          >
-                            Color
-                          </p>
-                          <p
-                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
-                              isGridView ? "text-xs" : "text-xs"
-                            }`}
-                          >
-                            {car.color || "Not specified"}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-2 dark:bg-gray-700/50">
-                        <div
-                          className={`flex flex-shrink-0 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900/30 ${
-                            isGridView ? "h-6 w-6" : "h-8 w-8"
-                          }`}
-                        >
-                          <GiCarSeat
-                            className={`text-indigo-600 dark:text-indigo-400 ${
-                              isGridView ? "h-3 w-3" : "h-4 w-4"
-                            }`}
-                          />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p
-                            className={`font-medium uppercase leading-tight tracking-wide text-slate-500 dark:text-gray-400 ${
-                              isGridView ? "text-[9px]" : "text-[10px]"
-                            }`}
-                          >
-                            Seats
-                          </p>
-                          <p
-                            className={`break-words font-semibold leading-tight text-gray-900 dark:text-white ${
-                              isGridView ? "text-xs" : "text-xs"
-                            }`}
-                          >
-                            {car.seats && car.seats !== "Select"
-                              ? car.seats
-                              : "Not specified"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                      {t("enquireNow")}
+                    </button>
                   </div>
-                  {/* Action Buttons */}
                 </div>
               </div>
             </Link>
-
-            <div
-               className={`absolute ${
-                isGridView
-                  ? "bottom-0 left-0 right-0 p-2.5"
-                  : "sm:-bottom-5 -bottom-4 right-0 p-5 sm:p-6"
-              }`}
-            >
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setSelectedCar(car);
-                  setOpenModal(true);
-                }}
-                className={`rounded-xl border-2 border-app-button bg-app-button font-semibold text-white shadow-lg transition-all duration-200 hover:border-app-button-hover hover:bg-app-button-hover hover:shadow-xl ${
-                  isGridView ? "w-full px-2 py-2 text-sm" : "px-4 py-2"
-                }`}
-              >
-                {t("enquireNow")}
-              </button>
-            </div>
           </div>
         ))}
       </div>
+
       {paginationData.totalPages > 1 && (
         <div className="mt-12 flex flex-col items-center gap-6">
-          {/* Pagination Info */}
           <div className="text-center">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-600">
               Showing{" "}
-              <span className="font-semibold text-gray-900 dark:text-white">
+              <span className="font-semibold text-gray-900">
                 {paginationData.startIndex + 1}
               </span>{" "}
               to{" "}
-              <span className="font-semibold text-gray-900 dark:text-white">
+              <span className="font-semibold text-gray-900">
                 {paginationData.endIndex}
               </span>{" "}
               of{" "}
-              <span className="font-semibold text-gray-900 dark:text-white">
+              <span className="font-semibold text-gray-900">
                 {paginationData.totalItems}
               </span>{" "}
               results
             </p>
           </div>
 
-          {/* Pagination Controls */}
           <div className="flex items-center justify-center gap-2">
-            {/* Previous Button */}
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={!paginationData.hasPrevPage || isPageTransitioning}
-              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 paginationData.hasPrevPage && !isPageTransitioning
-                  ? "border border-gray-300 bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-500"
+                  ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400"
               }`}
             >
               <svg
@@ -1290,22 +1065,19 @@ const CardetailCard = () => {
               Previous
             </button>
 
-            {/* Page Numbers */}
             <div className="flex items-center gap-1">
               {getVisiblePageNumbers().map((pageNum, index) => (
                 <div key={index}>
                   {pageNum === "..." ? (
-                    <span className="px-3 py-2 text-gray-500 dark:text-gray-400">
-                      ...
-                    </span>
+                    <span className="px-3 py-2 text-gray-500">...</span>
                   ) : (
                     <button
                       onClick={() => handlePageChange(pageNum)}
                       disabled={isPageTransitioning}
-                      className={`min-w-[40px] rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+                      className={`min-w-[40px] rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                         currentPage === pageNum
-                          ? "bg-app-button text-white shadow-lg hover:bg-app-button-hover"
-                          : "border border-gray-300 bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                          ? "bg-orange-500 text-white"
+                          : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
                       } ${isPageTransitioning ? "cursor-not-allowed opacity-50" : ""}`}
                     >
                       {pageNum}
@@ -1315,14 +1087,13 @@ const CardetailCard = () => {
               ))}
             </div>
 
-            {/* Next Button */}
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={!paginationData.hasNextPage || isPageTransitioning}
-              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 paginationData.hasNextPage && !isPageTransitioning
-                  ? "border border-gray-300 bg-white text-gray-700 shadow-sm hover:bg-gray-50 hover:shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-500"
+                  ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400"
               }`}
             >
               Next
@@ -1342,27 +1113,24 @@ const CardetailCard = () => {
             </button>
           </div>
 
-          {/* Quick Jump */}
           {paginationData.totalPages > 10 && (
             <div className="flex items-center gap-3">
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                Jump to page:
-              </span>
+              <span className="text-sm text-gray-600">Jump to page:</span>
               <input
                 type="number"
                 min="1"
                 max={paginationData.totalPages}
                 value={currentPage}
                 onChange={(e) => {
-                  const page = parseInt(e.target.value);
+                  const page = Number.parseInt(e.target.value);
                   if (page >= 1 && page <= paginationData.totalPages) {
                     handlePageChange(page);
                   }
                 }}
-                className="w-16 rounded-lg border border-gray-300 px-2 py-1 text-center text-sm dark:border-gray-600 dark:bg-gray-800"
+                className="w-16 rounded-lg border border-gray-300 px-2 py-1 text-center text-sm"
                 disabled={isPageTransitioning}
               />
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-sm text-gray-600">
                 of {paginationData.totalPages}
               </span>
             </div>
@@ -1377,11 +1145,9 @@ const CardetailCard = () => {
         onClose={() => setOpenModal(false)}
         className="backdrop-blur-sm"
       >
-        <ModalHeader className="border-b border-gray-200 pb-4 dark:border-gray-700">
-          <h3 className="text-2xl font-bold text-app-text dark:text-white">
-            Get in Touch
-          </h3>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        <ModalHeader className="border-b border-gray-200 pb-4">
+          <h3 className="text-2xl font-bold text-gray-900">Get in Touch</h3>
+          <p className="mt-1 text-sm text-gray-500">
             We will get back to you within 24 hours
           </p>
         </ModalHeader>
@@ -1402,7 +1168,7 @@ const CardetailCard = () => {
               <div className="space-y-2">
                 <Label
                   htmlFor="firstName"
-                  className="text-sm font-semibold text-gray-700 dark:text-gray-300"
+                  className="text-sm font-semibold text-gray-700"
                 >
                   First Name *
                 </Label>
@@ -1412,7 +1178,7 @@ const CardetailCard = () => {
                   value={formData.firstName}
                   onChange={handleInputChange}
                   placeholder="Enter your first name"
-                  className="rounded-xl border-gray-300 focus:border-app-button focus:ring-2 focus:ring-app-button"
+                  className="rounded-lg border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
                   required
                   disabled={isSubmitting}
                 />
@@ -1420,7 +1186,7 @@ const CardetailCard = () => {
               <div className="space-y-2">
                 <Label
                   htmlFor="lastName"
-                  className="text-sm font-semibold text-gray-700 dark:text-gray-300"
+                  className="text-sm font-semibold text-gray-700"
                 >
                   Last Name *
                 </Label>
@@ -1430,7 +1196,7 @@ const CardetailCard = () => {
                   value={formData.lastName}
                   onChange={handleInputChange}
                   placeholder="Enter your last name"
-                  className="rounded-xl border-gray-300 focus:border-app-button focus:ring-2 focus:ring-app-button"
+                  className="rounded-lg border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
                   required
                   disabled={isSubmitting}
                 />
@@ -1438,7 +1204,7 @@ const CardetailCard = () => {
               <div className="space-y-2">
                 <Label
                   htmlFor="email"
-                  className="text-sm font-semibold text-gray-700 dark:text-gray-300"
+                  className="text-sm font-semibold text-gray-700"
                 >
                   Email Address *
                 </Label>
@@ -1448,7 +1214,7 @@ const CardetailCard = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="your.email@example.com"
-                  className="rounded-xl border-gray-300 focus:border-app-button focus:ring-2 focus:ring-app-button"
+                  className="rounded-lg border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
                   required
                   disabled={isSubmitting}
                 />
@@ -1456,7 +1222,7 @@ const CardetailCard = () => {
               <div className="space-y-2">
                 <Label
                   htmlFor="phone"
-                  className="text-sm font-semibold text-gray-700 dark:text-gray-300"
+                  className="text-sm font-semibold text-gray-700"
                 >
                   Phone Number *
                 </Label>
@@ -1466,7 +1232,7 @@ const CardetailCard = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   placeholder="+92 300 1234567"
-                  className="rounded-xl border-gray-300 focus:border-app-button focus:ring-2 focus:ring-app-button"
+                  className="rounded-lg border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
                   required
                   disabled={isSubmitting}
                 />
@@ -1474,7 +1240,7 @@ const CardetailCard = () => {
               <div className="space-y-2 sm:col-span-2">
                 <Label
                   htmlFor="message"
-                  className="text-sm font-semibold text-gray-700 dark:text-gray-300"
+                  className="text-sm font-semibold text-gray-700"
                 >
                   Your Message
                 </Label>
@@ -1484,19 +1250,19 @@ const CardetailCard = () => {
                   onChange={handleInputChange}
                   rows={4}
                   placeholder="Tell us about your requirements, budget, or any specific questions..."
-                  className="resize-none rounded-xl border-gray-300 focus:border-app-button focus:ring-2 focus:ring-app-button"
+                  className="resize-none rounded-lg border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
                   disabled={isSubmitting}
                 />
               </div>
             </div>
-            <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
+            <div className="border-t border-gray-200 pt-4">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full rounded-xl py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 ${
+                className={`w-full rounded-lg py-4 text-lg font-semibold text-white transition-colors ${
                   isSubmitting
                     ? "cursor-not-allowed bg-gray-400"
-                    : "bg-gradient-to-r from-app-button to-app-button-hover hover:from-app-button-hover hover:to-app-button-hover hover:shadow-xl"
+                    : "bg-orange-500 hover:bg-orange-600"
                 }`}
               >
                 {isSubmitting ? (
@@ -1515,4 +1281,5 @@ const CardetailCard = () => {
     </>
   );
 };
+
 export default CardetailCard;
