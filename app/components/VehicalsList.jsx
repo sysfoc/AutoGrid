@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -7,7 +7,6 @@ import { IoSpeedometer } from "react-icons/io5";
 import { GiGasPump } from "react-icons/gi";
 import { TbManualGearbox } from "react-icons/tb";
 import { FaHeart } from "react-icons/fa";
-import { BiTachometer } from "react-icons/bi";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useTranslations } from "next-intl";
@@ -182,63 +181,66 @@ const VehicleCard = ({
           </button>
         </div>
 
-        {/* Content Section */}
-        <div className="p-4">
+        {/* Content Section - Reduced padding */}
+        <div className="p-3">
           {/* Title and Price */}
-          <div className="mb-3 flex items-start justify-between">
+          <div className="mb-2 flex items-start justify-between">
             <div className="flex-1">
               <h3 className="text-base font-bold leading-tight text-gray-800 dark:text-white line-clamp-1">
                 {getVehicleTitle()}
               </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {vehicle.modelYear}
               </p>
             </div>
-            <div className="ml-3 text-right">
-              <div className="text-lg font-bold text-gray-800 dark:text-red-400">
-                {selectedCurrency && selectedCurrency.symbol}{" "}
-                {Math.round(
-                  (vehicle &&
-                    vehicle.price *
-                      ((selectedCurrency && selectedCurrency.value) || 1)) /
-                    ((currency && currency.value) || 1),
-                ).toLocaleString()}
+            <div className="ml-2">
+              {/* Green price background without rounding */}
+              <div className="bg-green-600 px-2 py-1 text-right">
+                <div className="text-sm font-bold text-white">
+                  {selectedCurrency && selectedCurrency.symbol}{" "}
+                  {Math.round(
+                    (vehicle &&
+                      vehicle.price *
+                        ((selectedCurrency && selectedCurrency.value) || 1)) /
+                      ((currency && currency.value) || 1),
+                  ).toLocaleString()}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Vehicle Stats */}
-          <div className="grid grid-cols-3 gap-2 text-center">
+          {/* Vehicle Stats - Reduced padding and gap */}
+          <div className="grid grid-cols-3 gap-1 text-center">
             <div className="flex flex-col items-center">
-              <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+              <div className="mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
                 <IoSpeedometer className="h-3 w-3 text-gray-600 dark:text-gray-300" />
               </div>
               <div className="text-xs font-semibold text-gray-800 dark:text-white">
                 {convertedValues.kms}
               </div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">
+              <div className="text-[10px] text-gray-500 dark:text-gray-400">
                 {convertedValues.unit && convertedValues.unit.toUpperCase()}
               </div>
             </div>
 
             <div className="flex flex-col items-center">
-              <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+              <div className="mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
                 <GiGasPump className="h-3 w-3 text-gray-600 dark:text-gray-300" />
               </div>
               <div className="text-xs font-semibold text-gray-800 dark:text-white">
                 {vehicle && vehicle.fuelType}
               </div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">Fuel</div>
+              <div className="text-[10px] text-gray-500 dark:text-gray-400">Fuel</div>
             </div>
 
             <div className="flex flex-col items-center">
-              <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+              <div className="mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
                 <TbManualGearbox className="h-3 w-3 text-gray-600 dark:text-gray-300" />
               </div>
               <div className="text-xs font-semibold text-gray-800 dark:text-white">
                 {vehicle && vehicle.gearbox}
               </div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">
+              <div className="text-[10px] text-gray-500 dark:text-gray-400">
                 Trans
               </div>
             </div>
@@ -430,67 +432,69 @@ const VehicalsList = ({ loadingState }) => {
 
   return (
     <section className="my-7 rounded-xl bg-slate-50 py-7 dark:bg-slate-900 sm:mx-8 md:my-10 md:py-10">
-      <div className="mb-16">
-        <div className="mx-auto max-w-4xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-red-600/10 px-4 py-2 text-sm font-medium text-red-600 dark:bg-red-600/20 dark:text-red-400">
-            <BiTachometer className="h-4 w-4" />
-            <span>Premium Collection</span>
+      <div className="mb-10">
+        {/* Header with title and filters */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+          {/* Title Section */}
+          <div className="flex-1">
+            <h2 className="text-3xl font-bold leading-tight text-gray-800 dark:text-white md:text-4xl">
+              {listingData && listingData.heading}
+            </h2>
           </div>
-          <h2 className="mb-8 bg-gradient-to-br from-gray-800 via-gray-800/90 to-gray-800/70 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300 md:text-5xl lg:text-6xl">
-            {listingData && listingData.heading}
-          </h2>
-
           
-          <Link href={"/car-for-sale"}>
-            <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-red-600 to-red-600/90 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-red-700 hover:to-red-700 hover:shadow-2xl dark:from-red-600 dark:to-red-600/90 dark:hover:from-red-700 dark:hover:to-red-700">
-              <span>{t("viewAll")}</span>
-              <MdOutlineArrowOutward className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
-            </div>
-          </Link>
-
-          {/* Filter Tabs */}
-          <div className="my-8 flex flex-wrap justify-center gap-2 sm:gap-3">
-            <button
-              onClick={() => handleFilterChange("all")}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                activeFilter === "all"
-                  ? "bg-red-600 text-white shadow-lg"
-                  : "bg-white text-gray-600 shadow-md hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700 dark:hover:text-red-400"
-              }`}
-            >
-              All Cars
-            </button>
-            <button
-              onClick={() => handleFilterChange("for-sale")}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                activeFilter === "for-sale"
-                  ? "bg-red-600 text-white shadow-lg"
-                  : "bg-white text-gray-600 shadow-md hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700 dark:hover:text-red-400"
-              }`}
-            >
-              For Sale
-            </button>
-            <button
-              onClick={() => handleFilterChange("featured")}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                activeFilter === "featured"
-                  ? "bg-red-600 text-white shadow-lg"
-                  : "bg-white text-gray-600 shadow-md hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700 dark:hover:text-red-400"
-              }`}
-            >
-              Featured
-            </button>
-            <button
-              onClick={() => handleFilterChange("promotion")}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                activeFilter === "promotion"
-                  ? "bg-red-600 text-white shadow-lg"
-                  : "bg-white text-gray-600 shadow-md hover:bg-red-50 hover:text-red-600 dark:bg-slate-800 dark:text-gray-300 dark:hover:bg-slate-700 dark:hover:text-red-400"
-              }`}
-            >
-              Promotion
-            </button>
+          {/* View All Button - Top Right */}
+          <div className="flex items-center gap-4">
+            <Link href={"/car-for-sale"}>
+              <div className="group inline-flex transform items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 shadow-sm transition-all duration-300 hover:bg-gray-50 hover:text-gray-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
+                <span>{t("viewAll")}</span>
+                <MdOutlineArrowOutward className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </div>
+            </Link>
           </div>
+        </div>
+
+        {/* Filter Tabs - Professional Rectangular Style */}
+        <div className="flex flex-wrap gap-1 mb-8">
+          <button
+            onClick={() => handleFilterChange("all")}
+            className={`px-4 py-2 text-sm font-medium transition-all duration-200 ${
+              activeFilter === "all"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
+            }`}
+          >
+            All Cars
+          </button>
+          <button
+            onClick={() => handleFilterChange("for-sale")}
+            className={`px-4 py-2 text-sm font-medium transition-all duration-200 ${
+              activeFilter === "for-sale"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
+            }`}
+          >
+            For Sale
+          </button>
+          <button
+            onClick={() => handleFilterChange("featured")}
+            className={`px-4 py-2 text-sm font-medium transition-all duration-200 ${
+              activeFilter === "featured"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
+            }`}
+          >
+            Featured
+          </button>
+          <button
+            onClick={() => handleFilterChange("promotion")}
+            className={`px-4 py-2 text-sm font-medium transition-all duration-200 ${
+              activeFilter === "promotion"
+                ? "bg-gray-800 text-white"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
+            }`}
+          >
+            Promotion
+          </button>
         </div>
       </div>
 
@@ -506,15 +510,15 @@ const VehicalsList = ({ loadingState }) => {
                   <div className="relative">
                     <Skeleton className="h-32 w-full" />
                   </div>
-                  <div className="space-y-3 p-4">
+                  <div className="space-y-3 p-3">
                     <div className="flex items-start justify-between">
                       <Skeleton height={20} width="60%" />
                       <Skeleton height={24} width="30%" />
                     </div>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-3 gap-1">
                       {[...Array(3)].map((_, i) => (
                         <div key={i} className="flex flex-col items-center">
-                          <Skeleton circle width={28} height={28} />
+                          <Skeleton circle width={24} height={24} />
                           <Skeleton height={12} width="80%" className="mt-1" />
                           <Skeleton height={10} width="60%" className="mt-1" />
                         </div>
@@ -543,7 +547,7 @@ const VehicalsList = ({ loadingState }) => {
         <div className="mt-10 text-center">
           <button
             onClick={handleToggleVisibility}
-            className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-red-600 to-red-600/90 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-red-700 hover:to-red-700 hover:shadow-2xl dark:from-red-600 dark:to-red-600/90 dark:hover:from-red-700 dark:hover:to-red-700"
+            className="group inline-flex transform items-center gap-3 rounded-lg bg-gray-800 px-6 py-3 font-medium text-white shadow-md transition-all duration-300 hover:bg-gray-700"
           >
             <span>
               {visibleVehiclesCount >= filteredVehicles.length
@@ -551,9 +555,9 @@ const VehicalsList = ({ loadingState }) => {
                 : "Show more"}
             </span>
             {visibleVehiclesCount >= filteredVehicles.length ? (
-              <ChevronUp className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1" />
+              <ChevronUp className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
             ) : (
-              <ChevronDown className="h-5 w-5 transition-transform duration-300 group-hover:translate-y-1" />
+              <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-0.5" />
             )}
           </button>
         </div>
@@ -581,7 +585,7 @@ const VehicalsList = ({ loadingState }) => {
           </h3>
           <p className="mx-auto max-w-md text-lg text-gray-600 dark:text-slate-400">
             {activeFilter === "all" 
-              ? "Our premium collection is currently being updated. Please check back soon for the latest additions."
+              ? "Our inventory is currently being updated. Please check back soon for the latest additions."
               : `No ${activeFilter === "for-sale" ? "cars for sale" : activeFilter + " cars"} found. Try selecting a different filter or check back later.`}
           </p>
         </div>

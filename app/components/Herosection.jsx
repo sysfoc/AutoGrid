@@ -1,5 +1,4 @@
 "use client";
-import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import { useState, useEffect, useMemo, useCallback, useDeferredValue } from "react";
 import axios from "axios";
@@ -413,7 +412,9 @@ const toggleDarkMode = useCallback(() => {
     <>
    <section className="relative w-full h-[87vh] overflow-hidden">
   {/* Header inside hero section */}
-  <nav className="absolute top-0 left-0 right-0 z-40 bg-white/10 backdrop-blur-lg border-b border-white/20">
+  <nav 
+  className="absolute top-0 left-0 right-0 z-40"
+  >
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-4">
       <div className="flex h-16 items-center justify-between">
         {/* Logo */}
@@ -421,7 +422,7 @@ const toggleDarkMode = useCallback(() => {
           <div style={{ minHeight: '48px', display: 'flex', alignItems: 'center' }}>
             {logo && !logoError ? (
               <>
-                <div style={{ width: '48px', height: '48px', position: 'relative' }}>
+                <div style={{ width: '60px', height: '60px', position: 'relative' }}>
                   <Image
                     src={logo}
                     alt="Logo"
@@ -429,27 +430,12 @@ const toggleDarkMode = useCallback(() => {
                     className="object-contain"
                     onError={handleLogoError}
                     priority
-                    sizes="48px"
+                    sizes="60px"
                   />
-                </div>
-                <div className="flex ml-2 flex-col">
-                  <span className="bg-gradient-to-r from-white via-red-400 to-white bg-clip-text text-lg font-bold tracking-tight text-transparent">
-                    WindScreen
-                  </span>
-                  <span className="text-xs font-medium text-white/80 group-hover:text-red-400 transition-colors duration-300">
-                    Built to Sell Cars
-                  </span>
                 </div>
               </>
             ) : (
-              <div className="flex flex-col">
-                <span className="bg-gradient-to-r from-white via-red-400 to-white bg-clip-text text-lg font-bold tracking-tight text-transparent">
-                  WindScreen
-                </span>
-                <span className="text-xs font-medium text-white/80 group-hover:text-red-400 transition-colors duration-300">
-                  Built to Sell Cars
-                </span>
-              </div>
+             null
             )}
           </div>
         </Link>
@@ -611,102 +597,3 @@ const toggleDarkMode = useCallback(() => {
 };
 
 export default HeroSection;
-
-
-
-
-
-
-
-
-
-
-
-      {/* <div className="relative z-10 mx-auto min-h-screen max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex min-h-screen items-center py-16 mt-6">
-          <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
-            
-            <div className={`lg:col-span-7 xl:col-span-6 space-y-8 lg:space-y-10 transition-all duration-1000 ${
-              isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}>
-              
-              <div className="inline-flex items-center space-x-2 rounded-full border border-red-400/30 bg-red-500/10 backdrop-blur-sm px-4 py-2 text-sm font-medium text-red-300">
-                <FaCar className="h-4 w-4" />
-                <span>Professional Automotive Solutions</span>
-              </div>
-
-              <div className="space-y-6">
-                {isLoading ? (
-                  HeadingSkeleton
-                ) : (
-                  processedHeading || (
-                    <h1 className="text-4xl font-bold leading-tight text-white drop-shadow-lg sm:text-5xl lg:text-6xl">
-                      Premium{" "}
-                      <span className="bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent drop-shadow-sm">
-                        Automotive Platform
-                      </span>{" "}
-                      Built for Dealers
-                    </h1>
-                  )
-                )}
-              </div>
-
-              <div className="space-y-3">
-                {features.map((feature, index) => (
-                  <div 
-                    key={feature}
-                    className={`flex items-center space-x-3 transition-all duration-700 ${
-                      isContentVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
-                    }`}
-                  >
-                    <FaCheckCircle className="h-5 w-5 text-red-400 drop-shadow-sm" />
-                    <span className="text-gray-200 font-medium drop-shadow-sm">
-                      {feature}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={`lg:col-span-5 xl:col-span-6 flex flex-col items-center justify-center space-y-6 lg:items-end transition-all duration-1000 ${
-              isContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}>
-              
-              <div className="flex flex-col gap-4 w-full max-w-sm lg:max-w-none">
-                <button
-                  onClick={navigateToCarSale}
-                  className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-red-600 to-red-700 px-8 py-4 text-base font-semibold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-4 focus:ring-red-500/50 backdrop-blur-sm"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-red-600/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                  <div className="relative flex items-center justify-center">
-                    <span className="mr-3">Browse Vehicles</span>
-                    <FaArrowRight className="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                </button>
-
-                <button
-                  onClick={navigateToLikedCars}
-                  className="group relative overflow-hidden rounded-xl border-2 border-white/30 bg-white/10 backdrop-blur-md px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:scale-105 hover:border-red-400/50 hover:bg-white/20 focus:outline-none focus:ring-4 focus:ring-white/20"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-red-600/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                  <div className="relative flex items-center justify-center">
-                    <span className="mr-3">View Favorites</span>
-                    <FaArrowRight className="h-4 w-4 transform transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                </button>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 w-full max-w-sm lg:max-w-none mt-8">
-                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-4 text-center">
-                  <div className="text-2xl font-bold text-white">20+</div>
-                  <div className="text-sm text-gray-300">Search filters</div>
-                </div>
-                <div className="rounded-xl bg-white/10 backdrop-blur-md border border-white/20 p-4 text-center">
-                  <div className="text-2xl font-bold text-white">24/7</div>
-                  <div className="text-sm text-gray-300">Expert Support</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}

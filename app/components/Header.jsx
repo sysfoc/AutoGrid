@@ -308,7 +308,7 @@ const [isVisible, setIsVisible] = useState(true);
         <div style={{ minHeight: '48px', display: 'flex', alignItems: 'center' }}>
           {logo && !logoError ? (
             <>
-              <div style={{ width: '64px', height: '64px', position: 'relative' }}>
+              <div style={{ width: '75px', height: '65px', position: 'relative' }}>
                 <Image
                   src={logo}
                   alt="Logo"
@@ -319,10 +319,10 @@ const [isVisible, setIsVisible] = useState(true);
                   sizes="64px"
                 />
               </div>
-              {logoContent}
+              {/* {logoContent} */}
             </>
           ) : (
-            logoContent
+           null
           )}
         </div>
       </Link>

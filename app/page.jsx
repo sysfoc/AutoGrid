@@ -21,10 +21,10 @@ export default function Home() {
       <MainLayout>
         <Herosection />
       {/* <CarSearchHorizontal/> */}
-      <BrandsList />
+      {/* <BrandsList /> */}
       </MainLayout>
       <VehicalsList loadingState={loading} />
-      <BrowseCars />
+      {/* <BrowseCars /> */}
       <Blog />
     </div>
   )
