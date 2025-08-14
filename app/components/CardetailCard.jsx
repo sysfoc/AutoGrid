@@ -939,10 +939,13 @@ const CardetailCard = () => {
                           `${selectedCurrency?.symbol}${Math.round(car.price) || 0}`
                         )}
                       </div>
-                      {!isGridView && (
-                        <button className="mt-1 text-sm text-gray-500 underline">
+                      {!isGridView && !car.isLease && (
+                        <Link
+                          href={`/car-financing?make=${encodeURIComponent(car.make || "")}&model=${encodeURIComponent(car.model || "")}&price=${car.price || 0}&year=${car.year || ""}&image=${encodeURIComponent(car.imageUrls?.[0]?.src || car.imageUrls?.[0] || "")}`}
+                          className="mt-1 text-sm text-gray-500 underline transition-colors hover:text-blue-600"
+                        >
                           Calculate financing
-                        </button>
+                        </Link>
                       )}
                     </div>
                   </div>
@@ -953,38 +956,20 @@ const CardetailCard = () => {
                     <span className="rounded bg-orange-500 px-2 py-1 text-xs font-medium text-white">
                       {car.year || car.modelYear || "N/A"}
                     </span>
-                    {/* {!isGridView && (
-                      <span className="text-sm text-gray-600">
-                        {(() => {
-                          const convertedValues = getConvertedValues(car);
-                          return `${convertedValues.kms || "N/A"} ${convertedValues.unit || ""}`;
-                        })()}
-                      </span>
-                    )}
-                    <span className="text-sm text-gray-600">
-                      {car.gearbox || ""}
-                    </span>
-                    <span className="text-sm text-gray-600">
-                      {car.fuelType || ""}
-                    </span>
-                    {!isGridView && car.driveType && (
-                      <span className="text-sm text-gray-600">
-                        {car.driveType}
-                      </span>
-                    )} */}
-                  <div className="flex flex-wrap items-center text-sm text-gray-600">
-  {[
-    !isGridView && (() => {
-      const v = getConvertedValues(car);
-      return `${v.kms || "N/A"} ${v.unit || ""}`;
-    })(),
-    car.gearbox,
-    car.fuelType,
-    !isGridView && car.driveType
-  ]
-    .filter(Boolean) // remove empty ones
-    .join(" • ")}
-</div>
+                    <div className="flex flex-wrap items-center text-sm text-gray-600">
+                      {[
+                        !isGridView &&
+                          (() => {
+                            const v = getConvertedValues(car);
+                            return `${v.kms || "N/A"} ${v.unit || ""}`;
+                          })(),
+                        car.gearbox,
+                        car.fuelType,
+                        !isGridView && car.driveType,
+                      ]
+                        .filter(Boolean) // remove empty ones
+                        .join(" • ")}
+                    </div>
                   </div>
 
                   {!isGridView && (

@@ -234,7 +234,7 @@ const Cookiebox = ({ cookieConsent: propsCookieConsent }: CookieboxProps) => {
 
 
   return (
-    <section className="fixed bottom-3 right-3 z-150 shadow-lg flex">
+    <section className="fixed bottom-3 right-3 z-[999] shadow-lg flex">
       <div
         className="w-[350px] rounded-md px-6 py-4"
         style={{

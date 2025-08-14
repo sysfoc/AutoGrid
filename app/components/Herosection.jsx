@@ -578,7 +578,7 @@ const HeroSection = () => {
         )}
       </section>
 
-      <div className="relative -top-24 mx-auto w-full max-w-6xl px-4">
+      <div className="relative -top-24 -mb-24 mx-auto w-full max-w-6xl px-4">
         <div
           className={`rounded-xl shadow-xl ${darkMode ? "bg-gray-800" : "bg-white"}`}
         >

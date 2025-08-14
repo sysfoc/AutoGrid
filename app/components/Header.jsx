@@ -85,7 +85,7 @@ const [isVisible, setIsVisible] = useState(true);
   const [scrollY, setScrollY] = useState(0);
   
 
-  const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebar();
+  const { toggleSidebar } = useSidebar();
 
   const quickLinks = useMemo(() => [
     { name: "Find Cars", href: "/car-for-sale", icon: FaCar },
@@ -594,7 +594,7 @@ const [isVisible, setIsVisible] = useState(true);
             </div>
 
             {/* Keep existing Car Valuation and Vehicle Services in mobile */}
-            {mobileMenuLinks.filter(link => link.name === 'Car Valuation' || link.name === 'Vehicle Services').map((link) => {
+            {mobileMenuLinks.filter(link => link.name === 'Car valuation' || link.name === 'Vehicle Services').map((link) => {
               const IconComponent = link.icon;
               return (
                 <Link

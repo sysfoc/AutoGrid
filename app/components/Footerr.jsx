@@ -281,7 +281,7 @@ const Footerr = () => {
 
   return (
     <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-16">
-      <div className="mx-auto max-w-7xl px-4 py-12">
+      <div className="mx-auto max-w-7xl px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Quick Links */}
           <div>
@@ -344,7 +344,7 @@ const Footerr = () => {
             </div>
             
             <div>
-              <h4 className="text-md font-medium text-gray-700 dark:text-gray-200 mb-3">
+              <h4 className="text-md font-medium text-black dark:text-gray-200 mb-3">
                 Follow Us
               </h4>
               <div className="flex space-x-4">
