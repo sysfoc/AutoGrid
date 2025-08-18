@@ -939,14 +939,6 @@ const CardetailCard = () => {
                           `${selectedCurrency?.symbol}${Math.round(car.price) || 0}`
                         )}
                       </div>
-                      {!isGridView && !car.isLease && (
-                        <Link
-                          href={`/car-financing?make=${encodeURIComponent(car.make || "")}&model=${encodeURIComponent(car.model || "")}&price=${car.price || 0}&year=${car.year || ""}&image=${encodeURIComponent(car.imageUrls?.[0]?.src || car.imageUrls?.[0] || "")}`}
-                          className="mt-1 text-sm text-gray-500 underline transition-colors hover:text-blue-600"
-                        >
-                          Calculate financing
-                        </Link>
-                      )}
                     </div>
                   </div>
 

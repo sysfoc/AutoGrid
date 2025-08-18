@@ -144,6 +144,13 @@ const DrawerSidebar = () => {
                     Car Enquiry
                   </SidebarItem>
                   <SidebarItem 
+                    href="/admin/finance" 
+                    icon={TbCalendarSearch}
+                    className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button"
+                  >
+                    Finance Enquiry
+                  </SidebarItem>
+                  <SidebarItem 
                     href="/admin/meta-editor" 
                     icon={MdOutlineSubtitles}
                     className="text-app-text hover:text-app-button hover:bg-slate-50 [&>svg]:text-slate-500 hover:[&>svg]:text-app-button"

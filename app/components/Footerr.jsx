@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import Link from "next/link";
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
@@ -280,113 +280,143 @@ const Footerr = () => {
   }, [fetchAllData]);
 
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-16">
-      <div className="mx-auto max-w-7xl px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-              {footerSettings?.col1Heading || t("quickLinks")}
-            </h3>
-            <ul className="space-y-3">
-              {[
-                { href: "/about", label: t("about") },
-                { href: "/contact", label: t("contact") },
-                { href: "/terms", label: t("terms") },
-                { href: "/privacy", label: t("privacy") },
-              ].map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-600 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400 transition-colors duration-200"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Trading Hours */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-              {footerSettings?.col2Heading || t("tradingHours")}
-            </h3>
-            <div className="space-y-3">
-              {tradingHours.map((schedule, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between text-sm text-gray-600 dark:text-gray-300"
-                >
-                  <span>{schedule.day}</span>
-                  <span
-                    className={`font-medium ${
-                      schedule.hours === t("closedHours")
-                        ? "text-red-500 dark:text-red-400"
-                        : "text-green-600 dark:text-green-400"
-                    }`}
-                  >
-                    {schedule.hours}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Language & Social */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-              {footerSettings?.col3Heading || t("language")}
-            </h3>
+    <footer className="relative mt-20">
+      {/* Gradient divider */}
+      <div className="h-px bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-700 to-transparent"></div>
+      
+      <div className="bg-white dark:bg-slate-950">
+        {/* Main footer content */}
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             
-            <div className="mb-6">
-              <LanguageSwitching />
+            {/* Quick Links - Compact column */}
+            <div className="lg:col-span-3">
+              <div className="mb-8">
+                <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
+                  {footerSettings?.col1Heading || t("quickLinks")}
+                </h4>
+                <nav className="space-y-4">
+                  {[
+                    { href: "/about", label: t("about") },
+                    { href: "/contact", label: t("contact") },
+                    { href: "/terms", label: t("terms") },
+                    { href: "/privacy", label: t("privacy") },
+                  ].map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="block text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all duration-300 hover:translate-x-1"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
             </div>
-            
-            <div>
-              <h4 className="text-md font-medium text-black dark:text-gray-200 mb-3">
-                Follow Us
+
+            {/* Trading Hours - Wider column */}
+            <div className="lg:col-span-5">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
+                {footerSettings?.col2Heading || t("tradingHours")}
               </h4>
-              <div className="flex space-x-4">
-                {fetchedSocials.length > 0 ? (
-                  fetchedSocials.map((platform, index) => {
-                    const IconComponent = 
-                      platform.iconType === "react-icon" 
-                        ? iconComponentsMap[platform.iconValue] 
-                        : null;
-                    
-                    return (
-                      <a
-                        key={index}
-                        href={platform.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-gray-500 hover:text-green-600 dark:text-gray-400 dark:hover:text-green-400 transition-colors duration-200"
-                        aria-label={`${platform.iconValue} social link`}
-                      >
-                        {IconComponent ? (
-                          <IconComponent className="h-5 w-5" />
-                        ) : (
-                          <span className="h-5 w-5 block bg-gray-300 dark:bg-gray-600 rounded-full" />
-                        )}
-                      </a>
-                    );
-                  })
-                ) : (
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    No socials
-                  </p>
-                )}
+              <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-100 dark:border-slate-800">
+                <div className="space-y-3">
+                  {tradingHours.map((schedule, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white dark:hover:bg-slate-800/50 transition-colors duration-200"
+                    >
+                      <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                        {schedule.day}
+                      </span>
+                      <span className="flex items-center space-x-2">
+                        <div className={`w-2 h-2 rounded-full ${
+                          schedule.hours === t("closedHours")
+                            ? "bg-red-400"
+                            : "bg-emerald-400"
+                        }`}></div>
+                        <span className={`text-xs font-semibold uppercase tracking-wide ${
+                          schedule.hours === t("closedHours")
+                            ? "text-red-600 dark:text-red-400"
+                            : "text-emerald-600 dark:text-emerald-400"
+                        }`}>
+                          {schedule.hours}
+                        </span>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Language & Social - Compact column */}
+            <div className="lg:col-span-4">
+              <div className="space-y-8">
+                {/* Language Section */}
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
+                    {footerSettings?.col3Heading || t("language")}
+                  </h4>
+                  <div className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-800">
+                    <LanguageSwitching />
+                  </div>
+                </div>
+
+                {/* Social Media Section */}
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
+                    Follow Us
+                  </h4>
+                  <div className="flex flex-wrap gap-3">
+                    {fetchedSocials.length > 0 ? (
+                      fetchedSocials.map((platform, index) => {
+                        const IconComponent = 
+                          platform.iconType === "react-icon" 
+                            ? iconComponentsMap[platform.iconValue] 
+                            : null;
+                        
+                        return (
+                          <a
+                            key={index}
+                            href={platform.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group relative w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center hover:bg-slate-900 dark:hover:bg-slate-700 transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                            aria-label={`${platform.iconValue} social link`}
+                          >
+                            {IconComponent ? (
+                              <IconComponent className="w-5 h-5 text-slate-600 dark:text-slate-400 group-hover:text-white transition-colors duration-300" />
+                            ) : (
+                              <div className="w-5 h-5 bg-slate-300 dark:bg-slate-600 rounded-full group-hover:bg-white transition-colors duration-300" />
+                            )}
+                          </a>
+                        );
+                      })
+                    ) : (
+                      <div className="text-sm text-slate-500 dark:text-slate-400 italic">
+                        No socials available
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        
-        <div className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-800 text-center">
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            &copy; {new Date().getFullYear()} {t("copyright")} 
-            <span> by Sysfoc. All rights reserved</span>. 
-          </p>
+
+        {/* Copyright section */}
+        <div className="border-t border-slate-100 dark:border-slate-800">
+          <div className="max-w-6xl mx-auto px-6 py-8">
+            <div className="text-center">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                © {new Date().getFullYear()} {t("copyright")}
+                <span className="mx-2 text-slate-300 dark:text-slate-600">•</span>
+                <span className="text-slate-600 dark:text-slate-300">by Sysfoc</span>
+                <span className="mx-2 text-slate-300 dark:text-slate-600">•</span>
+                All rights reserved
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

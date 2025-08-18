@@ -8,7 +8,6 @@ import Cookiebox from "./Cookiebox";
 import Sidebar from "../admin/AdminSidebar"
 import Header from "../admin/Header";
 import DrawerSidebar from "../admin/DrawerSidebar";
-import WhatsAppChat from "./WhatsAppChat";
 
 export default function LayoutRenderer({ children }) {
   const pathname = usePathname();

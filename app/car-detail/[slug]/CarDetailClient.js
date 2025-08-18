@@ -359,15 +359,14 @@ export default function Home() {
                   </div>
                 ) : dealer ? (
                   dealer.map ? (
-                    <iframe
-                      src={dealer.map}
-                      width="600"
-                      height="450"
-                      style={{ border: 0, width: "100%" }}
-                      loading="lazy"
-                      title="Dealer Location Map"
-                      className="rounded-xl shadow-inner"
-                    ></iframe>
+                   <iframe
+  src={dealer.map}
+  width="600"
+  height="450"
+  loading="lazy"
+  title="Dealer Location Map"
+  className="rounded-xl shadow-inner custom-iframe"
+></iframe>
                   ) : (
                     <div className="h-96 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center">
                       <p className="text-gray-600 dark:text-gray-400">Map is not available</p>

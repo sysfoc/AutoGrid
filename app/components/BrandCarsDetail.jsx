@@ -28,8 +28,7 @@ const BrandCarsDetail = () => {
                 alt={`${vehical.name}`}
                 width={500}
                 height={300}
-                style={{ objectPosition: 'center' }}
-                className="size-full"
+               className="size-full custom-image"
               />
             </div>
             <div className="p-4">
@@ -62,10 +61,7 @@ const BrandCarsDetail = () => {
                   <p className="mt-2 text-sm">{vehical.transmission}</p>
                 </div>
               </div>
-              <div
-                className="mt-2 border-gray-300"
-                style={{ borderWidth: "1px" }}
-              ></div>
+              <div className="mt-2 border-gray-300 custom-border"></div>
               <div className="mt-2">
                 <p>New From ${vehical.startingPrice}</p>
               </div>

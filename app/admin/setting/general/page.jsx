@@ -696,45 +696,6 @@ const Page = () => {
                           <option value="active">Active</option>
                         </Select>
                       </div>
-                      <div className="mt-6">
-                        <Label className="block mb-2 font-medium text-slate-700">Preview</Label>
-                        <div className="p-4 border border-slate-200 rounded-lg bg-slate-50">
-                          <div
-                            className="p-4 rounded-lg shadow-sm"
-                            style={{
-                              backgroundColor: settings.cookieConsent.bgColor,
-                              color: settings.cookieConsent.textColor,
-                            }}
-                          >
-                            <div className="font-medium mb-2">
-                              {settings.cookieConsent.message || 'We use cookies to enhance your experience'}
-                            </div>
-                            <div className="text-sm mb-4 opacity-80">
-                              We use essential cookies to make our site work. With your consent, we may also use non-essential cookies to improve user experience.
-                            </div>
-                            <div className="flex flex-wrap gap-3">
-                              <button
-                                className="px-4 py-2 text-sm rounded transition-colors"
-                                style={{
-                                  backgroundColor: settings.cookieConsent.buttonBgColor,
-                                  color: settings.cookieConsent.buttonTextColor,
-                                }}
-                              >
-                                Reject All
-                              </button>
-                              <button
-                                className="px-4 py-2 text-sm rounded font-medium transition-colors"
-                                style={{
-                                  backgroundColor: settings.cookieConsent.buttonBgColor,
-                                  color: settings.cookieConsent.buttonTextColor,
-                                }}
-                              >
-                                {settings.cookieConsent.buttonText || 'Accept All'}
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 )}
@@ -817,50 +778,6 @@ const Page = () => {
                     </div>
                   </div>
                 )}
-                {/* {activeSection === "Active Website Logo" && (
-                  <div className="space-y-6">
-                    <h3 className="text-xl font-semibold text-slate-800">Active Website Logo Selection</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <Label htmlFor="active-logo-select" className="block mb-2 font-medium text-slate-700">
-                          Select Active Logo for Frontend
-                        </Label>
-                        <Select
-                          id="active-logo-select"
-                          value={settings.activeWebsiteLogo}
-                          onChange={(e) => setSettings(prev => ({
-                            ...prev,
-                            activeWebsiteLogo: e.target.value
-                          }))}
-                          className="w-full"
-                        >
-                          <option value="logo1">Website 1 Logo</option>
-                          <option value="logo2">Website 2 Logo</option>
-                          <option value="logo3">Website 3 Logo</option>
-                        </Select>
-                        <p className="mt-2 text-sm text-slate-500">
-                          This logo will be displayed on the main website header.
-                        </p>
-                      </div>
-                      <div className="bg-slate-50 rounded-lg p-4">
-                        <Label className="block mb-2 font-medium text-slate-700">Preview Active Logo</Label>
-                        <div className="relative w-32 h-32 mx-auto border border-slate-200 rounded-lg overflow-hidden bg-white">
-                          {settings[settings.activeWebsiteLogo] ? (
-                            <Image
-                              fill
-                              alt="Active Website Logo"
-                              src={settings[settings.activeWebsiteLogo] || "/placeholder.svg"}
-                              className="object-contain p-3"
-                              sizes="(max-width: 768px) 100vw, 150px"
-                            />
-                          ) : (
-                            <div className="flex items-center justify-center h-full text-slate-400">No Active Logo Set</div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )} */}
               </div>
             </div>
           </div>

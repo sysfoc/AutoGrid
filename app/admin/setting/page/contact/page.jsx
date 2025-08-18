@@ -184,8 +184,8 @@ const ContactPageModal = () => {
                 rows={5}
                 value={formData.map}
                 onChange={handleInputChange}
-                placeholder='<iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" style="border:0;" allowfullscreen></iframe>'
-                className="rounded-lg border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 font-mono text-sm"
+               placeholder='<iframe class="custom-map-placeholder" src="https://www.google.com/maps/embed?pb=..." width="600" height="450" allowfullscreen></iframe>'
+               className="rounded-lg border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 font-mono text-sm"
               />
               <p className="text-sm text-gray-500 mt-1">Paste your Google Maps iframe code to display your location</p>
             </div>

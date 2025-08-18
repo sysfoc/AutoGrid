@@ -257,11 +257,6 @@ const HeroSection = () => {
     router,
   ]);
 
-  const handleImageError = useCallback((e) => {
-    e.target.src =
-      "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080' viewBox='0 0 1920 1080'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23111827;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23374151;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1920' height='1080' fill='url(%23grad)'/%3E%3Ctext x='960' y='540' font-family='Arial' font-size='48' fill='%23ffffff' text-anchor='middle' dy='.3em'%3EPremium Automotive Platform%3C/text%3E%3C/svg%3E";
-  }, []);
-
   const ConditionTab = ({ condition, label, selected, onClick }) => (
     <button
       type="button"
@@ -408,6 +403,14 @@ const HeroSection = () => {
                 </Link>
 
                 <Link
+                  href="/car-financing"
+                  className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 transition-all duration-300 hover:bg-white/10 hover:text-white hover:shadow-lg active:scale-95"
+                >
+                  <FaCalculator className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                  <span>Car Financing</span>
+                </Link>
+
+                <Link
                   href="/cars/about-us"
                   className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 transition-all duration-300 hover:bg-white/10 hover:text-white hover:shadow-lg active:scale-95"
                 >
@@ -483,7 +486,6 @@ const HeroSection = () => {
             priority
             sizes="100vw"
             quality={90}
-            onError={handleImageError}
           />
 
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/70"></div>
@@ -558,6 +560,13 @@ const HeroSection = () => {
                     Lease Deals
                   </Link>
                   <Link
+                    href="/car-financing"
+                    onClick={handleMobileMenuClose}
+                    className="block py-2 text-gray-900 dark:text-white"
+                  >
+                    Car Financing
+                  </Link>
+                  <Link
                     href="/about"
                     onClick={handleMobileMenuClose}
                     className="block py-2 text-gray-900 dark:text-white"
@@ -571,6 +580,20 @@ const HeroSection = () => {
                   >
                     Contact
                   </Link>
+                  <Link
+                    href="/blogs"
+                    onClick={handleMobileMenuClose}
+                    className="block py-2 text-gray-900 dark:text-white"
+                  >
+                    Blogs
+                  </Link>
+                  <Link
+                    href="/cars/about-us"
+                    onClick={handleMobileMenuClose}
+                    className="block py-2 text-gray-900 dark:text-white"
+                  >
+                    Vehicle Services
+                  </Link>
                 </nav>
               </div>
             </div>
@@ -578,7 +601,7 @@ const HeroSection = () => {
         )}
       </section>
 
-      <div className="relative -top-24 -mb-24 mx-auto w-full max-w-6xl px-4">
+      <div className="relative -top-24 mx-auto -mb-24 w-full max-w-6xl px-4">
         <div
           className={`rounded-xl shadow-xl ${darkMode ? "bg-gray-800" : "bg-white"}`}
         >

@@ -40,7 +40,7 @@ const CarListingPageContent = () => {
       {isMobile && (
         <button
           onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
-          className="fixed top-36 left-6 z-40 flex items-center gap-2 rounded-full bg-blue-600 px-4 py-3 font-semibold text-white shadow-lg transition-all hover:bg-blue-700 md:hidden"
+          className="fixed top-28 right-6 z-40 flex items-center gap-2 rounded-full bg-blue-600 px-4 py-3 font-semibold text-white shadow-lg transition-all hover:bg-blue-700 md:hidden"
         >
           {isMobileFiltersOpen ? <HiX className="h-5 w-5" /> : <HiMenu className="h-5 w-5" />}
           Filters

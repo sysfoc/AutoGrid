@@ -38,8 +38,8 @@ const VehicleCard = ({
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 3000); // Change image every 3 seconds
-
+    }, 3000); 
+    
     return () => clearInterval(interval);
   }, [hasMultipleImages, images.length]);
 
@@ -84,28 +84,45 @@ const VehicleCard = ({
           <div className="relative aspect-[4/3] overflow-hidden">
             {hasMultipleImages ? (
               /* Image Container with Smooth Sliding */
-              <div
-                className="flex h-full transition-transform duration-500 ease-in-out"
-                style={{
-                  transform: `translateX(-${currentImageIndex * (100 / images.length)}%)`,
-                  width: `${images.length * 100}%`,
-                }}
-              >
-                {images.map((image, index) => (
-                  <div
-                    key={index}
-                    className="relative aspect-[4/3] h-full flex-shrink-0"
-                    style={{ width: `${100 / images.length}%` }}
-                  >
-                    <Image
-                      src={image || "/placeholder.svg"}
-                      fill
-                      alt={`${getVehicleTitle()} - Image ${index + 1}`}
-                      className="object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+              <div className="carousel-container">
+  <div className="carousel-track">
+    {images.map((image, index) => (
+      <div key={index} className="carousel-item">
+        <Image
+          src={image || "/placeholder.svg"}
+          fill
+          alt={`${getVehicleTitle()} - Image ${index + 1}`}
+          className="object-cover"
+        />
+      </div>
+    ))}
+  </div>
+
+  <style jsx>{`
+    .carousel-container {
+      height: 100%;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s ease-in-out;
+      transform: translateX(-${currentImageIndex * (100 / images.length)}%);
+      width: ${images.length * 100}%;
+    }
+
+    .carousel-item {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      height: 100%;
+      flex-shrink: 0;
+      width: ${100 / images.length}%;
+    }
+  `}</style>
+</div>
+
             ) : (
               /* Single Image Display */
               <Image

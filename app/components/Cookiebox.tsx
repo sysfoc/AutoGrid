@@ -14,7 +14,6 @@ interface CookieboxProps {
   }
 }
 
-// Type guard to validate cookie consent object
 const isValidCookieConsent = (obj: any): obj is NonNullable<CookieboxProps["cookieConsent"]> => {
   return (
     obj &&
@@ -232,61 +231,83 @@ const Cookiebox = ({ cookieConsent: propsCookieConsent }: CookieboxProps) => {
     return null
   }
 
-
   return (
-    <section className="fixed bottom-3 right-3 z-[999] shadow-lg flex">
-      <div
-        className="w-[350px] rounded-md px-6 py-4"
-        style={{
-          backgroundColor: cookieConsent.bgColor,
-          color: cookieConsent.textColor,
-        }}
-      >
-        <h2 className="text-lg font-bold">{cookieConsent.message || "We Use Cookies"}</h2>
-        <p className="mt-2 text-sm opacity-80">
+    <section className="cookiebox-container">
+      <div className="cookiebox-content">
+        <h2 className="cookiebox-title">{cookieConsent.message || "We Use Cookies"}</h2>
+        <p className="cookiebox-description">
           We use cookies to enhance your experience. You can choose which ones to allow.
         </p>
-        <div className="mt-5 flex flex-col gap-2">
+        <div className="cookiebox-buttons">
           <button
             type="button"
             onClick={() => handleConsent("essential")}
-            className="px-4 py-2 rounded transition-colors"
-            style={{
-              backgroundColor: cookieConsent.buttonBgColor,
-              color: cookieConsent.buttonTextColor,
-            }}
-            onMouseEnter={(e) => {
-              const target = e.target as HTMLButtonElement
-              target.style.opacity = "0.8"
-            }}
-            onMouseLeave={(e) => {
-              const target = e.target as HTMLButtonElement
-              target.style.opacity = "1"
-            }}
+            className="cookiebox-button"
           >
             Reject All
           </button>
           <button
             type="button"
             onClick={() => handleConsent("all")}
-            className="px-4 py-2 rounded transition-colors"
-            style={{
-              backgroundColor: cookieConsent.buttonBgColor,
-              color: cookieConsent.buttonTextColor,
-            }}
-            onMouseEnter={(e) => {
-              const target = e.target as HTMLButtonElement
-              target.style.opacity = "0.8"
-            }}
-            onMouseLeave={(e) => {
-              const target = e.target as HTMLButtonElement
-              target.style.opacity = "1"
-            }}
+            className="cookiebox-button"
           >
             {cookieConsent.buttonText || "Accept All"}
           </button>
         </div>
       </div>
+
+      <style jsx>{`
+        .cookiebox-container {
+          position: fixed;
+          bottom: 0.75rem;
+          right: 0.75rem;
+          z-index: 150;
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+          display: flex;
+        }
+
+        .cookiebox-content {
+          width: 350px;
+          border-radius: 0.375rem;
+          padding: 1rem 1.5rem;
+          background-color: ${cookieConsent.bgColor};
+          color: ${cookieConsent.textColor};
+        }
+
+        .cookiebox-title {
+          font-size: 1.125rem;
+          font-weight: 700;
+          line-height: 1.75rem;
+        }
+
+        .cookiebox-description {
+          margin-top: 0.5rem;
+          font-size: 0.875rem;
+          line-height: 1.25rem;
+          opacity: 0.8;
+        }
+
+        .cookiebox-buttons {
+          margin-top: 1.25rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .cookiebox-button {
+          padding: 0.5rem 1rem;
+          border-radius: 0.375rem;
+          transition: opacity 0.2s ease-in-out;
+          background-color: ${cookieConsent.buttonBgColor};
+          color: ${cookieConsent.buttonTextColor};
+          border: none;
+          cursor: pointer;
+        }
+
+        .cookiebox-button:hover {
+          opacity: 0.8;
+        }
+      `}</style>
     </section>
   )
 }

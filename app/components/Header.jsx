@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   FaHeart,
-  FaSearch,
   FaTimes,
   FaCalculator,
   FaHandshake,
@@ -14,8 +13,6 @@ import {
   FaTags,
   FaUser,
 } from "react-icons/fa";
-import { useTranslations } from "next-intl";
-import CarSearchSidebar from "../components/Car-search-sidebar";
 import { useSidebar } from "../context/SidebarContext";
 import Image from "next/image";
 import Banner from "./Banner"
@@ -90,6 +87,7 @@ const [isVisible, setIsVisible] = useState(true);
   const quickLinks = useMemo(() => [
     { name: "Find Cars", href: "/car-for-sale", icon: FaCar },
     { name: "Car valuation", href: "/cars/valuation", icon: FaCalculator },
+    { name: "Car Financing", href: "/car-financing", icon: FaCalculator },
     { name: "Lease deals", href: "/cars/leasing", icon: FaTags },
     { name: "Vehicle Services", href: "/cars/about-us", icon: FaHandshake },
   ], []);
@@ -274,7 +272,7 @@ const [isVisible, setIsVisible] = useState(true);
 
   // Optimized skeleton without animations to prevent CLS
   const LogoSkeleton = useMemo(() => (
-    <div className="flex items-center space-x-3" style={{ height: '48px', width: '200px' }}>
+   <div className="flex items-center space-x-3 custom-box">
       <div className="h-12 w-12 rounded-lg bg-gray-200 dark:bg-gray-700"></div>
       <div className="flex flex-col space-y-1">
         <div className="h-4 w-20 rounded bg-gray-200 dark:bg-gray-700"></div>
@@ -304,10 +302,10 @@ const [isVisible, setIsVisible] = useState(true);
 
     return (
       <Link href="/" className="flex items-center space-x-3 group">
-        <div style={{ minHeight: '48px', display: 'flex', alignItems: 'center' }}>
+      <div className="custom-flex-box">
           {logo && !logoError ? (
             <>
-              <div style={{ width: '75px', height: '65px', position: 'relative' }}>
+             <div className="custom-size-box">
                 <Image
                   src={logo}
                   alt="Logo"
@@ -330,7 +328,7 @@ const [isVisible, setIsVisible] = useState(true);
 
   return (
     <>
-    {/* <Banner/> */}
+    <Banner/>
       <nav 
       className={`fixed left-0 right-0 top-16 z-20 bg-white shadow-lg backdrop-blur-lg transition-all duration-300 border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700 ${
           isVisible 
@@ -424,7 +422,7 @@ const [isVisible, setIsVisible] = useState(true);
               </div>
 
               {/* Keep existing Car Valuation and Vehicle Services */}
-              {quickLinks.filter(link => link.name === 'Car valuation' || link.name === 'Vehicle Services').map((link, index) => {
+              {quickLinks.filter(link => link.name === 'Car valuation' || link.name === 'Vehicle Services' || link.name === 'Car Financing').map((link, index) => {
                 const IconComponent = link.icon;
                 return (
                   <Link
@@ -516,23 +514,20 @@ const [isVisible, setIsVisible] = useState(true);
       </nav>
 
       {/* Mobile Quick Links Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
-          onClick={handleMobileMenuClose}
-          style={{ transform: 'translate3d(0, 0, 0)' }}
-        />
-      )}
+     {isMobileMenuOpen && (
+  <div
+    className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm custom-transform"
+    onClick={handleMobileMenuClose}
+  />
+)}
+
       
       {/* Mobile Quick Links Menu */}
       <div
-        className={`fixed left-0 top-0 z-[60] h-full w-full max-w-xs transform overflow-y-auto bg-white shadow-2xl dark:bg-gray-900 scrollbar-hide lg:hidden border-r border-gray-200 dark:border-gray-700`}
-        style={{ 
-          transform: isMobileMenuOpen ? 'translate3d(0, 0, 0)' : 'translate3d(-100%, 0, 0)',
-          transition: 'transform 0.2s ease-out',
-          willChange: 'transform'
-        }}
-      >
+  className={`fixed left-0 top-0 z-[60] h-full w-full max-w-xs transform overflow-y-auto bg-white shadow-2xl dark:bg-gray-900 scrollbar-hide lg:hidden border-r border-gray-200 dark:border-gray-700 custom-mobile-menu ${
+    isMobileMenuOpen ? "open" : "closed"
+  }`}
+>
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white p-4 dark:border-gray-700 dark:from-gray-800 dark:to-gray-900">
             <h2 className="bg-gradient-to-r from-gray-800 via-red-600 to-gray-800 bg-clip-text text-lg font-semibold text-transparent dark:from-white dark:via-red-400 dark:to-gray-200">
@@ -619,7 +614,6 @@ const [isVisible, setIsVisible] = useState(true);
           </div>
         </div>
       </div>
-      <CarSearchSidebar />
     </>
   );
 };

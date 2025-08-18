@@ -4,12 +4,324 @@ import ContactMessage from "../../models/Contact"
 import nodemailer from "nodemailer"
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
 })
+
+// Email template function
+const getEmailTemplate = (customerName, originalMessage, adminReply, emailUser) => {
+  return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Contact Message Response</title>
+      <style>
+        .email-container {
+          margin: 0;
+          padding: 0;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+          background-color: #f5f5f5;
+        }
+        
+        .email-wrapper {
+          background-color: #f5f5f5;
+          padding: 20px 0;
+          width: 100%;
+        }
+        
+        .email-content {
+          max-width: 600px;
+          width: 100%;
+          background-color: #ffffff;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          margin: 0 auto;
+        }
+        
+        .email-header {
+          background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+          padding: 40px 30px;
+          text-align: center;
+        }
+        
+        .email-title {
+          color: #ffffff;
+          margin: 0;
+          font-size: 28px;
+          font-weight: 700;
+          letter-spacing: -0.5px;
+        }
+        
+        .email-subtitle {
+          color: #ecf0f1;
+          margin: 8px 0 0 0;
+          font-size: 16px;
+          font-weight: 400;
+        }
+        
+        .email-body {
+          padding: 40px 30px;
+        }
+        
+        .greeting {
+          color: #2c3e50;
+          margin: 0 0 20px 0;
+          font-size: 24px;
+          font-weight: 600;
+        }
+        
+        .intro-text {
+          color: #5a6c7d;
+          line-height: 1.6;
+          margin: 0 0 30px 0;
+          font-size: 16px;
+        }
+        
+        .message-section {
+          background-color: #f8f9fa;
+          border: 1px solid #e9ecef;
+          border-radius: 8px;
+          padding: 24px;
+          margin: 0 0 24px 0;
+        }
+        
+        .section-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 16px;
+        }
+        
+        .section-indicator {
+          width: 4px;
+          height: 20px;
+          margin-right: 12px;
+          border-radius: 2px;
+        }
+        
+        .original-indicator {
+          background-color: #6c757d;
+        }
+        
+        .response-indicator {
+          background-color: #28a745;
+        }
+        
+        .section-title {
+          margin: 0;
+          font-size: 18px;
+          font-weight: 600;
+        }
+        
+        .original-title {
+          color: #495057;
+        }
+        
+        .response-title {
+          color: #155724;
+        }
+        
+        .original-message {
+          color: #6c757d;
+          line-height: 1.5;
+          margin: 0;
+          font-size: 15px;
+          font-style: italic;
+        }
+        
+        .response-section {
+          background-color: #f8fff9;
+          border: 1px solid #d1ecf1;
+          border-radius: 8px;
+          padding: 24px;
+          margin: 0 0 30px 0;
+        }
+        
+        .admin-response {
+          color: #155724;
+          line-height: 1.6;
+          margin: 0;
+          font-size: 15px;
+          white-space: pre-line;
+        }
+        
+        .additional-info {
+          background-color: #fff9f0;
+          border: 1px solid #ffeaa7;
+          border-radius: 8px;
+          padding: 20px;
+          margin: 0 0 30px 0;
+        }
+        
+        .additional-info-text {
+          color: #856404;
+          line-height: 1.5;
+          margin: 0;
+          font-size: 14px;
+        }
+        
+        .contact-section {
+          border-top: 1px solid #e9ecef;
+          padding-top: 24px;
+          margin-top: 30px;
+        }
+        
+        .contact-title {
+          color: #2c3e50;
+          margin: 0 0 16px 0;
+          font-size: 16px;
+          font-weight: 600;
+        }
+        
+        .contact-table {
+          width: 100%;
+          font-size: 14px;
+          color: #5a6c7d;
+        }
+        
+        .contact-table td {
+          padding: 8px;
+        }
+        
+        .contact-label {
+          width: 80px;
+          font-weight: 600;
+        }
+        
+        .email-footer {
+          background-color: #f8f9fa;
+          padding: 24px 30px;
+          text-align: center;
+          border-top: 1px solid #e9ecef;
+        }
+        
+        .footer-regards {
+          color: #6c757d;
+          margin: 0 0 8px 0;
+          font-size: 14px;
+          font-weight: 600;
+        }
+        
+        .footer-team {
+          color: #495057;
+          margin: 0;
+          font-size: 14px;
+          font-weight: 700;
+        }
+        
+        .footer-disclaimer {
+          color: #adb5bd;
+          margin: 16px 0 0 0;
+          font-size: 12px;
+        }
+        
+        @media (max-width: 600px) {
+          .email-content {
+            margin: 0 10px;
+            max-width: calc(100% - 20px);
+          }
+          
+          .email-header,
+          .email-body,
+          .email-footer {
+            padding-left: 20px;
+            padding-right: 20px;
+          }
+          
+          .email-title {
+            font-size: 24px;
+          }
+          
+          .greeting {
+            font-size: 20px;
+          }
+        }
+      </style>
+    </head>
+    <body class="email-container">
+      <table class="email-wrapper" cellpadding="0" cellspacing="0">
+        <tr>
+          <td align="center">
+            <div class="email-content">
+              <!-- Header Section -->
+              <div class="email-header">
+                <h1 class="email-title">Car Dealership</h1>
+                <p class="email-subtitle">Response to Your Contact Message</p>
+              </div>
+              
+              <!-- Main Content -->
+              <div class="email-body">
+                <!-- Greeting -->
+                <h2 class="greeting">Dear ${customerName},</h2>
+                <p class="intro-text">Thank you for contacting us. We have carefully reviewed your message and are pleased to provide you with our response below.</p>
+                
+                <!-- Original Message Section -->
+                <div class="message-section">
+                  <div class="section-header">
+                    <div class="section-indicator original-indicator"></div>
+                    <h3 class="section-title original-title">Your Original Message</h3>
+                  </div>
+                  <p class="original-message">${originalMessage}</p>
+                </div>
+                
+                <!-- Response Section -->
+                <div class="response-section">
+                  <div class="section-header">
+                    <div class="section-indicator response-indicator"></div>
+                    <h3 class="section-title response-title">Our Response</h3>
+                  </div>
+                  <p class="admin-response">${adminReply}</p>
+                </div>
+                
+                <!-- Additional Information -->
+                <div class="additional-info">
+                  <p class="additional-info-text">
+                    <strong>Need Further Assistance?</strong><br>
+                    If you have any additional questions or need more information, please don't hesitate to contact us directly. Our team is here to help you.
+                  </p>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="contact-section">
+                  <h4 class="contact-title">Contact Information</h4>
+                  <table class="contact-table" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td class="contact-label">Phone:</td>
+                      <td>+1 (555) 123-4567</td>
+                    </tr>
+                    <tr>
+                      <td class="contact-label">Email:</td>
+                      <td>${emailUser}</td>
+                    </tr>
+                    <tr>
+                      <td class="contact-label">Hours:</td>
+                      <td>Mon-Fri: 9:00 AM - 7:00 PM, Sat: 9:00 AM - 5:00 PM</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              
+              <!-- Footer -->
+              <div class="email-footer">
+                <p class="footer-regards">Best regards,</p>
+                <p class="footer-team">Car Dealership Team</p>
+                <p class="footer-disclaimer">This email was sent in response to your contact message. Please do not reply directly to this email.</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `
+}
 
 export async function POST(request) {
   try {
@@ -93,90 +405,12 @@ export async function PUT(request) {
         from: process.env.EMAIL_USER,
         to: contactMessage.email,
         subject: "Response to Your Contact Message",
-        html: `
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Contact Message Response</title>
-          </head>
-          <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; background-color: #f5f5f5;">
-            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px 0;">
-              <tr>
-                <td align="center">
-                  <table width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; width: 100%; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
-                    <!-- Header Section -->
-                    <tr>
-                      <td style="background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); padding: 40px 30px; text-align: center;">
-                        <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">Car Dealership</h1>
-                        <p style="color: #ecf0f1; margin: 8px 0 0 0; font-size: 16px; font-weight: 400;">Response to Your Contact Message</p>
-                      </td>
-                    </tr>
-                    <!-- Main Content -->
-                    <tr>
-                      <td style="padding: 40px 30px;">
-                        <!-- Greeting -->
-                        <h2 style="color: #2c3e50; margin: 0 0 20px 0; font-size: 24px; font-weight: 600;">Dear ${contactMessage.name},</h2>
-                        <p style="color: #5a6c7d; line-height: 1.6; margin: 0 0 30px 0; font-size: 16px;">Thank you for contacting us. We have carefully reviewed your message and are pleased to provide you with our response below.</p>
-                        <!-- Original Message Section -->
-                        <div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 24px; margin: 0 0 24px 0;">
-                          <div style="display: flex; align-items: center; margin-bottom: 16px;">
-                            <div style="width: 4px; height: 20px; background-color: #6c757d; margin-right: 12px; border-radius: 2px;"></div>
-                            <h3 style="color: #495057; margin: 0; font-size: 18px; font-weight: 600;">Your Original Message</h3>
-                          </div>
-                          <p style="color: #6c757d; line-height: 1.5; margin: 0; font-size: 15px; font-style: italic;">${contactMessage.message}</p>
-                        </div>
-                        <!-- Response Section -->
-                        <div style="background-color: #f8fff9; border: 1px solid #d1ecf1; border-radius: 8px; padding: 24px; margin: 0 0 30px 0;">
-                          <div style="display: flex; align-items: center; margin-bottom: 16px;">
-                            <div style="width: 4px; height: 20px; background-color: #28a745; margin-right: 12px; border-radius: 2px;"></div>
-                            <h3 style="color: #155724; margin: 0; font-size: 18px; font-weight: 600;">Our Response</h3>
-                          </div>
-                          <p style="color: #155724; line-height: 1.6; margin: 0; font-size: 15px; white-space: pre-line;">${adminReply}</p>
-                        </div>
-                        <!-- Additional Information -->
-                        <div style="background-color: #fff9f0; border: 1px solid #ffeaa7; border-radius: 8px; padding: 20px; margin: 0 0 30px 0;">
-                          <p style="color: #856404; line-height: 1.5; margin: 0; font-size: 14px;">
-                            <strong>Need Further Assistance?</strong><br>
-                            If you have any additional questions or need more information, please don't hesitate to contact us directly. Our team is here to help you.
-                          </p>
-                        </div>
-                        <!-- Contact Information -->
-                        <div style="border-top: 1px solid #e9ecef; padding-top: 24px; margin-top: 30px;">
-                          <h4 style="color: #2c3e50; margin: 0 0 16px 0; font-size: 16px; font-weight: 600;">Contact Information</h4>
-                          <table width="100%" cellpadding="8" cellspacing="0" style="font-size: 14px; color: #5a6c7d;">
-                            <tr>
-                              <td style="width: 80px; font-weight: 600;">Phone:</td>
-                              <td>+1 (555) 123-4567</td>
-                            </tr>
-                            <tr>
-                              <td style="font-weight: 600;">Email:</td>
-                              <td>${process.env.EMAIL_USER}</td>
-                            </tr>
-                            <tr>
-                              <td style="font-weight: 600;">Hours:</td>
-                              <td>Mon-Fri: 9:00 AM - 7:00 PM, Sat: 9:00 AM - 5:00 PM</td>
-                            </tr>
-                          </table>
-                        </div>
-                      </td>
-                    </tr>
-                    <!-- Footer -->
-                    <tr>
-                      <td style="background-color: #f8f9fa; padding: 24px 30px; text-align: center; border-top: 1px solid #e9ecef;">
-                        <p style="color: #6c757d; margin: 0 0 8px 0; font-size: 14px; font-weight: 600;">Best regards,</p>
-                        <p style="color: #495057; margin: 0; font-size: 14px; font-weight: 700;">Car Dealership Team</p>
-                        <p style="color: #adb5bd; margin: 16px 0 0 0; font-size: 12px;">This email was sent in response to your contact message. Please do not reply directly to this email.</p>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </body>
-          </html>
-        `,
+        html: getEmailTemplate(
+          contactMessage.name,
+          contactMessage.message,
+          adminReply,
+          process.env.EMAIL_USER
+        ),
       }
 
       await transporter.sendMail(mailOptions)

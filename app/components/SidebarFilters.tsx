@@ -1,14 +1,18 @@
-"use client"
-import { Label, Select, TextInput } from "flowbite-react"
-import type React from "react"
+"use client";
+import { Label, Select, TextInput } from "flowbite-react";
+import type React from "react";
 
-import { useState, useEffect, useCallback, useRef } from "react"
-import { SiCmake, SiGoogleearthengine } from "react-icons/si"
-import { useRouter } from "next/navigation"
-import { IoIosSpeedometer } from "react-icons/io"
-import { IoPricetag, IoArrowDownSharp, IoArrowUpSharp } from "react-icons/io5"
-import { usePathname } from "next/navigation"
-import { FaLocationDot, FaRegCalendarCheck, FaHourglassEnd } from "react-icons/fa6"
+import { useState, useEffect, useCallback, useRef } from "react";
+import { SiCmake, SiGoogleearthengine } from "react-icons/si";
+import { useRouter } from "next/navigation";
+import { IoIosSpeedometer } from "react-icons/io";
+import { IoPricetag, IoArrowDownSharp, IoArrowUpSharp } from "react-icons/io5";
+import { usePathname } from "next/navigation";
+import {
+  FaLocationDot,
+  FaRegCalendarCheck,
+  FaHourglassEnd,
+} from "react-icons/fa6";
 import {
   GiCarDoor,
   GiGearStickPattern,
@@ -18,219 +22,271 @@ import {
   GiElectric,
   GiPowerLightning,
   GiCarWheel,
-} from "react-icons/gi"
-import { MdOutlineCo2 } from "react-icons/md"
-import { useTranslations } from "next-intl"
-import { useDebouncedCallback } from "use-debounce"
-import { FaHandshake } from "react-icons/fa"
+} from "react-icons/gi";
+import { MdOutlineCo2 } from "react-icons/md";
+import { useTranslations } from "next-intl";
+import { useDebouncedCallback } from "use-debounce";
+import { FaHandshake } from "react-icons/fa";
+
+// Types
+interface Car {
+  _id: string;
+  dealerId: string;
+  userId: string;
+  tag: string;
+  make: string;
+  model: string;
+  price: number;
+  type: string;
+  kms: string;
+  sold: boolean;
+  fuelType: string;
+  condition: string;
+  location: string;
+  modelYear: string;
+  mileage: string;
+  bodyType: string;
+  color: string;
+  slug: string;
+  description: string;
+  imageUrls: string[];
+  status: number;
+  unit: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 const SidebarFilters = () => {
-  const t = useTranslations("Filters")
-  const router = useRouter()
-  const [localFilters, setLocalFilters] = useState<Record<string, any>>({})
-  const [openSections, setOpenSections] = useState<string[]>([])
-  const [showMoreFilters, setShowMoreFilters] = useState(false)
-  const pathname = usePathname()
-  const isLeasingPage = pathname.includes("/leasing")
-  const activeInputRef = useRef<string | null>(null)
-  const inputRefs = useRef<Record<string, HTMLInputElement | HTMLSelectElement>>({})
-  const isUpdatingFromURL = useRef(false)
+  const t = useTranslations("Filters");
+  const router = useRouter();
+  const [localFilters, setLocalFilters] = useState<Record<string, any>>({});
+  const [openSections, setOpenSections] = useState<string[]>([]);
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
+  const pathname = usePathname();
+  const isLeasingPage = pathname.includes("/leasing");
+  const activeInputRef = useRef<string | null>(null);
+  const inputRefs = useRef<
+    Record<string, HTMLInputElement | HTMLSelectElement>
+  >({});
+  const isUpdatingFromURL = useRef(false);
+  const [cars, setCars] = useState([]);
+  const [stats, setStats] = useState({
+    total: 0,
+    new: 0,
+    used: 0,
+  });
+  const [loading, setLoading] = useState(false);
+const fetchCarsAndCalculateStats = async (): Promise<void> => {
+  try {
+    setLoading(true);
+    
+    const response = await fetch('/api/cars');
+    const data = await response.json();
+    
+    setCars(data.cars);
+    
+    // Calculate stats based on condition
+    const total: number = data.cars.length;
+    const newCars: number = data.cars.filter((car: Car) => 
+      car.condition && car.condition.toLowerCase() === 'new'
+    ).length;
+    const usedCars: number = data.cars.filter((car: Car) => 
+      car.condition && car.condition.toLowerCase() === 'used'
+    ).length;
+    
+    setStats({ total, new: newCars, used: usedCars });
+    
+  } catch (error) {
+    console.error('Error fetching cars:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+// Usage
+useEffect(() => {
+  fetchCarsAndCalculateStats();
+}, []);
+
 
   useEffect(() => {
-    isUpdatingFromURL.current = true
-    const params = new URLSearchParams(window.location.search)
-    const initialFilters: Record<string, any> = {}
+    isUpdatingFromURL.current = true;
+    const params = new URLSearchParams(window.location.search);
+    const initialFilters: Record<string, any> = {};
     params.forEach((value, key) => {
       if (initialFilters[key]) {
         if (Array.isArray(initialFilters[key])) {
-          initialFilters[key].push(value)
+          initialFilters[key].push(value);
         } else {
-          initialFilters[key] = [initialFilters[key], value]
+          initialFilters[key] = [initialFilters[key], value];
         }
       } else {
-        initialFilters[key] = value
+        initialFilters[key] = value;
       }
-    })
-    setLocalFilters(initialFilters)
+    });
+    setLocalFilters(initialFilters);
     setTimeout(() => {
-      isUpdatingFromURL.current = false
-    }, 100)
-  }, [])
+      isUpdatingFromURL.current = false;
+    }, 100);
+  }, []);
 
   const updateURL = useCallback(() => {
-    const activeElement = document.activeElement as HTMLInputElement | HTMLSelectElement
-    const activeId = activeElement?.id || activeElement?.name
+    const activeElement = document.activeElement as
+      | HTMLInputElement
+      | HTMLSelectElement;
+    const activeId = activeElement?.id || activeElement?.name;
     if (activeId && inputRefs.current[activeId]) {
-      activeInputRef.current = activeId
+      activeInputRef.current = activeId;
     }
-    const params = new URLSearchParams()
+    const params = new URLSearchParams();
     Object.entries(localFilters).forEach(([key, value]) => {
       if (key === "minPrice" || key === "maxPrice") {
         if (localFilters.minPrice && localFilters.maxPrice) {
           if (key === "minPrice" && localFilters.minPrice) {
-            params.set("minPrice", localFilters.minPrice)
+            params.set("minPrice", localFilters.minPrice);
           }
           if (key === "maxPrice" && localFilters.maxPrice) {
-            params.set("maxPrice", localFilters.maxPrice)
+            params.set("maxPrice", localFilters.maxPrice);
           }
         }
       } else if (Array.isArray(value)) {
-        value.forEach((v) => params.append(key, v))
+        value.forEach((v) => params.append(key, v));
       } else if (value !== undefined && value !== "") {
-        params.set(key, value)
+        params.set(key, value);
       }
-    })
-    router.replace(`?${params.toString()}`, { scroll: false })
-  }, [localFilters, router])
+    });
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }, [localFilters, router]);
 
-  const debouncedUpdateURL = useDebouncedCallback(updateURL, 500)
+  const debouncedUpdateURL = useDebouncedCallback(updateURL, 500);
 
   useEffect(() => {
     if (!isUpdatingFromURL.current) {
-      debouncedUpdateURL()
+      debouncedUpdateURL();
     }
-  }, [localFilters, debouncedUpdateURL])
+  }, [localFilters, debouncedUpdateURL]);
 
   useEffect(() => {
-    if (activeInputRef.current && inputRefs.current[activeInputRef.current] && !isUpdatingFromURL.current) {
-      const element = inputRefs.current[activeInputRef.current]
+    if (
+      activeInputRef.current &&
+      inputRefs.current[activeInputRef.current] &&
+      !isUpdatingFromURL.current
+    ) {
+      const element = inputRefs.current[activeInputRef.current];
       if (element && document.activeElement !== element) {
         setTimeout(() => {
-          element.focus()
+          element.focus();
           if (element.type === "text" || element.type === "number") {
-            const input = element as HTMLInputElement
-            const length = input.value.length
-            input.setSelectionRange(length, length)
+            const input = element as HTMLInputElement;
+            const length = input.value.length;
+            input.setSelectionRange(length, length);
           }
-        }, 0)
+        }, 0);
       }
-      activeInputRef.current = null
+      activeInputRef.current = null;
     }
-  })
+  });
 
   useEffect(() => {
     const handleRouteChange = () => {
-      isUpdatingFromURL.current = true
-      const params = new URLSearchParams(window.location.search)
-      const newFilters: Record<string, any> = {}
+      isUpdatingFromURL.current = true;
+      const params = new URLSearchParams(window.location.search);
+      const newFilters: Record<string, any> = {};
       params.forEach((value, key) => {
         if (newFilters[key]) {
           if (Array.isArray(newFilters[key])) {
-            newFilters[key].push(value)
+            newFilters[key].push(value);
           } else {
-            newFilters[key] = [newFilters[key], value]
+            newFilters[key] = [newFilters[key], value];
           }
         } else {
-          newFilters[key] = value
+          newFilters[key] = value;
         }
-      })
-      setLocalFilters(newFilters)
+      });
+      setLocalFilters(newFilters);
       setTimeout(() => {
-        isUpdatingFromURL.current = false
-      }, 100)
-    }
-    window.addEventListener("popstate", handleRouteChange)
-    return () => window.removeEventListener("popstate", handleRouteChange)
-  }, [])
+        isUpdatingFromURL.current = false;
+      }, 100);
+    };
+    window.addEventListener("popstate", handleRouteChange);
+    return () => window.removeEventListener("popstate", handleRouteChange);
+  }, []);
 
-  const handleInputChange = (key: string, value: string, elementId?: string) => {
-    setLocalFilters((prev) => ({ ...prev, [key]: value }))
+  const handleInputChange = (
+    key: string,
+    value: string,
+    elementId?: string,
+  ) => {
+    setLocalFilters((prev) => ({ ...prev, [key]: value }));
     if (elementId) {
-      activeInputRef.current = elementId
+      activeInputRef.current = elementId;
     }
-  }
+  };
 
   const handleCheckboxChange = (key: string, value: string) => {
     setLocalFilters((prev) => {
-      const current = prev[key] || []
-      const array = Array.isArray(current) ? current : [current]
+      const current = prev[key] || [];
+      const array = Array.isArray(current) ? current : [current];
       if (array.includes(value)) {
         return {
           ...prev,
           [key]: array.filter((v) => v !== value),
-        }
+        };
       } else {
         return {
           ...prev,
           [key]: [...array, value],
-        }
+        };
       }
-    })
-  }
+    });
+  };
 
   const handleLeaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      handleInputChange("lease", "true", "lease-filter")
+      handleInputChange("lease", "true", "lease-filter");
     } else {
       setLocalFilters((prev) => {
-        const { lease, ...rest } = prev
-        return rest
-      })
+        const { lease, ...rest } = prev;
+        return rest;
+      });
     }
-  }
+  };
 
   const handleApplyFilters = () => {
-    debouncedUpdateURL.flush()
-  }
+    debouncedUpdateURL.flush();
+  };
 
   const handleClearFilters = () => {
-    setLocalFilters({})
-    router.replace(pathname, { scroll: false })
-  }
+    setLocalFilters({});
+    router.replace(pathname, { scroll: false });
+  };
 
   const toggleSection = (section: string) => {
-    setOpenSections((prev) => (prev.includes(section) ? prev.filter((item) => item !== section) : [...prev, section]))
-  }
+    setOpenSections((prev) =>
+      prev.includes(section)
+        ? prev.filter((item) => item !== section)
+        : [...prev, section],
+    );
+  };
 
-  const setInputRef = (key: string) => (element: HTMLInputElement | HTMLSelectElement | null) => {
-    if (element) {
-      inputRefs.current[key] = element
-    } else {
-      delete inputRefs.current[key]
-    }
-  }
-
-  // New components
-  const ColorDot = ({
-    color,
-    selected,
-    onClick,
-    label,
-  }: {
-    color: string
-    selected: boolean
-    onClick: () => void
-    label: string
-  }) => (
-    <button
-      className={`relative h-8 w-8 rounded-full border-2 ${selected ? "border-white" : "border-gray-300 dark:border-gray-600"} transition-all duration-200`}
-      style={{ backgroundColor: color }}
-      onClick={onClick}
-      title={label}
-      aria-label={`Select ${label} color`}
-    >
-      {selected && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <svg className="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fillRule="evenodd"
-              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </div>
-      )}
-    </button>
-  )
+  const setInputRef =
+    (key: string) => (element: HTMLInputElement | HTMLSelectElement | null) => {
+      if (element) {
+        inputRefs.current[key] = element;
+      } else {
+        delete inputRefs.current[key];
+      }
+    };
 
   const ConditionButton = ({
     condition,
     selected,
     onClick,
   }: {
-    condition: string
-    selected: boolean
-    onClick: () => void
+    condition: string;
+    selected: boolean;
+    onClick: () => void;
   }) => (
     <button
       className={`rounded-lg px-4 py-2 font-medium transition-all duration-200 ${
@@ -242,7 +298,7 @@ const SidebarFilters = () => {
     >
       {condition === "new" ? "New" : "Used"}
     </button>
-  )
+  );
 
   // Color mapping
   const colorMap = {
@@ -253,7 +309,7 @@ const SidebarFilters = () => {
     silver: "#c0c0c0",
     red: "#ef4444",
     green: "#22c55e",
-  }
+  };
 
   const sections = [
     {
@@ -278,7 +334,9 @@ const SidebarFilters = () => {
                 ref={setInputRef("minYear")}
                 value={localFilters.minYear || ""}
                 placeholder="2010"
-                onChange={(e) => handleInputChange("minYear", e.target.value, "minYear")}
+                onChange={(e) =>
+                  handleInputChange("minYear", e.target.value, "minYear")
+                }
                 className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 placeholder-gray-500 shadow-lg transition-all duration-300 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 "
               />
             </div>
@@ -297,7 +355,9 @@ const SidebarFilters = () => {
                 ref={setInputRef("maxYear")}
                 value={localFilters.maxYear || ""}
                 placeholder="2024"
-                onChange={(e) => handleInputChange("maxYear", e.target.value, "maxYear")}
+                onChange={(e) =>
+                  handleInputChange("maxYear", e.target.value, "maxYear")
+                }
                 className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 placeholder-gray-500 shadow-lg transition-all duration-300 focus:border-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-400 dark:focus:ring-violet-900/50"
               />
             </div>
@@ -325,7 +385,13 @@ const SidebarFilters = () => {
                 name="millageFrom"
                 ref={setInputRef("millageFrom")}
                 value={localFilters.millageFrom || ""}
-                onChange={(e) => handleInputChange("millageFrom", e.target.value, "millageFrom")}
+                onChange={(e) =>
+                  handleInputChange(
+                    "millageFrom",
+                    e.target.value,
+                    "millageFrom",
+                  )
+                }
                 className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
               >
                 <option value="">Any</option>
@@ -347,7 +413,9 @@ const SidebarFilters = () => {
                 name="millageTo"
                 ref={setInputRef("millageTo")}
                 value={localFilters.millageTo || ""}
-                onChange={(e) => handleInputChange("millageTo", e.target.value, "millageTo")}
+                onChange={(e) =>
+                  handleInputChange("millageTo", e.target.value, "millageTo")
+                }
                 className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-app-button focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
               >
                 <option value="">Any</option>
@@ -372,11 +440,17 @@ const SidebarFilters = () => {
                 <input
                   type="checkbox"
                   id={`location-${value}`}
-                  checked={Array.isArray(localFilters.location) && localFilters.location.includes(value)}
+                  checked={
+                    Array.isArray(localFilters.location) &&
+                    localFilters.location.includes(value)
+                  }
                   onChange={() => handleCheckboxChange("location", value)}
                   className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
-                <label htmlFor={`location-${value}`} className="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor={`location-${value}`}
+                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                >
                   {value}
                 </label>
               </div>
@@ -405,7 +479,9 @@ const SidebarFilters = () => {
                 name="minPrice"
                 ref={setInputRef("minPrice")}
                 value={localFilters.minPrice || ""}
-                onChange={(e) => handleInputChange("minPrice", e.target.value, "minPrice")}
+                onChange={(e) =>
+                  handleInputChange("minPrice", e.target.value, "minPrice")
+                }
                 className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
               >
                 <option value="">Any Min</option>
@@ -435,7 +511,9 @@ const SidebarFilters = () => {
                 name="maxPrice"
                 ref={setInputRef("maxPrice")}
                 value={localFilters.maxPrice || ""}
-                onChange={(e) => handleInputChange("maxPrice", e.target.value, "maxPrice")}
+                onChange={(e) =>
+                  handleInputChange("maxPrice", e.target.value, "maxPrice")
+                }
                 className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
               >
                 <option value="">Any Max</option>
@@ -469,11 +547,17 @@ const SidebarFilters = () => {
                 <input
                   type="checkbox"
                   id={`model-${value}`}
-                  checked={Array.isArray(localFilters.model) && localFilters.model.includes(value)}
+                  checked={
+                    Array.isArray(localFilters.model) &&
+                    localFilters.model.includes(value)
+                  }
                   onChange={() => handleCheckboxChange("model", value)}
                   className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
-                <label htmlFor={`model-${value}`} className="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor={`model-${value}`}
+                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                >
                   {value}
                 </label>
               </div>
@@ -494,7 +578,10 @@ const SidebarFilters = () => {
                 <input
                   type="checkbox"
                   id={`gearbox-${value}`}
-                  checked={Array.isArray(localFilters.gearBox) && localFilters.gearBox.includes(value)}
+                  checked={
+                    Array.isArray(localFilters.gearBox) &&
+                    localFilters.gearBox.includes(value)
+                  }
                   onChange={() => handleCheckboxChange("gearBox", value)}
                   className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
@@ -517,16 +604,29 @@ const SidebarFilters = () => {
       render: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-2">
-            {["convertible", "coupe", "estate", "hatchback", "saloon", "suv"].map((value) => (
+            {[
+              "convertible",
+              "coupe",
+              "estate",
+              "hatchback",
+              "saloon",
+              "suv",
+            ].map((value) => (
               <div key={value} className="flex items-center">
                 <input
                   type="checkbox"
                   id={`body-${value}`}
-                  checked={Array.isArray(localFilters.bodyType) && localFilters.bodyType.includes(value)}
+                  checked={
+                    Array.isArray(localFilters.bodyType) &&
+                    localFilters.bodyType.includes(value)
+                  }
                   onChange={() => handleCheckboxChange("bodyType", value)}
                   className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
-                <label htmlFor={`body-${value}`} className="ml-3 text-sm capitalize text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor={`body-${value}`}
+                  className="ml-3 text-sm capitalize text-gray-700 dark:text-gray-300"
+                >
                   {value}
                 </label>
               </div>
@@ -547,11 +647,17 @@ const SidebarFilters = () => {
                 <input
                   type="checkbox"
                   id={`doors-${value}`}
-                  checked={Array.isArray(localFilters.doors) && localFilters.doors.includes(value)}
+                  checked={
+                    Array.isArray(localFilters.doors) &&
+                    localFilters.doors.includes(value)
+                  }
                   onChange={() => handleCheckboxChange("doors", value)}
                   className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
-                <label htmlFor={`doors-${value}`} className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor={`doors-${value}`}
+                  className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                >
                   {value} Doors
                 </label>
               </div>
@@ -572,11 +678,17 @@ const SidebarFilters = () => {
                 <input
                   type="checkbox"
                   id={`seats-${value}`}
-                  checked={Array.isArray(localFilters.seats) && localFilters.seats.includes(value)}
+                  checked={
+                    Array.isArray(localFilters.seats) &&
+                    localFilters.seats.includes(value)
+                  }
                   onChange={() => handleCheckboxChange("seats", value)}
                   className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
-                <label htmlFor={`seats-${value}`} className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor={`seats-${value}`}
+                  className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                >
                   {value} Seats
                 </label>
               </div>
@@ -592,20 +704,28 @@ const SidebarFilters = () => {
       render: (
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-2">
-            {["petrol", "diesel", "electric", "hybrid", "bi-fuel"].map((value) => (
-              <div key={value} className="flex items-center">
-                <input
-                  type="checkbox"
-                  id={`fuel-${value}`}
-                  checked={Array.isArray(localFilters.fuel) && localFilters.fuel.includes(value)}
-                  onChange={() => handleCheckboxChange("fuel", value)}
-                  className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
-                />
-                <label htmlFor={`fuel-${value}`} className="ml-3 text-sm capitalize text-gray-700 dark:text-gray-300">
-                  {value}
-                </label>
-              </div>
-            ))}
+            {["petrol", "diesel", "electric", "hybrid", "bi-fuel"].map(
+              (value) => (
+                <div key={value} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={`fuel-${value}`}
+                    checked={
+                      Array.isArray(localFilters.fuel) &&
+                      localFilters.fuel.includes(value)
+                    }
+                    onChange={() => handleCheckboxChange("fuel", value)}
+                    className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
+                  />
+                  <label
+                    htmlFor={`fuel-${value}`}
+                    className="ml-3 text-sm capitalize text-gray-700 dark:text-gray-300"
+                  >
+                    {value}
+                  </label>
+                </div>
+              ),
+            )}
           </div>
         </div>
       ),
@@ -627,7 +747,9 @@ const SidebarFilters = () => {
             id="battery"
             ref={setInputRef("battery")}
             value={localFilters.battery || "Any"}
-            onChange={(e) => handleInputChange("battery", e.target.value, "battery")}
+            onChange={(e) =>
+              handleInputChange("battery", e.target.value, "battery")
+            }
             className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
           >
             <option value="Any">Any Range</option>
@@ -655,7 +777,9 @@ const SidebarFilters = () => {
             id="charging"
             ref={setInputRef("charging")}
             value={localFilters.charging || "Any"}
-            onChange={(e) => handleInputChange("charging", e.target.value, "charging")}
+            onChange={(e) =>
+              handleInputChange("charging", e.target.value, "charging")
+            }
             className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
           >
             <option value="Any">Any Speed</option>
@@ -685,7 +809,13 @@ const SidebarFilters = () => {
                 id="engine-from"
                 ref={setInputRef("engineSizeFrom")}
                 value={localFilters.engineSizeFrom || ""}
-                onChange={(e) => handleInputChange("engineSizeFrom", e.target.value, "engineSizeFrom")}
+                onChange={(e) =>
+                  handleInputChange(
+                    "engineSizeFrom",
+                    e.target.value,
+                    "engineSizeFrom",
+                  )
+                }
                 className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
               >
                 <option value="">Any</option>
@@ -706,7 +836,13 @@ const SidebarFilters = () => {
                 id="engine-to"
                 ref={setInputRef("engineSizeTo")}
                 value={localFilters.engineSizeTo || ""}
-                onChange={(e) => handleInputChange("engineSizeTo", e.target.value, "engineSizeTo")}
+                onChange={(e) =>
+                  handleInputChange(
+                    "engineSizeTo",
+                    e.target.value,
+                    "engineSizeTo",
+                  )
+                }
                 className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
               >
                 <option value="">Any</option>
@@ -738,7 +874,13 @@ const SidebarFilters = () => {
                 id="engine-power-from"
                 ref={setInputRef("enginePowerFrom")}
                 value={localFilters.enginePowerFrom || "Any"}
-                onChange={(e) => handleInputChange("enginePowerFrom", e.target.value, "enginePowerFrom")}
+                onChange={(e) =>
+                  handleInputChange(
+                    "enginePowerFrom",
+                    e.target.value,
+                    "enginePowerFrom",
+                  )
+                }
                 className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
               >
                 <option value="Any">Any</option>
@@ -759,7 +901,13 @@ const SidebarFilters = () => {
                 id="engine-power-to"
                 ref={setInputRef("enginePowerTo")}
                 value={localFilters.enginePowerTo || "Any"}
-                onChange={(e) => handleInputChange("enginePowerTo", e.target.value, "enginePowerTo")}
+                onChange={(e) =>
+                  handleInputChange(
+                    "enginePowerTo",
+                    e.target.value,
+                    "enginePowerTo",
+                  )
+                }
                 className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
               >
                 <option value="Any">Any</option>
@@ -789,7 +937,13 @@ const SidebarFilters = () => {
             id="fuel-comsumption"
             ref={setInputRef("fuelConsumption")}
             value={localFilters.fuelConsumption || "Any"}
-            onChange={(e) => handleInputChange("fuelConsumption", e.target.value, "fuelConsumption")}
+            onChange={(e) =>
+              handleInputChange(
+                "fuelConsumption",
+                e.target.value,
+                "fuelConsumption",
+              )
+            }
             className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
           >
             <option value="Any">Any MPG</option>
@@ -818,7 +972,9 @@ const SidebarFilters = () => {
             id="c02-emission"
             ref={setInputRef("co2Emission")}
             value={localFilters.co2Emission || "Any"}
-            onChange={(e) => handleInputChange("co2Emission", e.target.value, "co2Emission")}
+            onChange={(e) =>
+              handleInputChange("co2Emission", e.target.value, "co2Emission")
+            }
             className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 font-medium text-gray-800 shadow-lg transition-all duration-300 focus:border-violet-500 focus:ring-4 focus:ring-violet-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:focus:ring-violet-900/50"
           >
             <option value="Any">Any Emission</option>
@@ -843,12 +999,22 @@ const SidebarFilters = () => {
                 <input
                   type="checkbox"
                   id={`drive-${value}`}
-                  checked={Array.isArray(localFilters.driveType) && localFilters.driveType.includes(value)}
+                  checked={
+                    Array.isArray(localFilters.driveType) &&
+                    localFilters.driveType.includes(value)
+                  }
                   onChange={() => handleCheckboxChange("driveType", value)}
                   className="h-4 w-4 rounded border-gray-300 text-app-button focus:ring-violet-500"
                 />
-                <label htmlFor={`drive-${value}`} className="ml-3 text-sm text-gray-700 dark:text-gray-300">
-                  {value === "four" ? "Four Wheel Drive" : value === "front" ? "Front Wheel Drive" : "Rear Wheel Drive"}
+                <label
+                  htmlFor={`drive-${value}`}
+                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                >
+                  {value === "four"
+                    ? "Four Wheel Drive"
+                    : value === "front"
+                      ? "Front Wheel Drive"
+                      : "Rear Wheel Drive"}
                 </label>
               </div>
             ))}
@@ -856,42 +1022,46 @@ const SidebarFilters = () => {
         </div>
       ),
     },
-  ]
+  ];
 
-  const isLightColor = (colorId: any) => ["white", "silver"].includes(colorId)
+  const isLightColor = (colorId: any) => ["white", "silver"].includes(colorId);
 
-  const visibleSections = sections.filter((section) => section.content !== "lease")
+  const visibleSections = sections.filter(
+    (section) => section.content !== "lease",
+  );
 
   // Get total count for condition tabs
   const getTotalCount = () => {
     // This would normally come from your data/API
-    return 100
-  }
+    return 100;
+  };
 
   const getNewCount = () => {
     // This would normally come from your data/API
-    return 29
-  }
+    return 29;
+  };
 
   const getUsedCount = () => {
     // This would normally come from your data/API
-    return 71
-  }
+    return 71;
+  };
 
   return (
     <div className="space-y-4">
       {/* Main Filter Rows */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         {/* First Row */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-4">
+        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-5">
           {/* Make */}
           <div>
             <Select
               id="make"
               ref={setInputRef("make")}
               value={localFilters.make || ""}
-              onChange={(e) => handleInputChange("make", e.target.value, "make")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+              onChange={(e) =>
+                handleInputChange("make", e.target.value, "make")
+              }
+              className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             >
               <option value="">Make</option>
               <option value="toyota">Toyota</option>
@@ -907,8 +1077,10 @@ const SidebarFilters = () => {
               id="model"
               ref={setInputRef("model")}
               value={localFilters.model || ""}
-              onChange={(e) => handleInputChange("model", e.target.value, "model")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+              onChange={(e) =>
+                handleInputChange("model", e.target.value, "model")
+              }
+              className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             >
               <option value="">Model</option>
               <option value="corolla">Corolla</option>
@@ -925,8 +1097,10 @@ const SidebarFilters = () => {
               id="location"
               ref={setInputRef("location")}
               value={localFilters.location || ""}
-              onChange={(e) => handleInputChange("location", e.target.value, "location")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 pl-8"
+              onChange={(e) =>
+                handleInputChange("location", e.target.value, "location")
+              }
+              className="w-full border-gray-300 pl-8 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             >
               <option value="">Location</option>
               <option value="cityville">Cityville</option>
@@ -934,7 +1108,7 @@ const SidebarFilters = () => {
               <option value="new-york">New York</option>
               <option value="berlin">Berlin</option>
             </Select>
-            <FaLocationDot className="absolute left-2 top-1/2 transform -translate-y-1/2 text-orange-500 h-4 w-4" />
+            <FaLocationDot className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-orange-500" />
           </div>
 
           {/* Distance */}
@@ -943,8 +1117,10 @@ const SidebarFilters = () => {
               id="distance"
               ref={setInputRef("distance")}
               value={localFilters.distance || ""}
-              onChange={(e) => handleInputChange("distance", e.target.value, "distance")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+              onChange={(e) =>
+                handleInputChange("distance", e.target.value, "distance")
+              }
+              className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             >
               <option value="">Distance</option>
               <option value="5">Within 5 miles</option>
@@ -960,8 +1136,10 @@ const SidebarFilters = () => {
               id="bodyType"
               ref={setInputRef("bodyType")}
               value={localFilters.bodyType || ""}
-              onChange={(e) => handleInputChange("bodyType", e.target.value, "bodyType")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+              onChange={(e) =>
+                handleInputChange("bodyType", e.target.value, "bodyType")
+              }
+              className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             >
               <option value="">Type</option>
               <option value="convertible">Convertible</option>
@@ -975,7 +1153,7 @@ const SidebarFilters = () => {
         </div>
 
         {/* Second Row */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-4">
           {/* Min Price */}
           <div>
             <TextInput
@@ -985,8 +1163,10 @@ const SidebarFilters = () => {
               ref={setInputRef("minPrice")}
               value={localFilters.minPrice || ""}
               placeholder="Min Price"
-              onChange={(e) => handleInputChange("minPrice", e.target.value, "minPrice")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+              onChange={(e) =>
+                handleInputChange("minPrice", e.target.value, "minPrice")
+              }
+              className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             />
           </div>
 
@@ -999,8 +1179,10 @@ const SidebarFilters = () => {
               ref={setInputRef("maxPrice")}
               value={localFilters.maxPrice || ""}
               placeholder="Max Price"
-              onChange={(e) => handleInputChange("maxPrice", e.target.value, "maxPrice")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+              onChange={(e) =>
+                handleInputChange("maxPrice", e.target.value, "maxPrice")
+              }
+              className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             />
           </div>
 
@@ -1010,8 +1192,10 @@ const SidebarFilters = () => {
               id="mileage"
               ref={setInputRef("mileage")}
               value={localFilters.mileage || ""}
-              onChange={(e) => handleInputChange("mileage", e.target.value, "mileage")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+              onChange={(e) =>
+                handleInputChange("mileage", e.target.value, "mileage")
+              }
+              className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             >
               <option value="">Mileage</option>
               <option value="25000">Up to 25,000 km</option>
@@ -1026,8 +1210,10 @@ const SidebarFilters = () => {
               id="driveType"
               ref={setInputRef("driveType")}
               value={localFilters.driveType || ""}
-              onChange={(e) => handleInputChange("driveType", e.target.value, "driveType")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+              onChange={(e) =>
+                handleInputChange("driveType", e.target.value, "driveType")
+              }
+              className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             >
               <option value="">Drive Type</option>
               <option value="four">Four Wheel Drive</option>
@@ -1038,15 +1224,17 @@ const SidebarFilters = () => {
         </div>
 
         {/* Third Row */}
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
+        <div className="grid grid-cols-1 items-end gap-4 md:grid-cols-6">
           {/* Fuel Type */}
           <div>
             <Select
               id="fuel"
               ref={setInputRef("fuel")}
               value={localFilters.fuel || ""}
-              onChange={(e) => handleInputChange("fuel", e.target.value, "fuel")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+              onChange={(e) =>
+                handleInputChange("fuel", e.target.value, "fuel")
+              }
+              className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             >
               <option value="">Fuel Type</option>
               <option value="petrol">Petrol</option>
@@ -1063,8 +1251,10 @@ const SidebarFilters = () => {
               id="features"
               ref={setInputRef("features")}
               value={localFilters.features || ""}
-              onChange={(e) => handleInputChange("features", e.target.value, "features")}
-              className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+              onChange={(e) =>
+                handleInputChange("features", e.target.value, "features")
+              }
+              className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
             >
               <option value="">Features</option>
               <option value="sunroof">Sunroof</option>
@@ -1082,8 +1272,10 @@ const SidebarFilters = () => {
                   id="gearBox"
                   ref={setInputRef("gearBox")}
                   value={localFilters.gearBox || ""}
-                  onChange={(e) => handleInputChange("gearBox", e.target.value, "gearBox")}
-                  className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+                  onChange={(e) =>
+                    handleInputChange("gearBox", e.target.value, "gearBox")
+                  }
+                  className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
                 >
                   <option value="">Gearbox</option>
                   <option value="automatic">Automatic</option>
@@ -1097,8 +1289,10 @@ const SidebarFilters = () => {
                   id="doors"
                   ref={setInputRef("doors")}
                   value={localFilters.doors || ""}
-                  onChange={(e) => handleInputChange("doors", e.target.value, "doors")}
-                  className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+                  onChange={(e) =>
+                    handleInputChange("doors", e.target.value, "doors")
+                  }
+                  className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
                 >
                   <option value="">Doors</option>
                   <option value="2">2 Doors</option>
@@ -1115,30 +1309,39 @@ const SidebarFilters = () => {
 
           {/* Clear all and More filters */}
           <div className="flex justify-end gap-2">
-            <button onClick={handleClearFilters} className="text-orange-500 hover:text-orange-600 font-medium text-sm">
+            <button
+              onClick={handleClearFilters}
+              className="text-sm font-medium text-orange-500 hover:text-orange-600"
+            >
               Clear all
             </button>
             <span className="text-gray-300">|</span>
             <button
               onClick={() => setShowMoreFilters(!showMoreFilters)}
-              className="text-orange-500 hover:text-orange-600 font-medium text-sm flex items-center gap-1"
+              className="flex items-center gap-1 text-sm font-medium text-orange-500 hover:text-orange-600"
             >
               More filters
-              {showMoreFilters ? <IoArrowUpSharp className="h-3 w-3" /> : <IoArrowDownSharp className="h-3 w-3" />}
+              {showMoreFilters ? (
+                <IoArrowUpSharp className="h-3 w-3" />
+              ) : (
+                <IoArrowDownSharp className="h-3 w-3" />
+              )}
             </button>
           </div>
         </div>
 
         {showMoreFilters && (
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="mt-4 grid grid-cols-1 gap-4 border-t border-gray-200 pt-4 dark:border-gray-700 md:grid-cols-5">
             {/* Seats */}
             <div>
               <Select
                 id="seats"
                 ref={setInputRef("seats")}
                 value={localFilters.seats || ""}
-                onChange={(e) => handleInputChange("seats", e.target.value, "seats")}
-                className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+                onChange={(e) =>
+                  handleInputChange("seats", e.target.value, "seats")
+                }
+                className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
               >
                 <option value="">Seats</option>
                 <option value="2">2 Seats</option>
@@ -1155,8 +1358,10 @@ const SidebarFilters = () => {
                 id="engineSize"
                 ref={setInputRef("engineSize")}
                 value={localFilters.engineSize || ""}
-                onChange={(e) => handleInputChange("engineSize", e.target.value, "engineSize")}
-                className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+                onChange={(e) =>
+                  handleInputChange("engineSize", e.target.value, "engineSize")
+                }
+                className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
               >
                 <option value="">Engine Size</option>
                 <option value="1.0">1.0L</option>
@@ -1172,8 +1377,10 @@ const SidebarFilters = () => {
                 id="year"
                 ref={setInputRef("year")}
                 value={localFilters.year || ""}
-                onChange={(e) => handleInputChange("year", e.target.value, "year")}
-                className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+                onChange={(e) =>
+                  handleInputChange("year", e.target.value, "year")
+                }
+                className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
               >
                 <option value="">Year</option>
                 <option value="2024">2024</option>
@@ -1190,8 +1397,10 @@ const SidebarFilters = () => {
                 id="color"
                 ref={setInputRef("color")}
                 value={localFilters.color || ""}
-                onChange={(e) => handleInputChange("color", e.target.value, "color")}
-                className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
+                onChange={(e) =>
+                  handleInputChange("color", e.target.value, "color")
+                }
+                className="w-full border-gray-300 text-gray-700 dark:border-gray-600 dark:text-gray-300"
               >
                 <option value="">Color</option>
                 <option value="black">Black</option>
@@ -1212,7 +1421,10 @@ const SidebarFilters = () => {
                   onChange={handleLeaseChange}
                   className="h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
                 />
-                <label htmlFor="lease-filter" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="lease-filter"
+                  className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                >
                   Lease only
                 </label>
               </div>
@@ -1222,45 +1434,48 @@ const SidebarFilters = () => {
       </div>
 
       {/* Bottom Row - Condition Tabs and Search */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           {/* Left side - Condition tabs */}
           <div className="flex gap-6">
             <button
               onClick={() => {
                 setLocalFilters((prev) => {
-                  const { condition, ...rest } = prev
-                  return rest
-                })
+                  const { condition, ...rest } = prev;
+                  return rest;
+                });
               }}
-              className={`text-sm font-medium pb-2 border-b-2 transition-colors ${
+              className={`border-b-2 pb-2 text-sm font-medium transition-colors ${
                 !localFilters.condition ||
-                (Array.isArray(localFilters.condition) && localFilters.condition.length === 0)
-                  ? "text-orange-500 border-orange-500"
-                  : "text-gray-500 border-transparent hover:text-gray-700"
+                (Array.isArray(localFilters.condition) &&
+                  localFilters.condition.length === 0)
+                  ? "border-orange-500 text-orange-500"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
-              All ({getTotalCount()})
+              All ({stats.total})
             </button>
             <button
               onClick={() => handleCheckboxChange("condition", "new")}
-              className={`text-sm font-medium pb-2 border-b-2 transition-colors ${
-                Array.isArray(localFilters.condition) && localFilters.condition.includes("new")
-                  ? "text-orange-500 border-orange-500"
-                  : "text-gray-500 border-transparent hover:text-gray-700"
+              className={`border-b-2 pb-2 text-sm font-medium transition-colors ${
+                Array.isArray(localFilters.condition) &&
+                localFilters.condition.includes("new")
+                  ? "border-orange-500 text-orange-500"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
-              New ({getNewCount()})
+              New ({stats.new})
             </button>
             <button
               onClick={() => handleCheckboxChange("condition", "used")}
-              className={`text-sm font-medium pb-2 border-b-2 transition-colors ${
-                Array.isArray(localFilters.condition) && localFilters.condition.includes("used")
-                  ? "text-orange-500 border-orange-500"
-                  : "text-gray-500 border-transparent hover:text-gray-700"
+              className={`border-b-2 pb-2 text-sm font-medium transition-colors ${
+                Array.isArray(localFilters.condition) &&
+                localFilters.condition.includes("used")
+                  ? "border-orange-500 text-orange-500"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
-              Used ({getUsedCount()})
+              Used ({stats.used})
             </button>
           </div>
 
@@ -1274,11 +1489,18 @@ const SidebarFilters = () => {
                 ref={setInputRef("keyword-search")}
                 value={localFilters.keyword || ""}
                 placeholder="Enter keyword"
-                onChange={(e) => handleInputChange("keyword", e.target.value, "keyword-search")}
-                className="w-64 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 pr-10"
+                onChange={(e) =>
+                  handleInputChange("keyword", e.target.value, "keyword-search")
+                }
+                className="w-64 border-gray-300 pr-10 text-gray-700 dark:border-gray-600 dark:text-gray-300"
               />
-              <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <button className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-400 hover:text-gray-600">
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -1294,7 +1516,7 @@ const SidebarFilters = () => {
 
       {/* More Filters Expandable Section */}
     </div>
-  )
-}
+  );
+};
 
-export default SidebarFilters
+export default SidebarFilters;
