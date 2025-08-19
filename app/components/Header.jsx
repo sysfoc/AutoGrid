@@ -290,10 +290,10 @@ const [isVisible, setIsVisible] = useState(true);
     const logoContent = (
       <div className="flex items-center space-x-3">
         <div className="flex flex-col">
-          <span className="bg-gradient-to-r from-gray-800 via-red-600 to-gray-800 bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-white dark:via-red-400 dark:to-white">
+          <span className="bg-gradient-to-r from-gray-800 via-green-600 to-gray-800 bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-white dark:via-green-400 dark:to-white">
             WindScreen
           </span>
-          <span className="text-xs font-medium text-gray-600 group-hover:text-red-600 transition-colors duration-300 dark:text-gray-400 dark:group-hover:text-red-400">
+          <span className="text-xs font-medium text-gray-600 group-hover:text-green-600 transition-colors duration-300 dark:text-gray-400 dark:group-hover:text-green-400">
             Built to Sell Cars
           </span>
         </div>
@@ -347,7 +347,7 @@ const [isVisible, setIsVisible] = useState(true);
                 onMouseEnter={() => setListingsDropdownOpen(true)}
                 onMouseLeave={() => setListingsDropdownOpen(false)}
               >
-                <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white">
+                <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white hover:shadow-lg hover:shadow-green-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white">
                   <span>Listings</span>
                   <svg className={`h-4 w-4 transition-transform duration-300 ${listingsDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
@@ -363,13 +363,13 @@ const [isVisible, setIsVisible] = useState(true);
                     <div className="py-2">
                       <Link
                         href="/car-for-sale"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-400 transition-colors duration-200"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400 transition-colors duration-200"
                       >
                         Cars for Sale
                       </Link>
                       <Link
                         href="/cars/leasing"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-400 transition-colors duration-200"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400 transition-colors duration-200"
                       >
                         Lease Deals
                       </Link>
@@ -384,7 +384,7 @@ const [isVisible, setIsVisible] = useState(true);
                 onMouseEnter={() => setPagesDropdownOpen(true)}
                 onMouseLeave={() => setPagesDropdownOpen(false)}
               >
-                <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white">
+                <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white hover:shadow-lg hover:shadow-green-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white">
                   <span>Pages</span>
                   <svg className={`h-4 w-4 transition-transform duration-300 ${pagesDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
@@ -400,19 +400,19 @@ const [isVisible, setIsVisible] = useState(true);
                     <div className="py-2">
                       <Link
                         href="/about"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-400 transition-colors duration-200"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400 transition-colors duration-200"
                       >
                         About
                       </Link>
                       <Link
                         href="/contact"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-400 transition-colors duration-200"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400 transition-colors duration-200"
                       >
                         Contact
                       </Link>
                       <Link
                         href="/blogs"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-400 transition-colors duration-200"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400 transition-colors duration-200"
                       >
                         Blogs
                       </Link>
@@ -428,7 +428,7 @@ const [isVisible, setIsVisible] = useState(true);
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-red-500 hover:to-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white"
+                    className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white hover:shadow-lg hover:shadow-green-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white"
                   >
                     <IconComponent className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                     <span>{link.name}</span>
@@ -441,7 +441,7 @@ const [isVisible, setIsVisible] = useState(true);
               <button
                 onClick={navigateToLogin}
                 aria-label="Login"
-                className={`hidden items-center space-x-2 rounded-xl bg-gray-100 px-4 py-3 text-gray-600 transition-all duration-300 hover:scale-105 hover:bg-gray-200 hover:text-red-600 focus:outline-none focus:ring-0 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-red-600 lg:flex ${isLoading ? 'opacity-75' : 'opacity-100'}`}
+                className={`hidden items-center space-x-2 rounded-xl bg-gray-100 px-4 py-3 text-gray-600 transition-all duration-300 hover:scale-105 hover:bg-gray-200 hover:text-green-600 focus:outline-none focus:ring-0 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-600 lg:flex ${isLoading ? 'opacity-75' : 'opacity-100'}`}
               >
                 <FaUser className="h-5 w-5" />
                 <span className="text-sm font-medium">Login</span>
@@ -450,7 +450,7 @@ const [isVisible, setIsVisible] = useState(true);
               <button
                 onClick={handleMobileMenuOpen}
                 aria-label="Open Menu"
-                className="group relative rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-red-500 hover:to-red-600 hover:shadow-lg hover:shadow-red-500/25 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-white lg:hidden dark:bg-gray-800 dark:focus:ring-offset-gray-900"
+                className="group relative rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-green-500 hover:to-green-600 hover:shadow-lg hover:shadow-green-500/25 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:ring-offset-2 focus:ring-offset-white lg:hidden dark:bg-gray-800 dark:focus:ring-offset-gray-900"
               >
                 <svg
                   className="h-5 w-5 text-gray-700 transition-colors duration-300 group-hover:text-white dark:text-gray-300"
@@ -471,7 +471,7 @@ const [isVisible, setIsVisible] = useState(true);
                 <button
                   onClick={navigateToLikedCars}
                   aria-label="Liked Cars"
-                  className={`group relative hidden rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-red-500 hover:to-red-600 hover:shadow-lg hover:shadow-red-500/25 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:ring-offset-2 focus:ring-offset-white md:flex dark:bg-gray-800 dark:focus:ring-offset-gray-900 ${isLoading ? 'opacity-75' : 'opacity-100'}`}
+                  className={`group relative hidden rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-green-500 hover:to-green-600 hover:shadow-lg hover:shadow-green-500/25 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:ring-offset-2 focus:ring-offset-white md:flex dark:bg-gray-800 dark:focus:ring-offset-gray-900 ${isLoading ? 'opacity-75' : 'opacity-100'}`}
                 >
                   <FaHeart className="h-5 w-5 text-gray-700 transition-colors duration-300 group-hover:text-white dark:text-gray-300" />
                 </button>
@@ -481,7 +481,7 @@ const [isVisible, setIsVisible] = useState(true);
                 {!topSettings.hideDarkMode && (
                   <button
                     onClick={toggleDarkMode}
-                    className={`group relative rounded-xl bg-gray-100 p-3 text-gray-700 ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-red-500 hover:to-red-600 hover:ring-red-500/50 hover:shadow-lg hover:shadow-red-500/25 hover:text-white dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700 ${isLoading ? 'opacity-75' : 'opacity-100'}`}
+                    className={`group relative rounded-xl bg-gray-100 p-3 text-gray-700 ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-green-500 hover:to-green-600 hover:ring-green-500/50 hover:shadow-lg hover:shadow-green-500/25 hover:text-white dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700 ${isLoading ? 'opacity-75' : 'opacity-100'}`}
                     aria-label="Toggle dark mode"
                   >
                     {darkMode ? (
@@ -497,7 +497,7 @@ const [isVisible, setIsVisible] = useState(true);
                 {!topSettings.hideDarkMode && (
                   <button
                     onClick={toggleDarkMode}
-                    className={`group rounded-xl bg-gray-100 p-3 text-gray-700 ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-red-500 hover:to-red-600 hover:ring-red-500/50 hover:text-white dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700 ${isLoading ? 'opacity-75' : 'opacity-100'}`}
+                    className={`group rounded-xl bg-gray-100 p-3 text-gray-700 ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-green-500 hover:to-green-600 hover:ring-green-500/50 hover:text-white dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700 ${isLoading ? 'opacity-75' : 'opacity-100'}`}
                     aria-label="Toggle dark mode"
                   >
                     {darkMode ? (
@@ -530,13 +530,13 @@ const [isVisible, setIsVisible] = useState(true);
 >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white p-4 dark:border-gray-700 dark:from-gray-800 dark:to-gray-900">
-            <h2 className="bg-gradient-to-r from-gray-800 via-red-600 to-gray-800 bg-clip-text text-lg font-semibold text-transparent dark:from-white dark:via-red-400 dark:to-gray-200">
+            <h2 className="bg-gradient-to-r from-gray-800 via-green-600 to-gray-800 bg-clip-text text-lg font-semibold text-transparent dark:from-white dark:via-green-400 dark:to-gray-200">
               Quick Links
             </h2>
             <button
               onClick={handleMobileMenuClose}
               aria-label="Close Menu"
-              className="rounded-lg p-2 text-gray-600 transition-all duration-300 hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 hover:text-red-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500/50 dark:text-gray-400 dark:hover:from-red-900/20 dark:hover:to-red-800/20 dark:hover:text-red-400"
+              className="rounded-lg p-2 text-gray-600 transition-all duration-300 hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 hover:text-green-600 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500/50 dark:text-gray-400 dark:hover:from-green-900/20 dark:hover:to-green-800/20 dark:hover:text-green-400"
             >
               <FaTimes className="h-4 w-4" />
             </button>
@@ -549,14 +549,14 @@ const [isVisible, setIsVisible] = useState(true);
               <Link
                 href="/car-for-sale"
                 onClick={handleMobileMenuClose}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
               >
                 <span>Cars for Sale</span>
               </Link>
               <Link
                 href="/cars/leasing"
                 onClick={handleMobileMenuClose}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
               >
                 <span>Lease Deals</span>
               </Link>
@@ -568,21 +568,21 @@ const [isVisible, setIsVisible] = useState(true);
               <Link
                 href="/about"
                 onClick={handleMobileMenuClose}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
               >
                 <span>About</span>
               </Link>
               <Link
                 href="/contact"
                 onClick={handleMobileMenuClose}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
               >
                 <span>Contact</span>
               </Link>
               <Link
                 href="/blogs"
                 onClick={handleMobileMenuClose}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
               >
                 <span>Blogs</span>
               </Link>
@@ -596,7 +596,7 @@ const [isVisible, setIsVisible] = useState(true);
                   key={link.href}
                   href={link.href}
                   onClick={handleMobileMenuClose}
-                  className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-red-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-red-500"
+                  className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
                 >
                   <IconComponent className="h-5 w-5" />
                   <span>{link.name}</span>

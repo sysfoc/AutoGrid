@@ -12,7 +12,7 @@ export async function GET(req) {
       return NextResponse.json({ error: "Type parameter is required" }, { status: 400 })
     }
 
-    if (!["car-valuation", "brands", "blog", "contact", "leasing", "car-for-sale", "about-us"].includes(type)) {
+    if (!["car-valuation", "brands", "blog", "contact", "leasing", "car-for-sale", "about-us", "car-financing"].includes(type)) {
       return NextResponse.json({ error: "Invalid meta page type" }, { status: 400 })
     }
 
@@ -42,7 +42,7 @@ export async function POST(req) {
       return NextResponse.json({ error: "Type, metaTitle, and metaDescription are required" }, { status: 400 })
     }
 
-    if (!["car-valuation", "brands", "blog", "contact", "leasing", "car-for-sale", "about-us"].includes(type)) {
+    if (!["car-valuation", "brands", "blog", "contact", "leasing", "car-for-sale", "about-us", "car-financing"].includes(type)) {
       return NextResponse.json({ error: "Invalid meta page type" }, { status: 400 })
     }
 

@@ -15,6 +15,8 @@ import {
 import { useSidebar } from "../context/SidebarContext";
 import Image from "next/image";
 
+const CACHE_KEY = "homepage_data";
+const CACHE_DURATION = 300000;
 const CacheManager = {
   get: (key) => {
     try {
@@ -62,42 +64,11 @@ const apiClient = axios.create({
   },
 });
 
-apiClient.interceptors.request.use((config) => {
-  const cachedData = CacheManager.get(CACHE_KEY);
-  if (cachedData && config.url?.includes("/api/homepage")) {
-    config.adapter = () =>
-      Promise.resolve({
-        data: cachedData,
-        status: 200,
-        statusText: "OK",
-        headers: {},
-        config,
-        request: {},
-      });
-  }
-  return config;
-});
-
-apiClient.interceptors.response.use(
-  (response) => {
-    if (
-      response.config.url?.includes("/api/homepage") &&
-      response.status === 200
-    ) {
-      CacheManager.set(CACHE_KEY, response.data);
-    }
-    return response;
-  },
-  (error) => {
-    console.error("API request failed:", error.message);
-    return Promise.reject(error);
-  },
-);
-
 const HeroSection = () => {
   const t = useTranslations("HomePage");
   const router = useRouter();
   const [imageCached, setImageCached] = useState(false);
+  const [homepageData, setHomepageData] = useState(null);
   const [logo, setLogo] = useState("");
   const [logoError, setLogoError] = useState(false);
   const [topSettings, setTopSettings] = useState({
@@ -121,6 +92,7 @@ const HeroSection = () => {
   const [location, setLocation] = useState("");
   const [selectedCondition, setSelectedCondition] = useState("all");
   const idPrefix = useRef(Date.now().toString(36)).current;
+
 
   const heroImage = "/autogrid.avif";
 
@@ -186,6 +158,27 @@ const HeroSection = () => {
       img.crossOrigin = "anonymous";
       img.src = src;
     });
+  }, []);
+
+  useEffect(() => {
+    const fetchHomepageData = async () => {
+      try {
+        // Check cache first
+        const cachedData = CacheManager.get(CACHE_KEY);
+        if (cachedData) {
+          setHomepageData(cachedData);
+          return;
+        }
+
+        // Fetch from API if no cache
+        const response = await apiClient.get("/api/homepage");
+        CacheManager.set(CACHE_KEY, response.data);
+        setHomepageData(response.data);
+      } catch (error) {
+        console.error("Failed to fetch homepage data:", error);
+      }
+    };
+    fetchHomepageData();
   }, []);
 
   useEffect(() => {
@@ -256,6 +249,10 @@ const HeroSection = () => {
     selectedCondition,
     router,
   ]);
+
+  useEffect(() => {
+  fetchCarSearchData();
+}, [fetchCarSearchData]);
 
   const ConditionTab = ({ condition, label, selected, onClick }) => (
     <button
@@ -503,15 +500,11 @@ const HeroSection = () => {
         <div className="absolute inset-0 flex items-center">
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex justify-start pr-8">
-              <div className="text-left">
-                <h1 className="mb-4 text-3xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
-                  Find your
+              <div className="text-left w-[70vw] md:w-[45vw]">
+                <h1 className="mb-4 text-3xl sm:text-4xl font-bold leading-tight text-white md:text-5xl">
+                  {homepageData?.searchSection?.mainHeading || ""}
                   <br />
-                  <span className="text-green-400">perfect vehicle</span>
                 </h1>
-                <p className="max-w-md text-lg text-white/90">
-                  Discover premium cars with unmatched quality and service
-                </p>
               </div>
             </div>
           </div>

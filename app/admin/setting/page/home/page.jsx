@@ -8,9 +8,9 @@ const Page = () => {
   const sections = [
     "SEO Section",
     "Search Section",
-    "Brand Section",
+    // "Brand Section",
     "Listing Section",
-    "Chooseus Section",
+    // "Chooseus Section",
     "Footer",
   ];
   const refs = {
@@ -315,7 +315,7 @@ const Page = () => {
                         className="rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500"
                       />{" "}
                     </div>{" "}
-                    <div className="mb-4">
+                    {/* <div className="mb-4">
                       {" "}
                       <Label
                         htmlFor="search-subheading"
@@ -331,8 +331,8 @@ const Page = () => {
                         placeholder="Subheading text"
                         className="rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500"
                       />{" "}
-                    </div>{" "}
-                    <div>
+                    </div>{" "} */}
+                    {/* <div>
                       {" "}
                       <Label
                         htmlFor="search-description-text"
@@ -348,11 +348,11 @@ const Page = () => {
                         placeholder="Supporting description text"
                         className="rounded-lg border-slate-200 focus:border-indigo-500 focus:ring-indigo-500"
                       />{" "}
-                    </div>{" "}
+                    </div>{" "} */}
                   </div>
                 )}{" "}
                 {/* Brand Section */}{" "}
-                {activeSection === "Brand Section" && (
+                {/* {activeSection === "Brand Section" && (
                   <div>
                     {" "}
                     <h2 className="mb-4 text-xl font-semibold text-slate-800">
@@ -400,7 +400,7 @@ const Page = () => {
                       </Select>{" "}
                     </div>{" "}
                   </div>
-                )}{" "}
+                )}{" "} */}
                 {/* Listing Section */}{" "}
                 {activeSection === "Listing Section" && (
                   <div>
@@ -439,7 +439,7 @@ const Page = () => {
                   </div>
                 )}{" "}
                 {/* Chooseus Section */}{" "}
-                {activeSection === "Chooseus Section" && (
+                {/* {activeSection === "Chooseus Section" && (
                   <div>
                     {" "}
                     <h2 className="mb-4 text-xl font-semibold text-slate-800">
@@ -524,7 +524,7 @@ const Page = () => {
                       ))}{" "}
                     </div>{" "}
                   </div>
-                )}{" "}
+                )}{" "} */}
                 {/* Footer Section */}{" "}
                 {activeSection === "Footer" && (
                   <div>

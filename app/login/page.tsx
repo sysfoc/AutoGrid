@@ -21,7 +21,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [activeCredential, setActiveCredential] = useState<
     "superadmin" | "user"
-  >("superadmin"); // Toggle state
+  >("superadmin");
   const { refreshUser } = useAuth();
 
   const onLogin = async () => {
@@ -96,302 +96,190 @@ export default function LoginPage() {
   const currentCredentials = demoCredentials[activeCredential];
 
   return (
-    <div className="mt-24 flex min-h-screen bg-gradient-to-br from-gray-50 via-red-50 to-red-100 dark:from-gray-900 dark:via-red-900/20 dark:to-gray-900 md:mt-32">
-      <div className="relative hidden flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-red-700 via-red-800 to-red-900 p-12 text-white dark:from-red-800 dark:via-red-900 dark:to-red-950 lg:flex lg:w-1/2">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-br from-white via-transparent to-transparent"></div>
-          <div className="absolute bottom-0 right-0 h-96 w-96 translate-x-32 translate-y-32 transform rounded-full bg-white opacity-5"></div>
-          <div className="absolute right-20 top-20 h-64 w-64 rounded-full bg-white opacity-5"></div>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex mt-16 lg:mt-14">
+      
+      {/* Left Sidebar - Demo Credentials */}
+      <div className="hidden lg:flex lg:w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-col">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center mb-4">
+            <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center mr-3">
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m0 0a2 2 0 012 2m-2-2a2 2 0 00-2 2m0 0a2 2 0 01-2 2m2-2H9m12 0v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6a2 2 0 012-2h12zM9 7V5a2 2 0 012-2h2a2 2 0 012 2v2" />
+              </svg>
+            </div>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Demo Access</h3>
+          </div>
+          
+          {/* Role Toggle */}
+          <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+            <button
+              onClick={() => setActiveCredential("superadmin")}
+              className={`flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium rounded-md transition-all ${
+                activeCredential === "superadmin"
+                  ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm"
+                  : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              }`}
+            >
+              <MdAdminPanelSettings className="w-4 h-4 mr-1" />
+              Admin
+            </button>
+            <button
+              onClick={() => setActiveCredential("user")}
+              className={`flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium rounded-md transition-all ${
+                activeCredential === "user"
+                  ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm"
+                  : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              }`}
+            >
+              <MdPerson className="w-4 h-4 mr-1" />
+              Staff
+            </button>
+          </div>
         </div>
 
-        <div className="relative z-10 w-full max-w-lg text-center">
-          <div className="mb-8">
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-              <svg
-                className="h-10 w-10 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-            </div>
-            <h1 className="text-3xl font-bold">
-              {loading ? "Signing In..." : "Welcome Back"}
-            </h1>
+        <div className="p-6 flex-1">
+          <div className="space-y-4">
+            {[
+              { label: "Email", value: currentCredentials.email, icon: IoMail },
+              { label: "Password", value: currentCredentials.password, icon: IoLockClosedOutline },
+              { label: "PIN", value: currentCredentials.pin, icon: MdFiberPin }
+            ].map((item, index) => (
+              <div key={index} className="group">
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{item.label}</label>
+                  <button
+                    onClick={() => copyToClipboard(item.value, item.label)}
+                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-all"
+                  >
+                    <IoCopyOutline className="w-3 h-3 text-gray-400" />
+                  </button>
+                </div>
+                <div className="flex items-center bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                  <item.icon className="w-4 h-4 text-emerald-600 mr-3 flex-shrink-0" />
+                  <span className="font-mono text-sm text-gray-900 dark:text-white truncate">{item.value}</span>
+                </div>
+              </div>
+            ))}
           </div>
 
-          <div className="rounded-xl border border-white/20 bg-white/10 p-5 backdrop-blur-sm">
-            <div className="mb-4 flex items-center justify-center">
-              <svg
-                className="mr-2 h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 7a2 2 0 012 2m0 0a2 2 0 012 2m-2-2a2 2 0 00-2 2m0 0a2 2 0 01-2 2m2-2H9m12 0v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6a2 2 0 012-2h12zM9 7V5a2 2 0 012-2h2a2 2 0 012 2v2"
-                />
-              </svg>
-              <h2 className="text-lg font-semibold">Demo Credentials</h2>
-            </div>
-
-            <div className="mb-4 flex rounded-lg bg-white/10 p-1">
-              <button
-                onClick={() => setActiveCredential("superadmin")}
-                className={`flex flex-1 items-center justify-center rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
-                  activeCredential === "superadmin"
-                    ? "bg-white/20 text-white shadow-sm"
-                    : "text-red-100 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                <MdAdminPanelSettings className="mr-1.5 h-4 w-4" />
-                Admin
-              </button>
-              <button
-                onClick={() => setActiveCredential("user")}
-                className={`flex flex-1 items-center justify-center rounded-md px-3 py-2 text-sm font-medium transition-all duration-200 ${
-                  activeCredential === "user"
-                    ? "bg-white/20 text-white shadow-sm"
-                    : "text-red-100 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                <MdPerson className="mr-1.5 h-4 w-4" />
-                Staff
-              </button>
-            </div>
-            <div className="space-y-3">
-              <div className="group flex items-center justify-between">
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium uppercase tracking-wide text-red-200">
-                    Email
-                  </p>
-                  <p className="truncate font-mono text-sm text-white">
-                    {currentCredentials.email}
-                  </p>
-                </div>
-                <button
-                  onClick={() =>
-                    copyToClipboard(currentCredentials.email, "Email")
-                  }
-                  className="ml-2 rounded-md p-1.5 opacity-60 transition-colors hover:bg-white/10 hover:opacity-100"
-                >
-                  <IoCopyOutline className="h-4 w-4" />
-                </button>
-              </div>
-
-              <div className="group flex items-center justify-between">
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium uppercase tracking-wide text-red-200">
-                    Password
-                  </p>
-                  <p className="truncate font-mono text-sm text-white">
-                    {currentCredentials.password}
-                  </p>
-                </div>
-                <button
-                  onClick={() =>
-                    copyToClipboard(currentCredentials.password, "Password")
-                  }
-                  className="ml-2 rounded-md p-1.5 opacity-60 transition-colors hover:bg-white/10 hover:opacity-100"
-                >
-                  <IoCopyOutline className="h-4 w-4" />
-                </button>
-              </div>
-
-              <div className="group flex items-center justify-between">
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium uppercase tracking-wide text-red-200">
-                    Security PIN
-                  </p>
-                  <p className="truncate font-mono text-sm text-white">
-                    {currentCredentials.pin}
-                  </p>
-                </div>
-                <button
-                  onClick={() => copyToClipboard(currentCredentials.pin, "PIN")}
-                  className="ml-2 rounded-md p-1.5 opacity-60 transition-colors hover:bg-white/10 hover:opacity-100"
-                >
-                  <IoCopyOutline className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setUser(currentCredentials)}
-              className="mt-4 flex w-full items-center justify-center rounded-lg border border-white/20 bg-white/15 px-4 py-2.5 text-sm font-medium text-white transition-all duration-200 hover:bg-white/25"
-            >
-              <svg
-                className="mr-2 h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
-              Auto-Fill Form
-            </button>
-
-            <div className="mt-3 rounded-lg bg-white/5 p-2">
-              <p className="text-center text-xs text-red-100">
-                Click credentials to copy • Use toggle to switch roles
-              </p>
-            </div>
-          </div>
+          <button
+            onClick={() => setUser(currentCredentials)}
+            className="w-full mt-6 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium py-2.5 px-4 rounded-lg transition-colors"
+          >
+            Auto-Fill Form
+          </button>
         </div>
       </div>
 
-      <div className="mt-10 flex w-full items-start justify-center p-4 md:p-2 lg:w-1/2 ">
+      {/* Main Content */}
+      <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-md">
-          <div className="mb-6 text-center lg:hidden">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-red-700 to-red-800 dark:from-red-800 dark:to-red-900">
-              <svg
-                className="h-8 w-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
+          
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-emerald-600 rounded-xl mb-4">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
               {loading ? "Signing In..." : "Welcome Back"}
             </h1>
-            <p className="text-gray-600 dark:text-gray-300">
-              Please sign in to your account
-            </p>
+            <p className="text-gray-600 dark:text-gray-400">Sign in to your account</p>
           </div>
 
-          <div className="rounded-2xl border border-white/20 bg-white/80 p-8 shadow-xl backdrop-blur-sm dark:border-gray-700/20 dark:bg-gray-800/80">
+          {/* Login Form */}
+          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-700 p-5 shadow-lg">
+            
+            {/* Error Message */}
             {error && (
-              <div className="mb-6 flex items-start rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-700 dark:bg-red-900/30">
-                <svg
-                  className="mr-3 mt-0.5 h-5 w-5 flex-shrink-0 text-red-500 dark:text-red-400"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="text-sm text-red-800 dark:text-red-200">
-                  {error}
-                </span>
+              <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700 rounded-md">
+                <div className="flex items-start">
+                  <svg className="w-4 h-4 text-red-600 dark:text-red-400 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-sm text-red-700 dark:text-red-200">{error}</span>
+                </div>
               </div>
             )}
 
             <div className="space-y-4">
+              {/* Email Field */}
               <div>
-                <label
-                  htmlFor="email"
-                  className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Email Address
-                </label>
+                <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">Email</label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <IoMail className="text-red-700 dark:text-red-400" />
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <IoMail className="w-4 h-4 text-emerald-600 dark:text-emerald-500" />
                   </div>
                   <input
-                    className="w-full rounded-lg border border-gray-300 bg-white/50 py-3 pl-10 pr-4 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-red-600 dark:border-gray-600 dark:bg-gray-700/50 dark:text-white dark:placeholder-gray-400"
-                    id="email"
                     type="email"
                     value={user.email}
                     onChange={(e) => {
                       setUser({ ...user, email: e.target.value });
                       setError("");
                     }}
-                    placeholder="Enter your email address"
+                    className="w-full pl-10 pr-3 py-2 border border-gray-400 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                    placeholder="Enter your email"
                   />
                 </div>
               </div>
 
+              {/* Password Field */}
               <div>
-                <label
-                  htmlFor="password"
-                  className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Password
-                </label>
+                <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">Password</label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <IoLockClosedOutline className="text-red-700 dark:text-red-400" />
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <IoLockClosedOutline className="w-4 h-4 text-emerald-600 dark:text-emerald-500" />
                   </div>
                   <input
-                    className="w-full rounded-lg border border-gray-300 bg-white/50 py-3 pl-10 pr-4 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-red-600 dark:border-gray-600 dark:bg-gray-700/50 dark:text-white dark:placeholder-gray-400"
-                    id="password"
                     type="password"
                     value={user.password}
                     onChange={(e) => {
                       setUser({ ...user, password: e.target.value });
                       setError("");
                     }}
+                    className="w-full pl-10 pr-3 py-2 border border-gray-400 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
                     placeholder="Enter your password"
                   />
                 </div>
               </div>
 
+              {/* PIN Field */}
               <div>
-                <label
-                  htmlFor="pin"
-                  className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  Security PIN
-                </label>
+                <label className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">Security PIN</label>
                 <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <MdFiberPin className="text-red-700 dark:text-red-400" />
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <MdFiberPin className="w-4 h-4 text-emerald-600 dark:text-emerald-500" />
                   </div>
                   <input
-                    className="w-full rounded-lg border border-gray-300 bg-white/50 py-3 pl-10 pr-4 text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-red-600 dark:border-gray-600 dark:bg-gray-700/50 dark:text-white dark:placeholder-gray-400"
-                    id="pin"
                     type="text"
                     value={user.pin || ""}
                     onChange={(e) => {
                       setUser({ ...user, pin: e.target.value });
                       setError("");
                     }}
-                    placeholder="Enter your security PIN"
+                    className="w-full pl-10 pr-3 py-2 border border-gray-400 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                    placeholder="Enter your PIN"
                   />
                 </div>
               </div>
 
-              <div className="border-t border-gray-200 pt-5 dark:border-gray-700">
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {/* Quick Access Buttons - Mobile */}
+              <div className="lg:hidden border-t border-gray-300 dark:border-gray-600 pt-4">
+                <div className="grid grid-cols-2 gap-2 mb-4">
                   <button
                     onClick={() => setUser(demoCredentials.superadmin)}
-                    className="flex transform items-center justify-center rounded-lg bg-gradient-to-r from-red-700 to-red-800 px-4 py-3 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:from-red-800 hover:to-red-900 hover:shadow-xl dark:from-red-800 dark:to-red-900 dark:hover:from-red-900 dark:hover:to-red-950"
+                    className="flex items-center justify-center px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-md text-sm font-medium border border-emerald-300 dark:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors"
                   >
-                    <MdAdminPanelSettings className="mr-2 h-4 w-4" />
-                    SuperAdmin
+                    <MdAdminPanelSettings className="w-4 h-4 mr-1" />
+                    Admin
                   </button>
-
                   <button
                     onClick={() => setUser(demoCredentials.user)}
-                    className="flex transform items-center justify-center rounded-lg bg-gradient-to-r from-gray-600 to-gray-700 px-4 py-3 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:from-gray-700 hover:to-gray-800 hover:shadow-xl dark:from-gray-700 dark:to-gray-800 dark:hover:from-gray-800 dark:hover:to-gray-900"
+                    className="flex items-center justify-center px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md text-sm font-medium border border-gray-400 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                   >
-                    <MdPerson className="mr-2 h-4 w-4" />
-                    Staff Login
+                    <MdPerson className="w-4 h-4 mr-1" />
+                    Staff
                   </button>
                 </div>
               </div>
@@ -400,28 +288,13 @@ export default function LoginPage() {
               <button
                 onClick={onLogin}
                 disabled={buttonDisabled || loading}
-                className="w-full transform rounded-lg bg-gradient-to-r from-red-700 to-red-800 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:from-red-800 hover:to-red-900 hover:shadow-xl focus:outline-none focus:ring-0 disabled:transform-none disabled:cursor-not-allowed disabled:opacity-50 dark:from-red-800 dark:to-red-900 dark:hover:from-red-900 dark:hover:to-red-950 dark:focus:ring-offset-gray-800"
+                className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-500 dark:disabled:bg-gray-600 text-white font-medium py-2.5 px-4 rounded-md transition-colors disabled:cursor-not-allowed shadow-sm"
               >
                 {loading ? (
                   <div className="flex items-center justify-center">
-                    <svg
-                      className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                     Processing...
                   </div>
