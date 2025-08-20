@@ -104,7 +104,7 @@ const ChooseUs = () => {
                     <h3 className="text-base font-bold text-white dark:text-gray-100 group-hover:text-blue-100 dark:group-hover:text-blue-200 transition-colors duration-300">
                       {feature.title}
                     </h3>
-                    <p className="text-blue-100/70 dark:text-gray-300/80 group-hover:text-blue-100/90 dark:group-hover:text-gray-200/90 leading-relaxed text-sm transition-colors duration-300">
+                    <p className="text-blue-100/70 dark:text-gray-200 group-hover:text-blue-100/90 dark:group-hover:text-gray-200/90 leading-relaxed text-sm transition-colors duration-300">
                       {feature.description}
                     </p>
                   </div>

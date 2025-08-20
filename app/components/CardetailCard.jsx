@@ -666,10 +666,10 @@ const CardetailCard = () => {
             className="text-orange-500"
           />
           <div>
-            <span className="text-lg font-semibold text-gray-900">
+            <span className="text-lg font-semibold text-gray-900 dark:text-white">
               Loading vehicles...
             </span>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-100">
               Please wait while we fetch the latest listings
             </p>
           </div>
@@ -697,10 +697,10 @@ const CardetailCard = () => {
               />
             </svg>
           </div>
-          <h3 className="mb-3 text-xl font-bold text-gray-900">
+          <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white">
             No vehicles found
           </h3>
-          <p className="mb-6 text-gray-500">
+          <p className="mb-6 text-gray-500 dark:text-gray-100">
             We could not find any vehicles matching your current filters. Try
             adjusting your search criteria or clearing some filters.
           </p>
@@ -712,14 +712,14 @@ const CardetailCard = () => {
   return (
     <>
       <div className="mb-6">
-        <div className="flex flex-col gap-4 rounded-lg bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-sm font-medium text-gray-600">
-              <span className="font-semibold text-gray-900">
+            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {paginationData.startIndex + 1}-{paginationData.endIndex}
               </span>{" "}
               of{" "}
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {paginationData.totalItems}
               </span>{" "}
               vehicles
@@ -728,7 +728,7 @@ const CardetailCard = () => {
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Select
-              className="min-w-[120px] text-sm"
+              className="min-w-[120px] border-gray-300 bg-white text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               value={itemsPerPage}
               onChange={(e) => {
                 setItemsPerPage(Number.parseInt(e.target.value));
@@ -743,7 +743,7 @@ const CardetailCard = () => {
 
             <Select
               icon={GrSort}
-              className="min-w-[160px] text-sm"
+              className="min-w-[160px] border-gray-300 bg-white text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
             >
@@ -756,13 +756,13 @@ const CardetailCard = () => {
               <option value="mileage-hl">{t("mileageHighToLow")}</option>
             </Select>
 
-            <div className="flex rounded-lg border border-gray-200 bg-white p-1">
+            <div className="flex rounded-lg border border-gray-200 bg-white p-1 dark:border-gray-600 dark:bg-gray-700">
               <button
                 onClick={() => setIsGridView(false)}
                 className={`rounded p-2 transition-colors ${
                   !isGridView
                     ? "bg-orange-500 text-white"
-                    : "text-gray-500 hover:text-gray-700"
+                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                 }`}
               >
                 <FiList size={16} />
@@ -772,7 +772,7 @@ const CardetailCard = () => {
                 className={`rounded p-2 transition-colors ${
                   isGridView
                     ? "bg-orange-500 text-white"
-                    : "text-gray-500 hover:text-gray-700"
+                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                 }`}
               >
                 <FiGrid size={16} />
@@ -793,7 +793,7 @@ const CardetailCard = () => {
           <div key={car._id} className="group">
             <Link href={`car-detail/${car.slug}`}>
               <div
-                className={`overflow-hidden rounded-lg bg-white shadow-sm transition-all duration-300 hover:shadow-md ${
+                className={`overflow-hidden rounded-lg border border-gray-200 bg-gray-100 shadow-sm transition-all duration-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-lg ${
                   isGridView ? "flex flex-col" : "flex flex-col sm:flex-row"
                 }`}
               >
@@ -802,6 +802,16 @@ const CardetailCard = () => {
                 >
                   <Carousel
                     slideInterval={3000}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                    }}
+                    onPrevious={(e) => {
+                      e.stopPropagation();
+                    }}
+                    onNext={(e) => {
+                      e.stopPropagation();
+                    }}
                     className="h-full w-full overflow-hidden rounded-t-lg sm:rounded-l-lg sm:rounded-tr-none"
                   >
                     {Array.isArray(car.imageUrls) &&
@@ -821,11 +831,11 @@ const CardetailCard = () => {
                         </div>
                       ))
                     ) : (
-                      <div className="flex h-full items-center justify-center bg-gray-100">
+                      <div className="flex h-full items-center justify-center bg-gray-100 dark:bg-gray-700">
                         <div className="text-center">
-                          <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-gray-200">
+                          <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-600">
                             <svg
-                              className="h-8 w-8 text-gray-400"
+                              className="h-8 w-8 text-gray-400 dark:text-gray-500"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -838,7 +848,7 @@ const CardetailCard = () => {
                               />
                             </svg>
                           </div>
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm text-gray-500 dark:text-gray-400">
                             No images available
                           </span>
                         </div>
@@ -889,14 +899,14 @@ const CardetailCard = () => {
                         e.preventDefault();
                         handleLikeToggle(car._id);
                       }}
-                      className="rounded-full bg-white p-2 shadow-sm transition-colors hover:bg-gray-50"
+                      className="rounded-full bg-white p-2 shadow-sm transition-colors hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700"
                     >
                       {userLikedCars &&
                       Array.isArray(userLikedCars) &&
                       userLikedCars.includes(car._id) ? (
                         <FaHeart className="h-4 w-4 text-red-500" />
                       ) : (
-                        <FaRegHeart className="h-4 w-4 text-gray-600" />
+                        <FaRegHeart className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                       )}
                     </button>
                   </div>
@@ -911,7 +921,7 @@ const CardetailCard = () => {
                   >
                     <div className="flex-1">
                       <h3
-                        className={`font-bold text-gray-900 ${
+                        className={`font-bold text-gray-900 dark:text-white ${
                           isGridView ? "text-lg" : "text-xl"
                         }`}
                       >
@@ -923,7 +933,7 @@ const CardetailCard = () => {
                       </h3>
 
                       {!isGridView && car.features?.length > 0 && (
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                           {car.features.join(" • ")}
                         </p>
                       )}
@@ -948,7 +958,7 @@ const CardetailCard = () => {
                     <span className="rounded bg-orange-500 px-2 py-1 text-xs font-medium text-white">
                       {car.year || car.modelYear || "N/A"}
                     </span>
-                    <div className="flex flex-wrap items-center text-sm text-gray-600">
+                    <div className="flex flex-wrap items-center text-sm text-gray-600 dark:text-gray-300">
                       {[
                         !isGridView &&
                           (() => {
@@ -966,7 +976,7 @@ const CardetailCard = () => {
 
                   {!isGridView && (
                     <div className="mb-4">
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
                         <span className="text-orange-500">Location:</span>{" "}
                         {car.location || "Not specified"}
                       </span>
@@ -999,17 +1009,17 @@ const CardetailCard = () => {
       {paginationData.totalPages > 1 && (
         <div className="mt-12 flex flex-col items-center gap-6">
           <div className="text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               Showing{" "}
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {paginationData.startIndex + 1}
               </span>{" "}
               to{" "}
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {paginationData.endIndex}
               </span>{" "}
               of{" "}
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-gray-900 dark:text-white">
                 {paginationData.totalItems}
               </span>{" "}
               results
@@ -1022,8 +1032,8 @@ const CardetailCard = () => {
               disabled={!paginationData.hasPrevPage || isPageTransitioning}
               className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 paginationData.hasPrevPage && !isPageTransitioning
-                  ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400"
+                  ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-600"
               }`}
             >
               <svg
@@ -1046,7 +1056,9 @@ const CardetailCard = () => {
               {getVisiblePageNumbers().map((pageNum, index) => (
                 <div key={index}>
                   {pageNum === "..." ? (
-                    <span className="px-3 py-2 text-gray-500">...</span>
+                    <span className="px-3 py-2 text-gray-500 dark:text-gray-400">
+                      ...
+                    </span>
                   ) : (
                     <button
                       onClick={() => handlePageChange(pageNum)}
@@ -1054,7 +1066,7 @@ const CardetailCard = () => {
                       className={`min-w-[40px] rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                         currentPage === pageNum
                           ? "bg-orange-500 text-white"
-                          : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                          : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                       } ${isPageTransitioning ? "cursor-not-allowed opacity-50" : ""}`}
                     >
                       {pageNum}
@@ -1069,8 +1081,8 @@ const CardetailCard = () => {
               disabled={!paginationData.hasNextPage || isPageTransitioning}
               className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 paginationData.hasNextPage && !isPageTransitioning
-                  ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400"
+                  ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-600"
               }`}
             >
               Next
@@ -1092,7 +1104,9 @@ const CardetailCard = () => {
 
           {paginationData.totalPages > 10 && (
             <div className="flex items-center gap-3">
-              <span className="text-sm text-gray-600">Jump to page:</span>
+              <span className="text-sm text-gray-600 dark:text-gray-300">
+                Jump to page:
+              </span>
               <input
                 type="number"
                 min="1"
@@ -1104,17 +1118,16 @@ const CardetailCard = () => {
                     handlePageChange(page);
                   }
                 }}
-                className="w-16 rounded-lg border border-gray-300 px-2 py-1 text-center text-sm"
+                className="w-16 rounded-lg border border-gray-300 bg-white px-2 py-1 text-center text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                 disabled={isPageTransitioning}
               />
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-600 dark:text-gray-300">
                 of {paginationData.totalPages}
               </span>
             </div>
           )}
         </div>
       )}
-
       {/* Enquiry Modal */}
       <Modal
         dismissible

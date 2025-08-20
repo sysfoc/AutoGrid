@@ -78,7 +78,7 @@ const VehicleCard = ({
 
   return (
     <Link href={`/car-detail/${vehicle.slug || vehicle._id}`}>
-      <div className="group w-full transform cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-800 dark:shadow-slate-900/20">
+      <div className="group w-full h-full transform cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-800 dark:shadow-slate-900/20 flex flex-col">
         {/* Image Section */}
         <div className="relative">
           <div className="relative aspect-[4/3] overflow-hidden">
@@ -208,7 +208,7 @@ const VehicleCard = ({
         </div>
 
         {/* Content Section - Reduced padding */}
-        <div className="p-3">
+        <div className="p-3 flex-1 flex flex-col">
           {/* Title and Price */}
           <div className="mb-2 flex items-start justify-between">
             <div className="flex-1">
@@ -236,7 +236,7 @@ const VehicleCard = ({
           </div>
 
           {/* Vehicle Stats - Reduced padding and gap */}
-          <div className="grid grid-cols-3 gap-1 text-center">
+          <div className="grid grid-cols-3 gap-1 text-center mt-auto">
             <div className="flex flex-col items-center">
               <div className="mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
                 <IoSpeedometer className="h-3 w-3 text-gray-600 dark:text-gray-300" />

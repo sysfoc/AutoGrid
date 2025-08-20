@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
@@ -292,7 +292,7 @@ const Footerr = () => {
             {/* Quick Links - Compact column */}
             <div className="lg:col-span-3">
               <div className="mb-8">
-                <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
+                <h4 className="text-sm sm:text-lg font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
                   {footerSettings?.col1Heading || t("quickLinks")}
                 </h4>
                 <nav className="space-y-4">
@@ -316,7 +316,7 @@ const Footerr = () => {
 
             {/* Trading Hours - Wider column */}
             <div className="lg:col-span-5">
-              <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
+              <h4 className="text-sm sm:text-lg font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
                 {footerSettings?.col2Heading || t("tradingHours")}
               </h4>
               <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-100 dark:border-slate-800">
@@ -354,7 +354,7 @@ const Footerr = () => {
               <div className="space-y-8">
                 {/* Language Section */}
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
+                  <h4 className="text-sm sm:text-lg font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
                     {footerSettings?.col3Heading || t("language")}
                   </h4>
                   <div className="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-800">

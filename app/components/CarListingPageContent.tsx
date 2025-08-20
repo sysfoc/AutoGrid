@@ -34,7 +34,7 @@ const CarListingPageContent = () => {
       {/* Desktop: Always visible horizontal filters */}
 
       <div className="mb-6 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 sm:text-3xl lg:text-4xl">
           Filter Vehicles
         </h1>
       </div>
