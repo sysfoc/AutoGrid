@@ -330,7 +330,7 @@ const [isVisible, setIsVisible] = useState(true);
     <>
     <Banner/>
       <nav 
-      className={`fixed left-0 right-0 top-16 z-20 bg-white shadow-lg backdrop-blur-lg transition-all duration-300 border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700 ${
+      className={`fixed left-0 right-0 top-16 z-30 bg-white shadow-lg backdrop-blur-lg transition-all duration-300 border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700 ${
           isVisible 
             ? 'translate-y-0 opacity-100' 
             : '-translate-y-full opacity-0'
