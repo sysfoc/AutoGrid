@@ -10,6 +10,23 @@ import SellerCommentComponent from "../../components/SellerComment"; // Import S
 import { LuMessageCircle, LuMail, LuPhone } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
+import { 
+ Car, 
+ Tag, 
+ Calendar, 
+ Star, 
+ Truck, 
+ Palette, 
+ DoorOpen, 
+ Users, 
+ Fuel, 
+ Settings, 
+ Wrench, 
+ Zap, 
+ Activity, 
+ Leaf, 
+ Globe
+} from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import {
   Button,
@@ -21,6 +38,7 @@ import {
   TextInput,
   Spinner,
 } from "flowbite-react";
+import { FileText, MapPin, MessageCircle } from "lucide-react";
 
 export default function CarDetail() {
   const t = useTranslations("carDetails");
@@ -86,7 +104,7 @@ export default function CarDetail() {
         if (data.cars) {
           const otherCars = data.cars
             .filter((c) => c.slug !== slug)
-            .slice(0, 6);
+            .slice(0, 5);
           setRelatedCars(otherCars);
         }
       })
@@ -199,7 +217,7 @@ export default function CarDetail() {
   };
 
   return (
-    <div className="mt-20 min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="mt-16 min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         {/* Main Content Grid - matches reference layout */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -280,7 +298,7 @@ export default function CarDetail() {
                         className="flex items-center gap-2 rounded-lg bg-gray-50 p-3 dark:bg-gray-700"
                       >
                         <div className="h-2 w-2 rounded-full bg-teal-600"></div>
-                        <span className="text-sm text-gray-700 dark:text-gray-300">
+                        <span className="text-sm text-gray-700 dark:text-gray-50">
                           {feature}
                         </span>
                       </div>
@@ -334,7 +352,7 @@ export default function CarDetail() {
                 ) : dealer ? (
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <div className="mt-0.5 h-5 w-5 text-teal-600">📍</div>
+                      <div className="mt-0.5 h-5 w-5 text-teal-600"><MapPin /></div>
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white">
                           Location
@@ -345,7 +363,7 @@ export default function CarDetail() {
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="mt-0.5 h-5 w-5 text-teal-600">📋</div>
+                      <div className="mt-0.5 h-5 w-5 text-teal-600"><FileText /></div>
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white">
                           License
@@ -359,7 +377,7 @@ export default function CarDetail() {
                     <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
                       <div className="mb-3 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <div className="h-5 w-5 text-green-600">💬</div>
+                          <div className="h-5 w-5 text-green-600"><MessageCircle /></div>
                           <p className="font-medium text-gray-900 dark:text-white">
                             WhatsApp
                           </p>
@@ -404,6 +422,7 @@ export default function CarDetail() {
                     {/* Map Section */}
                     <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
                       <h4 className="mb-3 font-medium text-gray-900 dark:text-white">
+                      <Globe className="mr-2 h-5 w-5 text-teal-600 inline" />
                         Location
                       </h4>
                       {loading ? (
@@ -647,65 +666,65 @@ const ResponsiveSpecsGrid = ({ loadingState, carData, translation: t }) => {
   const loading = loadingState;
 
   const specifications = [
-    { label: "Make", value: carData?.make || "Not provided", icon: "🚗" },
-    { label: "Model", value: carData?.model || "Not provided", icon: "🏷️" },
-    { label: "Year", value: carData?.modelYear || "Not provided", icon: "📅" },
-    {
-      label: "Condition",
-      value: carData?.condition || "Not provided",
-      icon: "⭐",
-    },
-    {
-      label: "Body Type",
-      value: carData?.bodyType || "Not provided",
-      icon: "🚙",
-    },
-    { label: "Color", value: carData?.color || "Not provided", icon: "🎨" },
-    { label: "Doors", value: carData?.doors || "Not provided", icon: "🚪" },
-    { label: "Seats", value: carData?.seats || "Not provided", icon: "💺" },
-    {
-      label: "Fuel Type",
-      value: carData?.fuelType || "Not provided",
-      icon: "⛽",
-    },
-    { label: "Gearbox", value: carData?.gearbox || "Not provided", icon: "⚙️" },
-    {
-      label: "Drive Type",
-      value: carData?.driveType || "Not provided",
-      icon: "🔧",
-    },
-    {
-      label: "Engine Size",
-      value: carData?.engineSize ? `${carData.engineSize}L` : "Not provided",
-      icon: "🔋",
-    },
-    {
-      label: "Engine Power",
-      value: carData?.enginePower
-        ? `${carData.enginePower} HP`
-        : "Not provided",
-      icon: "⚡",
-    },
-    {
-      label: "Mileage",
-      value: carData?.mileage || carData?.kms || "Not provided",
-      icon: "📊",
-    },
-    {
-      label: "Fuel Consumption",
-      value: carData?.fuelConsumption
-        ? `${carData.fuelConsumption}L/100km`
-        : "Not provided",
-      icon: "⛽",
-    },
-    {
-      label: "CO2 Emission",
-      value: carData?.co2Emission
-        ? `${carData.co2Emission}g/km`
-        : "Not provided",
-      icon: "🌱",
-    },
-  ];
+ { label: "Make", value: carData?.make || "Not provided", icon: Car },
+ { label: "Model", value: carData?.model || "Not provided", icon: Tag },
+ { label: "Year", value: carData?.modelYear || "Not provided", icon: Calendar },
+ {
+   label: "Condition",
+   value: carData?.condition || "Not provided",
+   icon: Star,
+ },
+ {
+   label: "Body Type",
+   value: carData?.bodyType || "Not provided",
+   icon: Truck,
+ },
+ { label: "Color", value: carData?.color || "Not provided", icon: Palette },
+ { label: "Doors", value: carData?.doors || "Not provided", icon: DoorOpen },
+ { label: "Seats", value: carData?.seats || "Not provided", icon: Users },
+ {
+   label: "Fuel Type",
+   value: carData?.fuelType || "Not provided",
+   icon: Fuel,
+ },
+ { label: "Gearbox", value: carData?.gearbox || "Not provided", icon: Settings },
+ {
+   label: "Drive Type",
+   value: carData?.driveType || "Not provided",
+   icon: Wrench,
+ },
+ {
+   label: "Engine Size",
+   value: carData?.engineSize ? `${carData.engineSize}L` : "Not provided",
+   icon: Zap,
+ },
+ {
+   label: "Engine Power",
+   value: carData?.enginePower
+     ? `${carData.enginePower} HP`
+     : "Not provided",
+   icon: Zap,
+ },
+ {
+   label: "Mileage",
+   value: carData?.mileage || carData?.kms || "Not provided",
+   icon: Activity,
+ },
+ {
+   label: "Fuel Consumption",
+   value: carData?.fuelConsumption
+     ? `${carData.fuelConsumption}L/100km`
+     : "Not provided",
+   icon: Fuel,
+ },
+ {
+   label: "CO2 Emission",
+   value: carData?.co2Emission
+     ? `${carData.co2Emission}g/km`
+     : "Not provided",
+   icon: Leaf,
+ },
+];
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -728,7 +747,8 @@ const ResponsiveSpecsGrid = ({ loadingState, carData, translation: t }) => {
               className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
             >
               <div className="mb-2 flex items-center gap-2">
-                <span className="text-lg">{spec.icon}</span>
+                {/* <span className="text-lg">{spec.icon}</span> */}
+                <spec.icon className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                 <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                   {spec.label}
                 </span>
