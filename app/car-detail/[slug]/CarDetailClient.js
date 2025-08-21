@@ -753,7 +753,7 @@ const ResponsiveSpecsGrid = ({ loadingState, carData, translation: t }) => {
                   {spec.label}
                 </span>
               </div>
-              <div className="flex items-center justify-center bg-teal-100 dark:bg-teal-800 rounded-lg p-2">
+              <div className="flex items-center justify-center bg-teal-100 dark:bg-teal-600 rounded-lg p-2">
               <p className="text-sm text-center text-gray-900 dark:text-white">
                 {spec.value}
               </p>
