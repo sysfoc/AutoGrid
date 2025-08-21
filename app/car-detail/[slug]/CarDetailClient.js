@@ -25,7 +25,8 @@ import {
  Zap, 
  Activity, 
  Leaf, 
- Globe
+ Globe,
+ Check
 } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import {
@@ -295,9 +296,9 @@ export default function CarDetail() {
                     {car.features.map((feature, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-2 rounded-lg bg-gray-50 p-3 dark:bg-gray-700"
+                        className="flex items-center gap-2 rounded-lg bg-teal-50 p-3 dark:bg-gray-700"
                       >
-                        <div className="h-2 w-2 rounded-full bg-teal-600"></div>
+                       <Check className="h-4 w-4 text-teal-600 dark:text-teal-400 flex-shrink-0" />
                         <span className="text-sm text-gray-700 dark:text-gray-50">
                           {feature}
                         </span>
@@ -744,18 +745,19 @@ const ResponsiveSpecsGrid = ({ loadingState, carData, translation: t }) => {
         : specifications.map((spec, index) => (
             <div
               key={index}
-              className="rounded-lg border border-gray-200 bg-gray-50 p-4 transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
+              className="rounded-lg border border-gray-200 bg-green-50 p-2 transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
             >
               <div className="mb-2 flex items-center gap-2">
-                {/* <span className="text-lg">{spec.icon}</span> */}
                 <spec.icon className="h-5 w-5 text-teal-600 dark:text-teal-400" />
                 <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                   {spec.label}
                 </span>
               </div>
-              <p className="text-sm font-semibold text-gray-900 dark:text-white">
+              <div className="flex items-center justify-center bg-teal-100 dark:bg-teal-800 rounded-lg p-2">
+              <p className="text-sm text-center text-gray-900 dark:text-white">
                 {spec.value}
               </p>
+            </div>
             </div>
           ))}
     </div>
