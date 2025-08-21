@@ -132,7 +132,7 @@ export default function Home() {
               <div className="mb-6 mt-14 text-center">
                 <h1 className="mb-3 text-3xl font-bold leading-tight text-white md:text-4xl">
                   Get Your Cars
-                  <span className="bg-gradient-to-r from-app-button to-app-button-hover bg-clip-text text-transparent">
+                  <span className="bg-green-600 bg-clip-text text-transparent">
                     True Value
                   </span>
                 </h1>
@@ -150,8 +150,8 @@ export default function Home() {
                         onClick={() => handleValuationType("Selling")}
                         className={`flex items-center rounded-xl border px-4 py-2 transition-all duration-200 ${
                           formData.valuationType === "Selling"
-                            ? "border-app-button bg-app-button text-white shadow-md"
-                            : "border-gray-200 bg-white text-app-text hover:border-app-button-hover dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                            ? "border-green-600bg-green-600text-white shadow-md"
+                            : "border-gray-200 bg-white text-app-text hover:border-green-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                         }`}
                       >
                         <AiOutlineDollar className="mr-2 text-lg" />
@@ -162,8 +162,8 @@ export default function Home() {
                         onClick={() => handleValuationType("Buying")}
                         className={`flex items-center rounded-xl border px-4 py-2 transition-all duration-200 ${
                           formData.valuationType === "Buying"
-                            ? "border-app-button bg-app-button text-white shadow-md"
-                            : "border-gray-200 bg-white text-app-text hover:border-app-button-hover dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                            ? "border-green-600bg-green-600text-white shadow-md"
+                            : "border-gray-200 bg-white text-app-text hover:border-green-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                         }`}
                       >
                         <MdSell className="mr-2 text-lg" />
@@ -174,8 +174,8 @@ export default function Home() {
                         onClick={() => handleValuationType("Trading")}
                         className={`flex items-center rounded-xl border px-4 py-2 transition-all duration-200 ${
                           formData.valuationType === "Trading"
-                            ? "border-app-button bg-app-button text-white shadow-md"
-                            : "border-gray-200 bg-white text-app-text hover:border-app-button-hover dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                            ? "border-green-600bg-green-600text-white shadow-md"
+                            : "border-gray-200 bg-white text-app-text hover:border-green-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
                         }`}
                       >
                         <FaExchangeAlt className="mr-2 text-lg" />
@@ -236,7 +236,7 @@ export default function Home() {
                             onChange={(e) => setSelectedMake(e.target.value)}
                             aria-label="Select Make"
                             autoComplete="off"
-                            className="w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-app-text transition-all duration-200 hover:border-app-button-hover focus:border-app-button focus:ring-2 focus:ring-app-button/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-app-button-hover dark:focus:border-app-button dark:focus:ring-app-button/20"
+                            className="w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-app-text transition-all duration-200 hover:border-green-700 focus:border-green-600focus:ring-2 focus:ring-app-button/20 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-green-700 dark:focus:border-green-600dark:focus:ring-app-button/20"
                             disabled={loading}
                           >
                             <option value="">Select Make</option>
@@ -248,7 +248,7 @@ export default function Home() {
                           </select>
                           {loading && (
                             <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-app-button border-t-transparent"></div>
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-green-600border-t-transparent"></div>
                             </div>
                           )}
                         </div>
@@ -268,7 +268,7 @@ export default function Home() {
                             id="model"
                             autoComplete="off"
                             onChange={(e) => setSelectedModel(e.target.value)}
-                            className="w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-app-text transition-all duration-200 hover:border-app-button-hover focus:border-app-button focus:ring-2 focus:ring-app-button/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-app-button-hover dark:focus:border-app-button dark:focus:ring-app-button/20"
+                            className="w-full rounded-lg border border-gray-300 bg-white p-2.5 text-sm text-app-text transition-all duration-200 hover:border-green-700 focus:border-green-600focus:ring-2 focus:ring-app-button/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-green-700 dark:focus:border-green-600dark:focus:ring-app-button/20"
                             disabled={!selectedMake || loading}
                           >
                             <option value="">Select Model</option>
@@ -280,7 +280,7 @@ export default function Home() {
                           </select>
                           {loading && selectedMake && (
                             <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-app-button border-t-transparent"></div>
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-green-600border-t-transparent"></div>
                             </div>
                           )}
                         </div>
@@ -290,7 +290,7 @@ export default function Home() {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full rounded-lg bg-gradient-to-r from-app-button to-app-button-hover px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:from-app-button-hover hover:to-app-button hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
+                        className="w-full rounded-lg bg-green-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:bg-green-700 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         {isSubmitting ? (
                           <>
@@ -326,15 +326,15 @@ export default function Home() {
                     <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
                       <div className="flex justify-center space-x-6 text-center text-sm text-gray-600 dark:text-gray-300">
                         <span className="flex items-center">
-                          <FaClock className="mr-1 text-app-button" />
+                          <FaClock className="mr-1 text-green-600" />
                           Quick
                         </span>
                         <span className="flex items-center">
-                          <AiOutlineDollar className="mr-1 text-green-500" />
+                          <AiOutlineDollar className="mr-1 text-green-600" />
                           Free
                         </span>
                         <span className="flex items-center">
-                          <FaShieldAlt className="mr-1 text-app-button-hover" />
+                          <FaShieldAlt className="mr-1 text-green-600" />
                           No Obligation
                         </span>
                       </div>

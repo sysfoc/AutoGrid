@@ -77,28 +77,28 @@ export default function SellMyCar() {
 
   const guides = [
     {
-      icon: <Car className="text-4xl text-app-button" />,
+      icon: <Car className="text-4xl text-green-600" />,
       title: "Car Preparation",
       description: "Learn how to prepare your vehicle to maximize its appeal and value in the market.",
-      color: "from-app-button to-orange-500",
+      color: "from-green-500 to-green-600",
     },
     {
-      icon: <TrendingUp className="text-4xl text-app-button" />,
+      icon: <TrendingUp className="text-4xl text-green-600" />,
       title: "Market Analysis",
       description: "Understand current market trends and how they affect your vehicle value.",
-      color: "from-app-button to-orange-500",
+      color: "from-green-500 to-green-600",
     },
     {
-      icon: <CreditCard className="text-4xl text-app-button" />,
+      icon: <CreditCard className="text-4xl text-green-600" />,
       title: "Transaction Security",
       description: "Learn about secure payment methods and transaction protection strategies.",
-      color: "from-app-button to-orange-500",
+      color: "from-green-500 to-green-600",
     },
     {
-      icon: <AlertTriangle className="text-4xl text-app-button" />,
+      icon: <AlertTriangle className="text-4xl text-green-600" />,
       title: "Important Considerations",
       description: "Key factors to consider when selling your vehicle through professional channels.",
-      color: "from-app-button to-orange-500",
+      color: "from-green-500 to-green-600",
     },
   ]
 
@@ -160,20 +160,20 @@ export default function SellMyCar() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 mt-16">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-zinc-900 to-stone-900">
+      <section className="relative overflow-hidden bg-gradient-to-br from-green-900 via-green-800 to-green-700">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10"></div>
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
           <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
             <div className="space-y-8">
-              <div className="inline-flex items-center rounded-full bg-app-button/10 px-4 py-2 backdrop-blur-sm">
+              <div className="inline-flex items-center rounded-full bg-green-500/20 px-4 py-2 backdrop-blur-sm">
                 <Star className="mr-2 text-yellow-400" />
                 <span className="text-sm font-medium text-gray-200">Trusted automotive services</span>
               </div>
               <div className="space-y-6">
                 <h1 className="text-5xl font-bold leading-tight text-white lg:text-6xl">
                   We Sell Cars{" "}
-                  <span className="bg-gradient-to-r from-app-button to-orange-400 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">
                     Professionally
                   </span>
                 </h1>
@@ -183,16 +183,16 @@ export default function SellMyCar() {
                 </p>
                 <button
                   onClick={handleContactUs}
-                  className="group relative inline-flex transform items-center justify-center overflow-hidden rounded-xl bg-app-button px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-orange-300 dark:focus:ring-orange-800"
+                  className="group relative inline-flex transform items-center justify-center overflow-hidden rounded-xl bg-green-600 px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
                 >
-                  <div className="absolute inset-0 bg-app-button-hover opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                  <div className="absolute inset-0 bg-green-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                   <span className="relative z-10 mr-3">Contact Our Experts</span>
                   <ArrowRight className="relative z-10 h-5 w-5 transform transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -inset-4 rounded-2xl bg-gradient-to-r from-app-button/20 to-app-button/10 blur-2xl"></div>
+              <div className="absolute -inset-4 rounded-2xl bg-gradient-to-r from-green-500/20 to-green-400/10 blur-2xl"></div>
               <div className="relative overflow-hidden rounded-2xl bg-white/10 p-8 backdrop-blur-sm">
                 <Image
                   src="/Luxury SUV.webp"
@@ -210,7 +210,7 @@ export default function SellMyCar() {
             <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 sm:grid-cols-4">
               {benefits.map((benefit, index) => (
                 <div key={index} className="text-center">
-                  <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-app-button/20 text-app-button backdrop-blur-sm">
+                  <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-green-500/20 text-green-400 backdrop-blur-sm">
                     {benefit.icon}
                   </div>
                   <p className="text-sm font-medium text-white">{benefit.title}</p>
@@ -223,11 +223,11 @@ export default function SellMyCar() {
       </section>
 
       {/* How It Works Section */}
-      <section className="bg-gray-50 py-20 dark:bg-gray-800">
+      <section className="bg-green-50 py-20 dark:bg-gray-800">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-app-text dark:text-white">How Our Service Works</h2>
-            <p className="mx-auto max-w-3xl text-xl text-gray-600 dark:text-gray-300">
+            <h2 className="mb-4 text-4xl font-bold text-green-800 dark:text-white">How Our Service Works</h2>
+            <p className="mx-auto max-w-3xl text-xl text-green-600 dark:text-gray-300">
               Our professional team guides you through every step of the car selling process. Here&apos;s how we help
               you sell your vehicle with confidence.
             </p>
@@ -241,28 +241,28 @@ export default function SellMyCar() {
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 <div className="relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-900">
-                  <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-app-button to-orange-500"></div>
+                  <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-green-500 to-green-600"></div>
                   <div className="mb-6 flex items-center justify-between">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-app-button to-orange-500 text-white shadow-lg">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg">
                       {step.icon}
                     </div>
-                    <div className="text-6xl font-bold text-gray-100 dark:text-gray-700">{step.step}</div>
+                    <div className="text-6xl font-bold text-green-100 dark:text-gray-700">{step.step}</div>
                   </div>
-                  <h3 className="mb-4 text-2xl font-bold text-app-text dark:text-white">{step.title}</h3>
-                  <p className="mb-4 leading-relaxed text-gray-600 dark:text-gray-300">{step.description}</p>
+                  <h3 className="mb-4 text-2xl font-bold text-green-800 dark:text-white">{step.title}</h3>
+                  <p className="mb-4 leading-relaxed text-green-600 dark:text-gray-300">{step.description}</p>
                   <div
                     className={`transform transition-all duration-500 ${
                       hoveredCard === index ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
                     }`}
                   >
-                    <div className="rounded-lg bg-app-button/10 p-4 dark:bg-app-button/20">
-                      <p className="text-sm font-medium text-app-button dark:text-orange-300">{step.tip}</p>
+                    <div className="rounded-lg bg-green-100 p-4 dark:bg-green-900/20">
+                      <p className="text-sm font-medium text-green-700 dark:text-green-300">{step.tip}</p>
                     </div>
                   </div>
                 </div>
                 {index < howItWorks.length - 1 && (
                   <div className="absolute -right-4 top-1/2 z-10 hidden -translate-y-1/2 transform md:block">
-                    <ArrowRight className="text-2xl text-app-button/50" />
+                    <ArrowRight className="text-2xl text-green-500/50" />
                   </div>
                 )}
               </div>
@@ -275,19 +275,19 @@ export default function SellMyCar() {
       <section className="bg-white py-10 dark:bg-gray-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-app-text dark:text-white">Why Choose Our Service?</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300">
+            <h2 className="mb-4 text-4xl font-bold text-green-800 dark:text-white">Why Choose Our Service?</h2>
+            <p className="text-xl text-green-600 dark:text-gray-300">
               Experience professional automotive services with expert guidance
             </p>
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {features.map((feature, index) => (
               <div key={index} className="group text-center">
-                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-r from-app-button to-orange-500 text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
+                <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl">
                   {feature.icon}
                 </div>
-                <h3 className="mb-4 text-xl font-bold text-app-text dark:text-white">{feature.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300">{feature.description}</p>
+                <h3 className="mb-4 text-xl font-bold text-green-800 dark:text-white">{feature.title}</h3>
+                <p className="text-green-600 dark:text-gray-300">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -297,8 +297,8 @@ export default function SellMyCar() {
       <section className="bg-white py-20 dark:bg-gray-900">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-app-text dark:text-white">Frequently Asked Questions</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300">
+            <h2 className="mb-4 text-4xl font-bold text-green-800 dark:text-white">Frequently Asked Questions</h2>
+            <p className="text-xl text-green-600 dark:text-gray-300">
               Get answers to common questions about our car selling services
             </p>
           </div>
@@ -306,15 +306,15 @@ export default function SellMyCar() {
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
+                className="overflow-hidden rounded-2xl border border-green-200 bg-white shadow-sm transition-all duration-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="flex w-full items-center justify-between p-6 text-left transition-colors duration-300 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className="flex w-full items-center justify-between p-6 text-left transition-colors duration-300 hover:bg-green-50 dark:hover:bg-gray-700"
                 >
-                  <span className="pr-4 text-lg font-semibold text-app-text dark:text-white">{faq.question}</span>
+                  <span className="pr-4 text-lg font-semibold text-green-800 dark:text-white">{faq.question}</span>
                   <ChevronDown
-                    className={`h-5 w-5 text-app-button transition-transform duration-300 dark:text-orange-400 ${
+                    className={`h-5 w-5 text-green-600 transition-transform duration-300 dark:text-green-400 ${
                       activeIndex === index ? "rotate-180" : "rotate-0"
                     }`}
                   />
@@ -325,8 +325,8 @@ export default function SellMyCar() {
                   } overflow-hidden`}
                 >
                   <div className="px-6 pb-6">
-                    <div className="mb-4 h-px bg-gradient-to-r from-app-button to-orange-500"></div>
-                    <p className="leading-relaxed text-gray-600 dark:text-gray-300">{faq.answer}</p>
+                    <div className="mb-4 h-px bg-gradient-to-r from-green-500 to-green-600"></div>
+                    <p className="leading-relaxed text-green-600 dark:text-gray-300">{faq.answer}</p>
                   </div>
                 </div>
               </div>
@@ -336,7 +336,7 @@ export default function SellMyCar() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-app-button to-orange-600 py-20 dark:from-gray-800 dark:to-gray-900">
+      <section className="relative overflow-hidden bg-gradient-to-r from-green-600 to-green-700 py-20 dark:from-gray-800 dark:to-gray-900">
         <div className="absolute inset-0 bg-black/10 dark:bg-black/20"></div>
         <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="mb-6 text-4xl font-bold text-white dark:text-gray-100">Ready to Sell Your Car?</h2>
@@ -347,7 +347,7 @@ export default function SellMyCar() {
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <button
               onClick={handleContactUs}
-              className="group flex items-center justify-center rounded-xl border border-transparent bg-gradient-to-r from-app-button to-orange-500 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:from-app-button-hover hover:to-orange-600"
+              className="group flex items-center justify-center rounded-xl border border-transparent bg-gradient-to-r from-green-500 to-green-600 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:from-green-600 hover:to-green-700"
             >
               Contact Our Experts
               <Phone className="ml-2 transition-transform group-hover:scale-110" />
@@ -364,4 +364,3 @@ export default function SellMyCar() {
     </div>
   )
 }
-
