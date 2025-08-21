@@ -663,7 +663,7 @@ const CardetailCard = () => {
           <Spinner
             aria-label="Loading vehicles"
             size="lg"
-            className="text-orange-500"
+            className="text-green-500"
           />
           <div>
             <span className="text-lg font-semibold text-gray-900">
@@ -761,7 +761,7 @@ const CardetailCard = () => {
                 onClick={() => setIsGridView(false)}
                 className={`rounded p-2 transition-colors ${
                   !isGridView
-                    ? "bg-orange-500 text-white"
+                    ? "bg-green-500 text-white"
                     : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                 }`}
               >
@@ -771,7 +771,7 @@ const CardetailCard = () => {
                 onClick={() => setIsGridView(true)}
                 className={`rounded p-2 transition-colors ${
                   isGridView
-                    ? "bg-orange-500 text-white"
+                    ? "bg-green-500 text-white"
                     : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                 }`}
               >
@@ -859,7 +859,7 @@ const CardetailCard = () => {
                   {/* Featured banner */}
                   {!car.sold && (
                     <div className="absolute left-0 top-0">
-                      <div className="bg-orange-500 px-3 py-1 text-xs font-bold text-white">
+                      <div className="bg-green-500 px-3 py-1 text-xs font-bold text-white">
                         Featured
                       </div>
                     </div>
@@ -941,7 +941,7 @@ const CardetailCard = () => {
 
                     <div className={`text-right ${!isGridView ? "ml-4" : ""}`}>
                       <div
-                        className={`font-bold text-orange-500 dark:text-orange-400 ${isGridView ? "text-xl" : "text-2xl"}`}
+                        className={`font-bold text-green-500 dark:text-green-400 ${isGridView ? "text-xl" : "text-2xl"}`}
                       >
                         {loading ? (
                           <Skeleton height={28} width={100} />
@@ -955,7 +955,7 @@ const CardetailCard = () => {
                   <div
                     className={`flex flex-wrap gap-2 ${isGridView ? "mb-4" : "mb-6"}`}
                   >
-                    <span className="rounded bg-orange-500 px-2 py-1 text-xs font-medium text-white dark:bg-orange-600">
+                    <span className="rounded bg-green-500 px-2 py-1 text-xs font-medium text-white dark:bg-green-600">
                       {car.year || car.modelYear || "N/A"}
                     </span>
                     <div className="flex flex-wrap items-center text-sm text-gray-600 dark:text-gray-300">
@@ -977,7 +977,7 @@ const CardetailCard = () => {
                   {!isGridView && (
                     <div className="mb-4">
                       <span className="text-sm text-gray-500 dark:text-gray-400">
-                        <span className="text-orange-500 dark:text-orange-400">
+                        <span className="text-green-500 dark:text-green-400">
                           Location:
                         </span>{" "}
                         {car.location || "Not specified"}
@@ -994,7 +994,7 @@ const CardetailCard = () => {
                         setSelectedCar(car);
                         setOpenModal(true);
                       }}
-                      className={`w-fit rounded-lg bg-orange-500 px-2 font-medium text-white transition-colors hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-500 ${
+                      className={`w-fit rounded-lg bg-green-500 px-2 font-medium text-white transition-colors hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-500 ${
                         isGridView ? "py-2 text-sm" : "py-3"
                       }`}
                     >
@@ -1067,7 +1067,7 @@ const CardetailCard = () => {
                       disabled={isPageTransitioning}
                       className={`min-w-[40px] rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                         currentPage === pageNum
-                          ? "bg-orange-500 text-white dark:bg-orange-600"
+                          ? "bg-green-500 text-white dark:bg-green-600"
                           : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
                       } ${isPageTransitioning ? "cursor-not-allowed opacity-50" : ""}`}
                     >
@@ -1171,7 +1171,7 @@ const CardetailCard = () => {
                   value={formData.firstName}
                   onChange={handleInputChange}
                   placeholder="Enter your first name"
-                  className="rounded-lg border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
+                  className="rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500"
                   required
                   disabled={isSubmitting}
                 />
@@ -1189,7 +1189,7 @@ const CardetailCard = () => {
                   value={formData.lastName}
                   onChange={handleInputChange}
                   placeholder="Enter your last name"
-                  className="rounded-lg border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
+                  className="rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500"
                   required
                   disabled={isSubmitting}
                 />
@@ -1207,7 +1207,7 @@ const CardetailCard = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="your.email@example.com"
-                  className="rounded-lg border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
+                  className="rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500"
                   required
                   disabled={isSubmitting}
                 />
@@ -1225,7 +1225,7 @@ const CardetailCard = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   placeholder="+92 300 1234567"
-                  className="rounded-lg border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
+                  className="rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500"
                   required
                   disabled={isSubmitting}
                 />
@@ -1243,7 +1243,7 @@ const CardetailCard = () => {
                   onChange={handleInputChange}
                   rows={4}
                   placeholder="Tell us about your requirements, budget, or any specific questions..."
-                  className="resize-none rounded-lg border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500"
+                  className="resize-none rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500"
                   disabled={isSubmitting}
                 />
               </div>
@@ -1255,7 +1255,7 @@ const CardetailCard = () => {
                 className={`w-full rounded-lg py-4 text-lg font-semibold text-white transition-colors ${
                   isSubmitting
                     ? "cursor-not-allowed bg-gray-400"
-                    : "bg-orange-500 hover:bg-orange-600"
+                    : "bg-green-500 hover:bg-green-600"
                 }`}
               >
                 {isSubmitting ? (

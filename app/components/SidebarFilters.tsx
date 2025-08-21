@@ -1108,7 +1108,7 @@ useEffect(() => {
               <option value="new-york">New York</option>
               <option value="berlin">Berlin</option>
             </Select>
-            <FaLocationDot className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-orange-500" />
+            <FaLocationDot className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-green-500" />
           </div>
 
           {/* Distance */}
@@ -1311,14 +1311,14 @@ useEffect(() => {
           <div className="flex justify-end gap-2">
             <button
               onClick={handleClearFilters}
-              className="text-sm font-medium text-orange-500 hover:text-orange-600"
+              className="text-sm font-medium text-green-500 hover:text-green-600"
             >
               Clear all
             </button>
             <span className="text-gray-300">|</span>
             <button
               onClick={() => setShowMoreFilters(!showMoreFilters)}
-              className="flex items-center gap-1 text-sm font-medium text-orange-500 hover:text-orange-600"
+              className="flex items-center gap-1 text-sm font-medium text-green-500 hover:text-green-600"
             >
               More filters
               {showMoreFilters ? (
@@ -1419,7 +1419,7 @@ useEffect(() => {
                   id="lease-filter"
                   checked={localFilters.lease === "true"}
                   onChange={handleLeaseChange}
-                  className="h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                  className="h-4 w-4 rounded border-gray-300 text-green-500 focus:ring-green-500"
                 />
                 <label
                   htmlFor="lease-filter"
@@ -1449,7 +1449,7 @@ useEffect(() => {
                 !localFilters.condition ||
                 (Array.isArray(localFilters.condition) &&
                   localFilters.condition.length === 0)
-                  ? "border-orange-500 text-orange-500"
+                  ? "border-green-500 text-green-500"
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
@@ -1460,7 +1460,7 @@ useEffect(() => {
               className={`border-b-2 pb-2 text-sm font-medium transition-colors ${
                 Array.isArray(localFilters.condition) &&
                 localFilters.condition.includes("new")
-                  ? "border-orange-500 text-orange-500"
+                  ? "border-green-500 text-green-500"
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
@@ -1471,7 +1471,7 @@ useEffect(() => {
               className={`border-b-2 pb-2 text-sm font-medium transition-colors ${
                 Array.isArray(localFilters.condition) &&
                 localFilters.condition.includes("used")
-                  ? "border-orange-500 text-orange-500"
+                  ? "border-green-500 text-green-500"
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
