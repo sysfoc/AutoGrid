@@ -93,7 +93,6 @@ const HeroSection = () => {
   const [selectedCondition, setSelectedCondition] = useState("all");
   const idPrefix = useRef(Date.now().toString(36)).current;
 
-
   const heroImage = "/autogrid.avif";
 
   const handleLogoError = useCallback(() => {
@@ -251,26 +250,25 @@ const HeroSection = () => {
   ]);
 
   useEffect(() => {
-  fetchCarSearchData();
-}, [fetchCarSearchData]);
+    fetchCarSearchData();
+  }, [fetchCarSearchData]);
 
   const ConditionTab = ({ condition, label, selected, onClick }) => (
     <button
       type="button"
       onClick={(e) => {
         e.preventDefault();
-        console.log(`Clicking ${condition} tab`);
         onClick();
       }}
-      className={`relative cursor-pointer border-b-2 px-6 py-3 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500 ${
+      className={`relative px-8 py-4 text-sm font-semibold transition-all duration-300 first:rounded-tl-xl last:rounded-tr-xl ${
         selected
-          ? "border-green-600 bg-white font-semibold text-green-600 dark:border-green-400 dark:bg-gray-800 dark:text-green-400"
-          : "border-transparent bg-gray-50 text-gray-600 hover:border-green-600/30 hover:bg-white hover:text-green-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:border-green-400/30 dark:hover:bg-gray-800 dark:hover:text-green-400"
+          ? "border-b-4 border-green-500 bg-white text-gray-900 shadow-lg dark:bg-gray-100 dark:text-gray-900"
+          : "border-b-4 border-transparent bg-gray-200/80 text-gray-600 hover:border-green-300 hover:bg-white hover:text-gray-900 hover:shadow-md dark:bg-gray-600/80 dark:text-gray-300 dark:hover:bg-gray-100 dark:hover:text-gray-900"
       }`}
     >
       {label}
       {selected && (
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-green-600 dark:bg-green-400"></div>
+        <div className="absolute -bottom-1 left-1/2 h-1 w-8 -translate-x-1/2 transform rounded-full bg-green-500"></div>
       )}
     </button>
   );
@@ -322,20 +320,21 @@ const HeroSection = () => {
                       />
                     </svg>
                   </button>
-
                   {listingsDropdownOpen && (
-                    <div className="absolute left-0 top-full z-50 w-48 rounded-lg border border-white/20 bg-black/80 shadow-lg backdrop-blur-lg">
-                      <div className="py-2">
+                    <div className="absolute left-0 top-full z-50 w-56 rounded-xl border border-gray-100 bg-white shadow-2xl ring-1 ring-black/5 dark:border-gray-700 dark:bg-gray-800">
+                      <div className="p-2">
                         <Link
                           href="/car-for-sale"
-                          className="block px-4 py-2 text-sm text-white/90 transition-colors duration-200 hover:bg-white/10 hover:text-green-400"
+                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-green-400"
                         >
+                          <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                           Cars for Sale
                         </Link>
                         <Link
                           href="/cars/leasing"
-                          className="block px-4 py-2 text-sm text-white/90 transition-colors duration-200 hover:bg-white/10 hover:text-green-400"
+                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-green-400"
                         >
+                          <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                           Lease Deals
                         </Link>
                       </div>
@@ -366,24 +365,27 @@ const HeroSection = () => {
                   </button>
 
                   {pagesDropdownOpen && (
-                    <div className="absolute left-0 top-full z-50 w-48 rounded-lg border border-white/20 bg-black/80 shadow-lg backdrop-blur-lg">
-                      <div className="py-2">
+                    <div className="absolute left-0 top-full z-50 w-56 rounded-xl border border-gray-100 bg-white shadow-2xl ring-1 ring-black/5 dark:border-gray-700 dark:bg-gray-800">
+                      <div className="p-2">
                         <Link
                           href="/about"
-                          className="block px-4 py-2 text-sm text-white/90 transition-colors duration-200 hover:bg-white/10 hover:text-green-400"
+                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-green-400"
                         >
+                          <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                           About
                         </Link>
                         <Link
                           href="/contact"
-                          className="block px-4 py-2 text-sm text-white/90 transition-colors duration-200 hover:bg-white/10 hover:text-green-400"
+                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-green-400"
                         >
+                          <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                           Contact
                         </Link>
                         <Link
                           href="/blogs"
-                          className="block px-4 py-2 text-sm text-white/90 transition-colors duration-200 hover:bg-white/10 hover:text-green-400"
+                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-green-400"
                         >
+                          <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                           Blogs
                         </Link>
                       </div>
@@ -500,8 +502,8 @@ const HeroSection = () => {
         <div className="absolute inset-0 flex items-center">
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex justify-start pr-8">
-              <div className="text-left w-[70vw] md:w-[45vw]">
-                <h1 className="mb-4 text-3xl sm:text-4xl font-bold leading-tight text-white md:text-5xl">
+              <div className="w-[70vw] text-left md:w-[45vw]">
+                <h1 className="mb-4 text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
                   {homepageData?.searchSection?.mainHeading || ""}
                   <br />
                 </h1>
@@ -607,13 +609,13 @@ const HeroSection = () => {
             />
             <ConditionTab
               condition="new"
-              label="New"
+              label="New Cars"
               selected={selectedCondition === "new"}
               onClick={() => setSelectedCondition("new")}
             />
             <ConditionTab
               condition="used"
-              label="Used"
+              label="Used Cars"
               selected={selectedCondition === "used"}
               onClick={() => setSelectedCondition("used")}
             />
@@ -636,11 +638,22 @@ const HeroSection = () => {
                     disabled={carSearchLoading}
                   >
                     <option value="">Select Make</option>
-                    {carSearchMakes.map((make, index) => (
-                      <option key={index} value={make}>
-                        {make}
-                      </option>
-                    ))}
+                    {carSearchMakes.map((make, index) => {
+                      const makeData = carSearchData?.find(
+                        (item) => item.Maker === make,
+                      );
+                      const modelString = makeData?.["model "];
+                      const modelCount =
+                        typeof modelString === "string"
+                          ? modelString.split(",").length
+                          : 0;
+
+                      return (
+                        <option key={index} value={make}>
+                          {make}{" "}({modelCount})
+                        </option>
+                      );
+                    })}
                   </select>
                   {carSearchLoading && (
                     <div className="absolute right-3 top-1/2 -translate-y-1/2">

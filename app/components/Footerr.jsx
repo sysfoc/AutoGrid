@@ -280,14 +280,11 @@ const Footerr = () => {
   }, [fetchAllData]);
 
   return (
-    <footer className="relative mt-20">
-      {/* Gradient divider */}
-      <div className="h-px bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-700 to-transparent"></div>
-      
+    <footer className="relative mt-10">
       <div className="bg-white dark:bg-slate-950">
         {/* Main footer content */}
-        <div className="max-w-6xl mx-auto px-6 py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-14">
             
             {/* Quick Links - Compact column */}
             <div className="lg:col-span-3">
@@ -295,7 +292,7 @@ const Footerr = () => {
                 <h4 className="text-sm sm:text-lg font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
                   {footerSettings?.col1Heading || t("quickLinks")}
                 </h4>
-                <nav className="space-y-4">
+                <nav className="space-y-3">
                   {[
                     { href: "/about", label: t("about") },
                     { href: "/contact", label: t("contact") },
@@ -319,12 +316,11 @@ const Footerr = () => {
               <h4 className="text-sm sm:text-lg font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-6">
                 {footerSettings?.col2Heading || t("tradingHours")}
               </h4>
-              <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-6 border border-slate-100 dark:border-slate-800">
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {tradingHours.map((schedule, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white dark:hover:bg-slate-800/50 transition-colors duration-200"
+                      className="flex items-center justify-between px-3 rounded-lg hover:bg-white dark:hover:bg-slate-800/50 transition-colors duration-200"
                     >
                       <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                         {schedule.day}
@@ -346,7 +342,6 @@ const Footerr = () => {
                     </div>
                   ))}
                 </div>
-              </div>
             </div>
 
             {/* Language & Social - Compact column */}
@@ -406,7 +401,7 @@ const Footerr = () => {
 
         {/* Copyright section */}
         <div className="border-t border-slate-100 dark:border-slate-800">
-          <div className="max-w-6xl mx-auto px-6 py-8">
+          <div className="max-w-6xl mx-auto px-6 py-3">
             <div className="text-center">
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 © {new Date().getFullYear()} {t("copyright")}

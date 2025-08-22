@@ -356,21 +356,22 @@ const [isVisible, setIsVisible] = useState(true);
                 
                 {listingsDropdownOpen && (
                   <div 
-                    className="absolute top-full left-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 z-50"
-                    onMouseEnter={() => setListingsDropdownOpen(true)}
+className="absolute top-full left-0 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 ring-1 ring-black/5 dark:bg-gray-800 dark:border-gray-700 z-50"                    onMouseEnter={() => setListingsDropdownOpen(true)}
                     onMouseLeave={() => setListingsDropdownOpen(false)}
                   >
-                    <div className="py-2">
+                    <div className="p-2">
                       <Link
                         href="/car-for-sale"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400 transition-colors duration-200"
+                        className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400"
                       >
+                        <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                         Cars for Sale
                       </Link>
                       <Link
                         href="/cars/leasing"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400 transition-colors duration-200"
+                        className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400"
                       >
+                        <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                         Lease Deals
                       </Link>
                     </div>
@@ -393,27 +394,30 @@ const [isVisible, setIsVisible] = useState(true);
                 
                 {pagesDropdownOpen && (
                   <div 
-                    className="absolute top-full left-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 z-50"
+                    className="absolute top-full left-0 w-52 bg-white rounded-lg shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 z-50"
                     onMouseEnter={() => setPagesDropdownOpen(true)}
                     onMouseLeave={() => setPagesDropdownOpen(false)}
                   >
                     <div className="py-2">
                       <Link
                         href="/about"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400 transition-colors duration-200"
+                        className="flex w-48 items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400"
                       >
+                        <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                         About
                       </Link>
                       <Link
                         href="/contact"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400 transition-colors duration-200"
+                        className="flex w-48 items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400"
                       >
+                        <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                         Contact
                       </Link>
                       <Link
                         href="/blogs"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400 transition-colors duration-200"
+                        className="flex w-48 items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-400"
                       >
+                        <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                         Blogs
                       </Link>
                     </div>

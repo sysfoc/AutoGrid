@@ -112,7 +112,7 @@ const Banner = () => {
             className="hidden flex-shrink-0 flex-col items-center text-center lg:flex"
           >
             <div className="mb-0.5 flex items-center gap-1">
-              <FaBlog size={28} className="text-blue-300" />
+              <FaBlog size={28} className="text-green-400" />
               <h2 className="text-lg font-semibold text-white">Blogs</h2>
             </div>
           </Link>
@@ -123,7 +123,7 @@ const Banner = () => {
               <p className="text-xs font-bold text-white lg:text-sm">
                 Powered by
               </p>
-              <p className="text-xs font-bold text-blue-300 md:ml-1 lg:text-sm">
+              <p className="text-xs font-bold text-green-400 md:ml-1 lg:text-sm">
                 Sysfoc
               </p>
             </div>

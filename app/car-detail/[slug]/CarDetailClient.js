@@ -224,15 +224,15 @@ export default function CarDetail() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Left Column - Main Content (2/3 width) */}
           <div className="space-y-6 lg:col-span-2">
-            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <div className="bg-white dark:bg-gray-800">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex-1">
-                  <div className="mb-2 flex items-center gap-3">
-                    <span className="rounded-full bg-teal-100 px-3 py-1 text-sm font-semibold text-teal-800 dark:bg-teal-900 dark:text-teal-200">
-                      {car?.condition || "Used"}
+                  <div className="mb-2 flex items-center gap-1">
+                    <span className="text-sm font-semibold text-green-500 dark:text-gray-100">
+                      {car?.condition.toUpperCase() || ""}
                     </span>
-                    <span className="text-gray-500 dark:text-gray-400">•</span>
-                    <span className="text-sm text-gray-600 dark:text-gray-300">
+                   
+                    <span className="text-sm font-semibold text-green-500 dark:text-gray-100">
                       {car?.modelYear || "N/A"}
                     </span>
                   </div>
@@ -245,17 +245,17 @@ export default function CarDetail() {
                   </h1>
                 </div>
 
-                <div className="text-right">
-                  <div className="text-4xl font-bold text-teal-600 dark:text-teal-400">
+                <div className="text-right bg-green-500">
+                  <div className="text-lg sm:text-2xl md:text-3xl py-1 px-4 font-bold text-white dark:text-gray-100">
                     {loading ? (
                       <Skeleton width={200} />
                     ) : (
                       `${selectedCurrency?.symbol}${Math.round(car?.price || 0).toLocaleString()}`
                     )}
                   </div>
-                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  {/* <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                     {car?.kms ? `${car.kms} km` : "Mileage not provided"}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>
@@ -335,14 +335,14 @@ export default function CarDetail() {
           </div>
 
           {/* Right Column - Sidebar (1/3 width) */}
-          <div className="space-y-6">
             {/* Dealer Contact Info */}
-            <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
+          <div className="space-y-6">
+            <div className="bg-white dark:bg-gray-800">
+              {/* <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Dealer Information
                 </h3>
-              </div>
+              </div> */}
               <div className="space-y-4 p-6">
                 {loading ? (
                   <div className="space-y-3">
@@ -352,7 +352,7 @@ export default function CarDetail() {
                   </div>
                 ) : dealer ? (
                   <div className="space-y-4">
-                    <div className="flex items-start gap-3">
+                    {/* <div className="flex items-start gap-3">
                       <div className="mt-0.5 h-5 w-5 text-teal-600"><MapPin /></div>
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white">
@@ -373,7 +373,7 @@ export default function CarDetail() {
                           {dealer.licence || "Not provided"}
                         </p>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
                       <div className="mb-3 flex items-center justify-between">

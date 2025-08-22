@@ -46,7 +46,7 @@ const Blog = () => {
 
   if (error) {
     return (
-      <section className="relative py-16">
+      <section className="relative py-8">
         <div className="container mx-auto px-4 text-center">
           <div className="inline-block rounded-lg bg-green-50 p-6 dark:bg-green-900/20">
             <h3 className="mb-2 text-xl font-semibold text-green-700 dark:text-green-400">
@@ -60,11 +60,11 @@ const Blog = () => {
   }
 
   return (
-    <section className="py-16 bg-gray-100 dark:bg-gray-900">
+    <section className="py-6 bg-gray-100 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         {/* Header Section */}
-        <div className="mb-12">
-          <div className="flex flex-wrap items-center justify-between gap-6 mb-8">
+        <div className="mb-8">
+          <div className="flex flex-wrap items-center justify-between gap-6 mb-6">
             <div>
               <div className="mb-3 inline-block rounded-full bg-green-100 px-4 py-1 text-sm font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
                 Latest Updates
@@ -93,10 +93,10 @@ const Blog = () => {
         {/* Blog Grid */}
         {!loading && blogs.length > 0 && (
           <div className="space-y-10">
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {(showAll ? blogs : blogs.slice(0, INITIAL_DISPLAY_COUNT)).map((blog) => (
                 <Link href={`/blog/${blog.slug}`} key={blog.slug}>
-                  <article className="group relative h-full overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-800 dark:bg-gray-800">
+                  <article className="group relative h-full overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-800 dark:bg-gray-800 flex flex-col">
                     {/* Image */}
                     <div className="relative aspect-video overflow-hidden">
                       <Image
@@ -109,21 +109,21 @@ const Blog = () => {
                     </div>
 
                     {/* Content */}
-                    <div className="p-5">
-                      <div className="mb-4">
-                        <h3 className="mb-3 text-xl font-bold text-gray-800 transition-colors group-hover:text-green-600 dark:text-white dark:group-hover:text-green-400">
+                    <div className="p-4 flex-1 flex flex-col">
+                      <div className="mb-3 flex-1">
+                        <h3 className="mb-2 text-lg font-semibold text-gray-800 transition-colors group-hover:text-green-600 dark:text-white dark:group-hover:text-green-400 line-clamp-2 leading-tight">
                           {blog.h1 || blog.metaTitle}
                         </h3>
                         {blog.metaDescription && (
-                          <p className="line-clamp-2 text-gray-600 dark:text-gray-300">
+                          <p className="line-clamp-2 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                             {blog.metaDescription}
                           </p>
                         )}
                       </div>
 
                       {/* Date */}
-                      <div className="mb-5 flex items-center text-sm text-gray-500 dark:text-gray-400">
-                        <Calendar className="mr-2 h-4 w-4" />
+                      <div className="mb-3 flex items-center text-xs text-gray-500 dark:text-gray-400">
+                        <Calendar className="mr-1.5 h-3.5 w-3.5" />
                         <time dateTime={blog.createdAt}>
                           {new Date(blog.createdAt).toLocaleDateString("en-US", {
                             year: "numeric",
@@ -134,21 +134,21 @@ const Blog = () => {
                       </div>
 
                       {/* Stats */}
-                      <div className="flex items-center justify-between border-t border-gray-100 pt-4 dark:border-gray-700">
-                        <div className="flex space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center justify-between border-t border-gray-100 pt-3 dark:border-gray-700 mt-auto">
+                        <div className="flex space-x-4 text-xs text-gray-500 dark:text-gray-400">
                           <div className="flex items-center">
-                            <MessageCircle className="mr-1 h-4 w-4" />
+                            <MessageCircle className="mr-1 h-3.5 w-3.5" />
                             <span>{formatCount(blog.comments?.length || 0)}</span>
                           </div>
                           <div className="flex items-center">
-                            <Eye className="mr-1 h-4 w-4" />
+                            <Eye className="mr-1 h-3.5 w-3.5" />
                             <span>{formatCount(getUniqueViewsCount(blog.views))}</span>
                           </div>
                         </div>
                         
-                        <div className="flex items-center text-sm font-medium text-green-600 transition-colors group-hover:text-green-700 dark:text-green-400">
+                        <div className="flex items-center text-xs font-medium text-green-600 transition-colors group-hover:text-green-700 dark:text-green-400">
                           Read more
-                          <ArrowUpRight className="ml-1 h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                          <ArrowUpRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                         </div>
                       </div>
                     </div>
