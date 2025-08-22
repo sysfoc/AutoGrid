@@ -9,6 +9,7 @@ import {
   FaPhone,
   FaFileAlt,
   FaBuilding,
+  FaEnvelope,
   FaMap,
 } from "react-icons/fa"; // Using react-icons/fa for consistency
 
@@ -17,6 +18,7 @@ export default function CreateDealer() {
     name: "",
     address: "",
     contact: "",
+    email: "",
     licence: "",
     abn: "",
     map: "", // Optional field
@@ -111,6 +113,11 @@ export default function CreateDealer() {
     if (!formData.abn.trim()) {
       newErrors.abn = "ABN is required";
     }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      newErrors.email = "Please enter a valid email address";
+    }
 
     // Updated map validation
     if (formData.map && formData.map.trim() !== "") {
@@ -161,6 +168,8 @@ export default function CreateDealer() {
         else if (errorMessage.includes("licence"))
           serverErrors.licence = data.error;
         else if (errorMessage.includes("abn")) serverErrors.abn = data.error;
+        else if (errorMessage.includes("email"))
+          serverErrors.email = data.error;
         else if (errorMessage.includes("map")) serverErrors.map = data.error;
         else serverErrors.general = data.error || "Failed to create dealer.";
 
@@ -174,6 +183,7 @@ export default function CreateDealer() {
         address: "",
         contact: "",
         licence: "",
+        email: "",
         abn: "",
         map: "",
       });
@@ -285,6 +295,51 @@ export default function CreateDealer() {
                 )}
               </div>
 
+                  <div className="form-group md:col-span-2">
+                <label
+                  htmlFor="email"
+                  className="mb-1 block text-sm font-medium text-app-text"
+                >
+                  Email
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <FaEnvelope className="text-gray-400" />
+                  </div>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`w-full border ${errors.email ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-button`}
+                    placeholder="dealer@example.com"
+                  />
+                </div>
+                {errors.email && (
+                  <div className="mt-1 text-sm text-red-500">
+                    {errors.email}
+                  </div>
+                )}
+              </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               {/* Contact Field */}
               <div className="form-group">
                 <label
@@ -372,9 +427,7 @@ export default function CreateDealer() {
                   <div className="mt-1 text-sm text-red-500">{errors.abn}</div>
                 )}
               </div>
-
-              {/* Map Field (Optional) */}
-
+     
               {/* Map Field (Optional) */}
               <div className="form-group">
                 <label

@@ -4,29 +4,32 @@ import { useParams } from "next/navigation";
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { FaWhatsapp } from "react-icons/fa";
 import { useCurrency } from "../../context/CurrencyContext"; // Import useCurrency hook
 import SliderComponent from "../../components/Slider"; // Import SliderComponent
 import SellerCommentComponent from "../../components/SellerComment"; // Import SellerCommentComponent
 import { LuMessageCircle, LuMail, LuPhone } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
-import { 
- Car, 
- Tag, 
- Calendar, 
- Star, 
- Truck, 
- Palette, 
- DoorOpen, 
- Users, 
- Fuel, 
- Settings, 
- Wrench, 
- Zap, 
- Activity, 
- Leaf, 
- Globe,
- Check
+import {
+  Car,
+  Tag,
+  Calendar,
+  Star,
+  Truck,
+  Palette,
+  DoorOpen,
+  Users,
+  DollarSign,
+  Fuel,
+  Settings,
+  Wrench,
+  Zap,
+  Activity,
+  Leaf,
+  Globe,
+  Check,
+  Mail,
 } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import {
@@ -112,7 +115,7 @@ export default function CarDetail() {
       .catch((err) => console.error("Error fetching related cars:", err));
   }, [slug]);
 
-    const handleInputChange = (e) => {
+  const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -120,7 +123,7 @@ export default function CarDetail() {
     }));
   };
 
-   const handleEnquirySubmit = async (e) => {
+  const handleEnquirySubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage("");
@@ -224,14 +227,14 @@ export default function CarDetail() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Left Column - Main Content (2/3 width) */}
           <div className="space-y-6 lg:col-span-2">
-            <div className="bg-white dark:bg-gray-800">
+            <div className="">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex-1">
                   <div className="mb-2 flex items-center gap-1">
                     <span className="text-sm font-semibold text-green-500 dark:text-gray-100">
                       {car?.condition.toUpperCase() || ""}
                     </span>
-                   
+
                     <span className="text-sm font-semibold text-green-500 dark:text-gray-100">
                       {car?.modelYear || "N/A"}
                     </span>
@@ -245,8 +248,8 @@ export default function CarDetail() {
                   </h1>
                 </div>
 
-                <div className="text-right bg-green-500">
-                  <div className="text-lg sm:text-2xl md:text-3xl py-1 px-4 font-bold text-white dark:text-gray-100">
+                <div className="bg-green-500 text-right">
+                  <div className="px-4 py-1 text-lg font-bold text-white dark:text-gray-100 sm:text-2xl md:text-3xl">
                     {loading ? (
                       <Skeleton width={200} />
                     ) : (
@@ -298,7 +301,7 @@ export default function CarDetail() {
                         key={index}
                         className="flex items-center gap-2 rounded-lg bg-teal-50 p-3 dark:bg-gray-700"
                       >
-                       <Check className="h-4 w-4 text-teal-600 dark:text-teal-400 flex-shrink-0" />
+                        <Check className="h-4 w-4 flex-shrink-0 text-teal-600 dark:text-teal-400" />
                         <span className="text-sm text-gray-700 dark:text-gray-50">
                           {feature}
                         </span>
@@ -334,15 +337,8 @@ export default function CarDetail() {
             </div>
           </div>
 
-          {/* Right Column - Sidebar (1/3 width) */}
-            {/* Dealer Contact Info */}
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800">
-              {/* <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Dealer Information
-                </h3>
-              </div> */}
               <div className="space-y-4 p-6">
                 {loading ? (
                   <div className="space-y-3">
@@ -352,33 +348,12 @@ export default function CarDetail() {
                   </div>
                 ) : dealer ? (
                   <div className="space-y-4">
-                    {/* <div className="flex items-start gap-3">
-                      <div className="mt-0.5 h-5 w-5 text-teal-600"><MapPin /></div>
-                      <div>
-                        <p className="font-medium text-gray-900 dark:text-white">
-                          Location
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-400">
-                          {car?.location || dealer?.address || "Not provided"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="mt-0.5 h-5 w-5 text-teal-600"><FileText /></div>
-                      <div>
-                        <p className="font-medium text-gray-900 dark:text-white">
-                          License
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-400">
-                          {dealer.licence || "Not provided"}
-                        </p>
-                      </div>
-                    </div> */}
-
                     <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
                       <div className="mb-3 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <div className="h-5 w-5 text-green-600"><MessageCircle /></div>
+                          <div className="h-5 w-5 text-green-600">
+                            <LuPhone size={20} />
+                          </div>
                           <p className="font-medium text-gray-900 dark:text-white">
                             WhatsApp
                           </p>
@@ -395,35 +370,73 @@ export default function CarDetail() {
                       </p>
                       <button
                         onClick={handleWhatsAppClick}
-                        className="flex w-full items-center justify-center rounded-lg bg-green-500 px-4 py-3 font-semibold text-white transition-colors duration-200 hover:bg-green-600"
+                        className="flex w-full items-center justify-center rounded-md border-[1px] border-gray-400 bg-white px-4 py-3 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100"
                       >
-                        <LuMessageCircle className="mr-2 h-5 w-5" />
-                        Chat via WhatsApp
+                        <FaWhatsapp color="green" className="mr-2 h-5 w-5" />
+                        CHAT VIA WHATSAPP
+                      </button>
+                      <button
+                        onClick={() =>
+                          window.open(
+                            `mailto:${dealer.email}?subject=Inquiry from [Your Company]&body=Hello,\n\nI am interested in your dealership services.\n\nBest regards,`,
+                          )
+                        }
+                        className="mt-3 flex w-full items-center justify-center rounded-md border-[1px] border-gray-400 bg-white px-4 py-3 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100"
+                      >
+                        <Mail className="mr-2 h-5 w-5" />
+                        MESSAGE TO DEALER
                       </button>
                     </div>
-                    {/* Action Buttons */}
                     <div className="flex flex-col gap-3 border-t border-gray-200 pt-4 dark:border-gray-700">
                       <button
                         onClick={() => setOpenModal(true)}
-                        className="flex items-center justify-center rounded-lg bg-teal-600 px-4 py-3 font-semibold text-white transition-colors duration-200 hover:bg-teal-700"
+                        className="group flex w-full items-center justify-between rounded-lg 
+             bg-gray-100 px-5 py-3 text-black transition-colors duration-200 
+             hover:bg-green-600 hover:text-white
+             dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-green-600 dark:hover:text-white"
                       >
-                        <LuMail className="mr-2 h-5 w-5" />
-                        Send Enquiry
+                        <span>MAKE AN OFFER PRICE</span>
+
+                        <span
+                          className="ml-4 rounded-full bg-green-600 p-1 text-white transition-colors duration-200 
+                   group-hover:bg-white group-hover:text-green-600 
+                   dark:group-hover:bg-white dark:group-hover:text-green-600"
+                        >
+                          <DollarSign className="h-3 w-3 text-white transition-colors duration-200 group-hover:text-green-600" />
+                        </span>
                       </button>
+
                       <button
                         onClick={() =>
                           (window.location.href = `tel:${dealer?.contact || "+1234567890"}`)
                         }
-                        className="flex items-center justify-center rounded-lg border-2 border-teal-600 px-4 py-3 font-semibold text-teal-600 transition-colors duration-200 hover:bg-teal-600 hover:text-white"
+                        className="group flex w-full items-center justify-between rounded-lg 
+             bg-gray-100 px-5 py-3 text-black transition-colors duration-200 
+             hover:bg-green-600 hover:text-white
+             dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-green-600 dark:hover:text-white"
                       >
-                        <LuPhone className="mr-2 h-5 w-5" />
-                        Call Now
+                        <span>CALL NOW</span>
+
+                        <span
+                          className="ml-4 rounded-full bg-green-600 p-1 text-white transition-colors duration-200 
+                   group-hover:bg-white group-hover:text-green-600 
+                   dark:group-hover:bg-white dark:group-hover:text-green-600"
+                        >
+                          <LuPhone className="h-3 w-3 text-white transition-colors duration-200 group-hover:text-green-600" />
+                        </span>
                       </button>
                     </div>
                     {/* Map Section */}
+                    <div className="flex items-center">
+                      <MapPin className="mr-2 h-5 w-5 text-teal-600" />
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {dealer.address || "Address not available"}
+                      </p>
+                    </div>
+
                     <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
-                      <h4 className="mb-3 font-medium text-gray-900 dark:text-white">
-                      <Globe className="mr-2 h-5 w-5 text-teal-600 inline" />
+                      <h4 className="mb-3 font-medium text-black dark:text-white">
+                        <Globe className="mr-2 inline h-5 w-5 text-teal-600" />
                         Location
                       </h4>
                       {loading ? (
@@ -642,7 +655,7 @@ export default function CarDetail() {
                   className={`w-full rounded-xl py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 ${
                     isSubmitting
                       ? "cursor-not-allowed bg-gray-400"
-                      : "bg-gradient-to-r from-app-button to-app-button-hover hover:from-app-button-hover hover:to-app-button-hover hover:shadow-xl"
+                      : "bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-600 hover:shadow-xl"
                   }`}
                 >
                   {isSubmitting ? (
@@ -667,65 +680,73 @@ const ResponsiveSpecsGrid = ({ loadingState, carData, translation: t }) => {
   const loading = loadingState;
 
   const specifications = [
- { label: "Make", value: carData?.make || "Not provided", icon: Car },
- { label: "Model", value: carData?.model || "Not provided", icon: Tag },
- { label: "Year", value: carData?.modelYear || "Not provided", icon: Calendar },
- {
-   label: "Condition",
-   value: carData?.condition || "Not provided",
-   icon: Star,
- },
- {
-   label: "Body Type",
-   value: carData?.bodyType || "Not provided",
-   icon: Truck,
- },
- { label: "Color", value: carData?.color || "Not provided", icon: Palette },
- { label: "Doors", value: carData?.doors || "Not provided", icon: DoorOpen },
- { label: "Seats", value: carData?.seats || "Not provided", icon: Users },
- {
-   label: "Fuel Type",
-   value: carData?.fuelType || "Not provided",
-   icon: Fuel,
- },
- { label: "Gearbox", value: carData?.gearbox || "Not provided", icon: Settings },
- {
-   label: "Drive Type",
-   value: carData?.driveType || "Not provided",
-   icon: Wrench,
- },
- {
-   label: "Engine Size",
-   value: carData?.engineSize ? `${carData.engineSize}L` : "Not provided",
-   icon: Zap,
- },
- {
-   label: "Engine Power",
-   value: carData?.enginePower
-     ? `${carData.enginePower} HP`
-     : "Not provided",
-   icon: Zap,
- },
- {
-   label: "Mileage",
-   value: carData?.mileage || carData?.kms || "Not provided",
-   icon: Activity,
- },
- {
-   label: "Fuel Consumption",
-   value: carData?.fuelConsumption
-     ? `${carData.fuelConsumption}L/100km`
-     : "Not provided",
-   icon: Fuel,
- },
- {
-   label: "CO2 Emission",
-   value: carData?.co2Emission
-     ? `${carData.co2Emission}g/km`
-     : "Not provided",
-   icon: Leaf,
- },
-];
+    { label: "Make", value: carData?.make || "Not provided", icon: Car },
+    { label: "Model", value: carData?.model || "Not provided", icon: Tag },
+    {
+      label: "Year",
+      value: carData?.modelYear || "Not provided",
+      icon: Calendar,
+    },
+    {
+      label: "Condition",
+      value: carData?.condition || "Not provided",
+      icon: Star,
+    },
+    {
+      label: "Body Type",
+      value: carData?.bodyType || "Not provided",
+      icon: Truck,
+    },
+    { label: "Color", value: carData?.color || "Not provided", icon: Palette },
+    { label: "Doors", value: carData?.doors || "Not provided", icon: DoorOpen },
+    { label: "Seats", value: carData?.seats || "Not provided", icon: Users },
+    {
+      label: "Fuel Type",
+      value: carData?.fuelType || "Not provided",
+      icon: Fuel,
+    },
+    {
+      label: "Gearbox",
+      value: carData?.gearbox || "Not provided",
+      icon: Settings,
+    },
+    {
+      label: "Drive Type",
+      value: carData?.driveType || "Not provided",
+      icon: Wrench,
+    },
+    {
+      label: "Engine Size",
+      value: carData?.engineSize ? `${carData.engineSize}L` : "Not provided",
+      icon: Zap,
+    },
+    {
+      label: "Engine Power",
+      value: carData?.enginePower
+        ? `${carData.enginePower} HP`
+        : "Not provided",
+      icon: Zap,
+    },
+    {
+      label: "Mileage",
+      value: carData?.mileage || carData?.kms || "Not provided",
+      icon: Activity,
+    },
+    {
+      label: "Fuel Consumption",
+      value: carData?.fuelConsumption
+        ? `${carData.fuelConsumption}L/100km`
+        : "Not provided",
+      icon: Fuel,
+    },
+    {
+      label: "CO2 Emission",
+      value: carData?.co2Emission
+        ? `${carData.co2Emission}g/km`
+        : "Not provided",
+      icon: Leaf,
+    },
+  ];
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -753,11 +774,11 @@ const ResponsiveSpecsGrid = ({ loadingState, carData, translation: t }) => {
                   {spec.label}
                 </span>
               </div>
-              <div className="flex items-center justify-center bg-teal-100 dark:bg-teal-600 rounded-lg p-2">
-              <p className="text-sm text-center text-gray-900 dark:text-white">
-                {spec.value}
-              </p>
-            </div>
+              <div className="flex items-center justify-center rounded-lg bg-teal-100 p-2 dark:bg-teal-600">
+                <p className="text-center text-sm text-gray-900 dark:text-white">
+                  {spec.value}
+                </p>
+              </div>
             </div>
           ))}
     </div>

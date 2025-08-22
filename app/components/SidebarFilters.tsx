@@ -1453,7 +1453,7 @@ useEffect(() => {
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
-              All ({stats.total})
+              All Cars ({stats.total})
             </button>
             <button
               onClick={() => handleCheckboxChange("condition", "new")}
@@ -1464,7 +1464,7 @@ useEffect(() => {
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
-              New ({stats.new})
+              New Cars ({stats.new})
             </button>
             <button
               onClick={() => handleCheckboxChange("condition", "used")}
@@ -1475,7 +1475,7 @@ useEffect(() => {
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
-              Used ({stats.used})
+              Used Cars ({stats.used})
             </button>
           </div>
 
