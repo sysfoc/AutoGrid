@@ -145,7 +145,7 @@ const [isVisible, setIsVisible] = useState(true);
       // Check cache first
       const cachedData = CacheManager.get(CACHE_KEY);
       if (cachedData) {
-        setLogo(cachedData?.settings?.logo1 || "");
+        setLogo(cachedData?.settings?.logo4 || "");
         setTopSettings({
           ...DEFAULT_SETTINGS,
           ...cachedData?.settings?.top,
@@ -172,7 +172,7 @@ const [isVisible, setIsVisible] = useState(true);
       CacheManager.set(CACHE_KEY, data);
 
       const updates = {
-        logo: data?.settings?.logo1 || "",
+        logo: data?.settings?.logo4 || "",
         settings: {
           ...DEFAULT_SETTINGS,
           ...data?.settings?.top,
@@ -192,7 +192,7 @@ const [isVisible, setIsVisible] = useState(true);
         try {
           const { data } = JSON.parse(staleCache);
           if (data?.settings) {
-            setLogo(data.settings.logo1 || "");
+            setLogo(data.settings.logo4 || "");
             setTopSettings({
               ...DEFAULT_SETTINGS,
               ...data.settings.top,

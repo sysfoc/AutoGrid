@@ -38,8 +38,8 @@ const VehicleCard = ({
 
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 3000); 
-    
+    }, 3000);
+
     return () => clearInterval(interval);
   }, [hasMultipleImages, images.length]);
 
@@ -78,51 +78,52 @@ const VehicleCard = ({
 
   return (
     <Link href={`/car-detail/${vehicle.slug || vehicle._id}`}>
-      <div className="group w-full h-full transform cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-800 dark:shadow-slate-900/20 flex flex-col">
+      <div className="group flex h-full w-full transform cursor-pointer flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-800 dark:shadow-slate-900/20">
         {/* Image Section */}
         <div className="relative">
           <div className="relative aspect-[4/3] overflow-hidden">
             {hasMultipleImages ? (
               /* Image Container with Smooth Sliding */
               <div className="carousel-container">
-  <div className="carousel-track">
-    {images.map((image, index) => (
-      <div key={index} className="carousel-item">
-        <Image
-          src={image || "/placeholder.svg"}
-          fill
-          alt={`${getVehicleTitle()} - Image ${index + 1}`}
-          className="object-cover"
-        />
-      </div>
-    ))}
-  </div>
+                <div className="carousel-track">
+                  {images.map((image, index) => (
+                    <div key={index} className="carousel-item">
+                      <Image
+                        src={image || "/placeholder.svg"}
+                        fill
+                        alt={`${getVehicleTitle()} - Image ${index + 1}`}
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
 
-  <style jsx>{`
-    .carousel-container {
-      height: 100%;
-      display: flex;
-      overflow: hidden;
-    }
+                <style jsx>{`
+                  .carousel-container {
+                    height: 100%;
+                    display: flex;
+                    overflow: hidden;
+                  }
 
-    .carousel-track {
-      display: flex;
-      height: 100%;
-      transition: transform 0.5s ease-in-out;
-      transform: translateX(-${currentImageIndex * (100 / images.length)}%);
-      width: ${images.length * 100}%;
-    }
+                  .carousel-track {
+                    display: flex;
+                    height: 100%;
+                    transition: transform 0.5s ease-in-out;
+                    transform: translateX(
+                      -${currentImageIndex * (100 / images.length)}%
+                    );
+                    width: ${images.length * 100}%;
+                  }
 
-    .carousel-item {
-      position: relative;
-      aspect-ratio: 4 / 3;
-      height: 100%;
-      flex-shrink: 0;
-      width: ${100 / images.length}%;
-    }
-  `}</style>
-</div>
-
+                  .carousel-item {
+                    position: relative;
+                    aspect-ratio: 4 / 3;
+                    height: 100%;
+                    flex-shrink: 0;
+                    width: ${100 / images.length}%;
+                  }
+                `}</style>
+              </div>
             ) : (
               /* Single Image Display */
               <Image
@@ -169,24 +170,24 @@ const VehicleCard = ({
             </div>
           )}
 
-          {/* Tag Badge - Keep this one */}
-          {!vehicle.sold && vehicle.tag && vehicle.tag !== "default" && (
-            <div className="absolute right-2 top-2 z-20">
-              <span className="rounded-full bg-green-600 px-2 py-1 text-xs font-medium text-white shadow-lg">
-                {vehicle.tag.toUpperCase()}
-              </span>
-            </div>
-          )}
-
-          {vehicle.sold && (
-            <div className="absolute left-5 top-20 z-10">
-              <div className="origin-bottom-left -translate-x-6 -translate-y-5 -rotate-45 transform bg-red-500 shadow-lg">
-                <div className="w-32 px-0 py-2 text-center text-xs font-bold text-white">
+          <div className="absolute left-4 top-4 flex min-h-[2rem] flex-wrap gap-1.5">
+            {vehicle.sold && (
+              <div className="rounded-full bg-gray-200 px-3 py-1.5 text-sm font-semibold text-red-600 shadow-lg backdrop-blur-sm">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2 w-2 rounded-full bg-red-600"></div>
                   SOLD
                 </div>
               </div>
-            </div>
-          )}
+            )}
+            {!vehicle.sold && vehicle.tag && vehicle.tag !== "default" && (
+              <div className="rounded-full bg-gradient-to-r from-green-600 to-green-700 px-3 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
+                <div className="flex items-center gap-1.5">
+                  <div className="h-2 w-2 rounded-full bg-white"></div>
+                  {vehicle.tag.toUpperCase()}
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Like Button */}
           <button
@@ -208,7 +209,7 @@ const VehicleCard = ({
         </div>
 
         {/* Content Section - Reduced padding */}
-        <div className="p-3 flex-1 flex flex-col">
+        <div className="flex flex-1 flex-col p-3">
           {/* Title and Price */}
           <div className="mb-2 flex items-start justify-between">
             <div className="flex-1">
@@ -236,7 +237,7 @@ const VehicleCard = ({
           </div>
 
           {/* Vehicle Stats - Reduced padding and gap */}
-          <div className="grid grid-cols-3 gap-1 text-center mt-auto">
+          <div className="mt-auto grid grid-cols-3 gap-1 text-center">
             <div className="flex flex-col items-center">
               <div className="mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
                 <IoSpeedometer className="h-3 w-3 text-gray-600 dark:text-gray-300" />

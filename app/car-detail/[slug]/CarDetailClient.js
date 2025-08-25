@@ -43,6 +43,7 @@ import {
   Spinner,
 } from "flowbite-react";
 import { FileText, MapPin, MessageCircle } from "lucide-react";
+import { IoCheckmarkCircle } from "react-icons/io5";
 
 export default function CarDetail() {
   const t = useTranslations("carDetails");
@@ -267,16 +268,7 @@ export default function CarDetail() {
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
               <SliderComponent loadingState={loading} carData={car} />
             </div>
-
-            <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Vehicle Details
-                </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Complete technical specifications
-                </p>
-              </div>
+            <div className="">
               <div className="p-6">
                 <ResponsiveSpecsGrid
                   loadingState={loading}
@@ -286,40 +278,36 @@ export default function CarDetail() {
               </div>
             </div>
 
-            {/* Features Section */}
-            {car?.features && car.features.length > 0 && (
-              <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
-                <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    Features
-                  </h3>
-                </div>
-                <div className="p-6">
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {car.features.map((feature, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center gap-2 rounded-lg bg-teal-50 p-3 dark:bg-gray-700"
-                      >
-                        <Check className="h-4 w-4 flex-shrink-0 text-teal-600 dark:text-teal-400" />
-                        <span className="text-sm text-gray-700 dark:text-gray-50">
-                          {feature}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
+ {car?.features && car.features.length > 0 && (
+  <div>
+    {/* Header */}
+    <div className="px-6">
+     <div className="h-0.5 w-full bg-teal-900 mb-6"></div>
+      <h3 className="text-lg mb-4 font-semibold text-gray-900 dark:text-white">
+        Features
+      </h3>
+    </div>
+
+    {/* Features Grid */}
+    <div className="px-6">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+        {car.features.map((feature, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <IoCheckmarkCircle className="h-5 w-5 flex-shrink-0 text-green-500" />
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+              {feature}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
 
             {/* Seller Comments */}
-            <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Seller Notes
-                </h3>
-              </div>
-              <div className="p-6">
+            <div>
+              <div className="px-6">
                 {car ? (
                   <SellerCommentComponent
                     loadingState={loading}
@@ -467,66 +455,72 @@ export default function CarDetail() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <div className="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Similar Cars
-                </h3>
+      <div className="">
+  {/* Header */}
+  <div className="border-b border-gray-200 px-4 py-2 dark:border-gray-700">
+    <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wide">
+      Similar Listings
+    </h3>
+  </div>
+
+  {/* Listings */}
+  <div className="divide-y divide-gray-200 dark:divide-gray-700">
+    {relatedCars.length > 0 ? (
+      relatedCars.map((relatedCar, index) => (
+        <Link
+          href={`/car-detail/${relatedCar.slug}`}
+          key={index}
+          className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700"
+        >
+          {/* Thumbnail */}
+          <div className="h-14 w-20 flex-shrink-0 overflow-hidden rounded-md bg-gray-200 dark:bg-gray-600">
+            {relatedCar.imageUrls && relatedCar.imageUrls[0] ? (
+              <Image
+                src={relatedCar.imageUrls[0]}
+                alt={`${relatedCar.make} ${relatedCar.model}`}
+                width={80}
+                height={56}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-gray-400">
+                🚗
               </div>
-              <div className="p-6">
-                {relatedCars.length > 0 ? (
-                  <div className="space-y-4">
-                    {relatedCars.map((relatedCar, index) => (
-                      <Link
-                        href={`/car-detail/${relatedCar.slug}`}
-                        key={index}
-                        className="flex cursor-pointer gap-3 rounded-lg border border-gray-200 p-3 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700"
-                      >
-                        <div className="h-12 w-16 flex-shrink-0 overflow-hidden rounded-md bg-gray-200 dark:bg-gray-600">
-                          {relatedCar.imageUrls && relatedCar.imageUrls[0] ? (
-                            <Image
-                              src={
-                                relatedCar.imageUrls[0] || "/placeholder.svg"
-                              }
-                              alt={`${relatedCar.make} ${relatedCar.model}`}
-                              width={64}
-                              height={48}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center text-gray-400">
-                              🚗
-                            </div>
-                          )}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h4 className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                            {relatedCar.make} {relatedCar.model}
-                          </h4>
-                          <p className="text-sm font-semibold text-teal-600 dark:text-teal-400">
-                            $
-                            {Math.round(relatedCar.price || 0).toLocaleString()}
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {relatedCar.modelYear} • {relatedCar.kms || "N/A"}{" "}
-                            km
-                          </p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="py-8 text-center">
-                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
-                      🚗
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      No similar cars found
-                    </p>
-                  </div>
-                )}
-              </div>
+            )}
+          </div>
+
+          {/* Details */}
+          <div className="min-w-0 flex-1">
+            <h4 className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+              {relatedCar.make} {relatedCar.model}
+            </h4>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              {relatedCar.dealer || "Unknown Dealer"}
+            </p>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="rounded bg-green-500 px-2 py-0.5 text-xs font-bold text-white">
+                ${Math.round(relatedCar.price || 0).toLocaleString()}
+              </span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">
+                ⚙ {relatedCar.gearbox || "Manual"}
+              </span>
             </div>
+          </div>
+        </Link>
+      ))
+    ) : (
+      <div className="py-6 text-center">
+        <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
+          🚗
+        </div>
+        <p className="text-xs text-gray-600 dark:text-gray-400">
+          No similar cars found
+        </p>
+      </div>
+    )}
+  </div>
+</div>
+
           </div>
         </div>
         {/* Enquiry Modal */}
@@ -680,107 +674,101 @@ const ResponsiveSpecsGrid = ({ loadingState, carData, translation: t }) => {
   const loading = loadingState;
 
   const specifications = [
-    { label: "Make", value: carData?.make || "Not provided", icon: Car },
-    { label: "Model", value: carData?.model || "Not provided", icon: Tag },
+    { label: "Make", value: carData?.make || "N/A", icon: Car },
+    { label: "Model", value: carData?.model || "N/A", icon: Tag },
     {
       label: "Year",
-      value: carData?.modelYear || "Not provided",
+      value: carData?.modelYear || "N/A",
       icon: Calendar,
     },
     {
       label: "Condition",
-      value: carData?.condition || "Not provided",
+      value: carData?.condition || "N/A",
       icon: Star,
     },
     {
       label: "Body Type",
-      value: carData?.bodyType || "Not provided",
+      value: carData?.bodyType || "N/A",
       icon: Truck,
     },
-    { label: "Color", value: carData?.color || "Not provided", icon: Palette },
-    { label: "Doors", value: carData?.doors || "Not provided", icon: DoorOpen },
-    { label: "Seats", value: carData?.seats || "Not provided", icon: Users },
+    { label: "Color", value: carData?.color || "N/A", icon: Palette },
+    { label: "Doors", value: carData?.doors || "N/A", icon: DoorOpen },
+    { label: "Seats", value: carData?.seats || "N/A", icon: Users },
     {
       label: "Fuel Type",
-      value: carData?.fuelType || "Not provided",
+      value: carData?.fuelType || "N/A",
       icon: Fuel,
     },
     {
-      label: "Gearbox",
-      value: carData?.gearbox || "Not provided",
+      label: "Transmission",
+      value: carData?.gearbox || "N/A",
       icon: Settings,
     },
     {
-      label: "Drive Type",
-      value: carData?.driveType || "Not provided",
+      label: "Drive",
+      value: carData?.driveType || "N/A",
       icon: Wrench,
     },
     {
-      label: "Engine Size",
-      value: carData?.engineSize ? `${carData.engineSize}L` : "Not provided",
-      icon: Zap,
-    },
-    {
-      label: "Engine Power",
-      value: carData?.enginePower
-        ? `${carData.enginePower} HP`
-        : "Not provided",
+      label: "Engine",
+      value: carData?.engineSize ? `${carData.engineSize}L` : "N/A",
       icon: Zap,
     },
     {
       label: "Mileage",
-      value: carData?.mileage || carData?.kms || "Not provided",
+      value: carData?.mileage || carData?.kms || "N/A",
       icon: Activity,
     },
     {
-      label: "Fuel Consumption",
-      value: carData?.fuelConsumption
-        ? `${carData.fuelConsumption}L/100km`
-        : "Not provided",
-      icon: Fuel,
+      label: "Exterior Color",
+      value: carData?.exteriorColor || carData?.color || "N/A",
+      icon: Palette,
     },
     {
-      label: "CO2 Emission",
-      value: carData?.co2Emission
-        ? `${carData.co2Emission}g/km`
-        : "Not provided",
-      icon: Leaf,
+      label: "Interior Color",
+      value: carData?.interiorColor || "N/A",
+      icon: DoorOpen,
+    },
+    {
+      label: "VIN",
+      value: carData?.vin || "N/A",
+      icon: FileText,
     },
   ];
-
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {loading
-        ? Array.from({ length: 16 }).map((_, index) => (
-            <div
-              key={index}
-              className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700"
-            >
-              <div className="mb-2 flex items-center gap-3">
-                <div className="h-6 w-6 animate-pulse rounded bg-gray-200 dark:bg-gray-600"></div>
-                <Skeleton width={80} height={16} />
-              </div>
-              <Skeleton width={100} height={20} />
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-2">
+    {loading
+      ? Array.from({ length: 16 }).map((_, index) => (
+          <div
+            key={index}
+            className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700"
+          >
+            <div className="mb-2 flex items-center gap-3">
+              <div className="h-6 w-6 animate-pulse rounded bg-gray-200 dark:bg-gray-600"></div>
+              <Skeleton width={80} height={16} />
             </div>
-          ))
-        : specifications.map((spec, index) => (
-            <div
-              key={index}
-              className="rounded-lg border border-gray-200 bg-green-50 p-2 transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600"
-            >
-              <div className="mb-2 flex items-center gap-2">
-                <spec.icon className="h-5 w-5 text-teal-600 dark:text-teal-400" />
-                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  {spec.label}
-                </span>
-              </div>
-              <div className="flex items-center justify-center rounded-lg bg-teal-100 p-2 dark:bg-teal-600">
-                <p className="text-center text-sm text-gray-900 dark:text-white">
-                  {spec.value}
-                </p>
-              </div>
+            <Skeleton width={100} height={20} />
+          </div>
+        ))
+      : specifications.map((spec, index) => (
+          <div
+            key={index}
+            className="grid gap-10 grid-cols-2 items-center py-3 border-b-2 border-gray-300 dark:border-gray-700 last:border-b-0"
+          >
+            {/* Icon + Label */}
+            <div className="flex items-center gap-3">
+              <spec.icon className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+              <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                {spec.label}
+              </span>
             </div>
-          ))}
-    </div>
-  );
-};
+
+            {/* Value */}
+            <span className="text-sm font-semibold text-gray-900 dark:text-white text-left">
+              {spec.value}
+            </span>
+          </div>
+        ))}
+  </div>
+);
+}

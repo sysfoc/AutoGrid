@@ -71,6 +71,7 @@ const HeroSection = () => {
   const [homepageData, setHomepageData] = useState(null);
   const [logo, setLogo] = useState("");
   const [logoError, setLogoError] = useState(false);
+  const [carsData, setCarsData] = useState([]);
   const [topSettings, setTopSettings] = useState({
     hideDarkMode: false,
     hideFavourite: false,
@@ -131,6 +132,17 @@ const HeroSection = () => {
     }
   }, []);
 
+  const fetchCarsData = useCallback(async () => {
+  try {
+    const response = await fetch('/api/cars');
+    const data = await response.json();
+    setCarsData(data.cars);
+  } catch (error) {
+    console.error('Error fetching cars data:', error);
+    setCarsData([]);
+  }
+}, []);
+
   const toggleDarkMode = useCallback(() => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
@@ -184,14 +196,14 @@ const HeroSection = () => {
     const fetchLogo = async () => {
       try {
         const cachedData = CacheManager.get("header_settings");
-        if (cachedData?.settings?.logo1) {
-          setLogo(cachedData.settings.logo1);
+        if (cachedData?.settings?.logo4) {
+          setLogo(cachedData.settings.logo4);
           return;
         }
         const response = await fetch("/api/settings/general");
         const data = await response.json();
         CacheManager.set("header_settings", data);
-        setLogo(data?.settings?.logo1 || "");
+        setLogo(data?.settings?.logo4 || "");
       } catch (error) {
         console.error("Failed to fetch logo:", error);
       }
@@ -251,6 +263,7 @@ const HeroSection = () => {
 
   useEffect(() => {
     fetchCarSearchData();
+    fetchCarsData();
   }, [fetchCarSearchData]);
 
   const ConditionTab = ({ condition, label, selected, onClick }) => (
@@ -486,12 +499,7 @@ const HeroSection = () => {
             sizes="100vw"
             quality={90}
           />
-
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/70"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30"></div>
-          <div className="absolute inset-0 bg-gray-900/20 dark:bg-gray-900/40"></div>
         </div>
-
         <div className="absolute bottom-10 left-10 h-20 w-20 animate-pulse rounded-full bg-green-500/20 opacity-60 backdrop-blur-sm"></div>
         <div className="absolute right-20 top-20 h-16 w-16 animate-pulse rounded-full bg-green-400/20 opacity-40 backdrop-blur-sm"></div>
 
@@ -634,7 +642,7 @@ const HeroSection = () => {
                     id={`${idPrefix}-make`}
                     value={selectedMake}
                     onChange={(e) => setSelectedMake(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors duration-200 focus:border-green-500 focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                   className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors duration-200 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none hover:border-green-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white [&>option:hover]:bg-green-50 [&>option:focus]:bg-green-50 [&>option]:bg-white [&>option]:text-gray-900"
                     disabled={carSearchLoading}
                   >
                     <option value="">Select Make</option>
@@ -662,30 +670,35 @@ const HeroSection = () => {
                   )}
                 </div>
               </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor={`${idPrefix}-model`}
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-200"
-                >
-                  Model
-                </label>
-                <select
-                  id={`${idPrefix}-model`}
-                  value={selectedModel}
-                  onChange={(e) => setSelectedModel(e.target.value)}
-                  className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors duration-200 focus:border-green-500 focus:ring-2 focus:ring-green-500 disabled:cursor-not-allowed disabled:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:disabled:bg-gray-600"
-                  disabled={!selectedMake || carSearchLoading}
-                >
-                  <option value="">Select Model</option>
-                  {carSearchModels.map((model, index) => (
-                    <option key={index} value={model}>
-                      {model}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
+<div className="space-y-2">
+  <label
+    htmlFor={`${idPrefix}-model`}
+    className="block text-sm font-medium text-gray-700 dark:text-gray-200"
+  >
+    Model
+  </label>
+  <select
+    id={`${idPrefix}-model`}
+    value={selectedModel}
+    onChange={(e) => setSelectedModel(e.target.value)}
+    className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors duration-200 focus:border-green-500 focus:ring-2 focus:ring-green-500 disabled:cursor-not-allowed disabled:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:disabled:bg-gray-600"
+    disabled={!selectedMake || carSearchLoading}
+  >
+    <option value="">Select Model</option>
+    {carSearchModels.map((model, index) => {
+      const modelCount = carsData.filter(car => 
+        car.model?.toLowerCase() === model.toLowerCase() && 
+        car.make?.toLowerCase() === selectedMake.toLowerCase()
+      ).length;
+      
+      return (
+        <option key={index} value={model}>
+          {model} ({modelCount})
+        </option>
+      );
+    })}
+  </select>
+</div>
               <div className="space-y-2">
                 <label
                   htmlFor={`${idPrefix}-price`}

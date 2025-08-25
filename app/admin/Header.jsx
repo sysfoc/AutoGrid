@@ -70,7 +70,7 @@ const Header = ({ isDarkMode }) => {
       
       const cachedData = CacheManager.get(CACHE_KEY);
       if (cachedData) {
-        setLogo(cachedData?.settings?.logo1 || "");
+        setLogo(cachedData?.settings?.logo4 || "");
         setLoading(false);
         return;
       }
@@ -88,7 +88,7 @@ const Header = ({ isDarkMode }) => {
 
       if (!mountedRef.current) return;
 
-      const logoUrl = data?.settings?.logo1 || "";
+      const logoUrl = data?.settings?.logo4 || "";
       
       // Cache the logo URL
       CacheManager.set(CACHE_KEY, logoUrl);

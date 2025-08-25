@@ -9,12 +9,20 @@ const SettingsSchema = new mongoose.Schema({
   },
   logo3: {
     type: String,
-  },
+  },logo4: {
+  type: String,
+},
+logo5: {
+  type: String,
+},
+logo6: {
+  type: String,
+},
   activeWebsiteLogo: {
-    type: String,
-    enum: ['logo1', 'logo2', 'logo3'],
-    default: 'logo1'
-  },
+  type: String,
+  enum: ['logo1', 'logo2', 'logo3', 'logo4', 'logo5', 'logo6'],
+  default: 'logo1'
+},
   favicon: {
     type: String,
   },
