@@ -45,7 +45,7 @@ const ScrolltoTop = () => {
 
   const CarIcon = () => (
     <img
-      src="/fromtop.png"
+      src="/carfromtop1.png"
       alt="Car top view"
       className={`w-24 h-32 object-contain relative z-10 transition-all duration-1000 ${
         isAnimating
@@ -59,7 +59,7 @@ const ScrolltoTop = () => {
     <div>
       {isVisible && (
         <div
-          className={`group fixed bottom-4 right-8 sm:right-10 md:right-16 cursor-pointer z-[9999] transition-all duration-500 hover:scale-105 ${
+          className={`group fixed bottom-4 right-3 sm:right-4 md:right-6 cursor-pointer z-[9999] transition-all duration-500 ${
             isAnimating ? "transform -translate-y-32" : "hover:-translate-y-2"
           }`}
           onClick={scrollToTop}
@@ -77,7 +77,6 @@ const ScrolltoTop = () => {
                 </div>
               )}
             </div>
-
           </div>
         </div>
       )}

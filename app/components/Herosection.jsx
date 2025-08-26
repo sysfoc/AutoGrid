@@ -15,6 +15,82 @@ import {
 import { useSidebar } from "../context/SidebarContext";
 import Image from "next/image";
 
+const CustomSelect = ({ 
+  options = [], 
+  value, 
+  onChange, 
+  placeholder = "Select option", 
+  disabled = false,
+  className = "",
+  id 
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSelect = (optionValue, optionLabel) => {
+    onChange({ target: { value: optionValue } });
+    setIsOpen(false);
+  };
+
+  const selectedOption = options.find(option => option.value === value);
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        id={id}
+        type="button"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        className={`w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-left text-black transition-colors duration-200 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none hover:border-green-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white ${
+          disabled ? 'cursor-not-allowed bg-gray-100 dark:bg-gray-600' : 'cursor-pointer'
+        } ${className}`}
+        disabled={disabled}
+      >
+        <div className="flex items-center justify-between">
+          <span className={selectedOption ? 'text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400'}>
+            {selectedOption ? selectedOption.label : placeholder}
+          </span>
+          <svg
+            className={`h-5 w-5 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </button>
+
+      {isOpen && (
+        <div className="absolute z-50 mt-1 w-full rounded-md border border-gray-200 bg-white shadow-lg dark:border-gray-600 dark:bg-gray-700">
+          <div className="max-h-60 overflow-auto py-1">
+            {options.map((option, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => handleSelect(option.value, option.label)}
+                className="w-full px-4 py-2 text-left text-sm text-gray-900 transition-colors duration-150 hover:bg-green-500 hover:text-white focus:bg-green-500 focus:text-white focus:outline-none dark:text-white dark:hover:bg-green-500 dark:hover:text-white dark:focus:bg-green-500 dark:focus:text-white"
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const CACHE_KEY = "homepage_data";
 const CACHE_DURATION = 300000;
 const CacheManager = {
@@ -317,7 +393,7 @@ const HeroSection = () => {
                   onMouseEnter={() => setListingsDropdownOpen(true)}
                   onMouseLeave={() => setListingsDropdownOpen(false)}
                 >
-                  <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 transition-all duration-300 hover:bg-white/10 hover:text-white hover:shadow-lg active:scale-95">
+                  <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-green-600 hover:shadow-lg active:scale-95">
                     <span>Listings</span>
                     <svg
                       className={`h-4 w-4 transition-transform duration-300 ${listingsDropdownOpen ? "rotate-180" : ""}`}
@@ -334,21 +410,19 @@ const HeroSection = () => {
                     </svg>
                   </button>
                   {listingsDropdownOpen && (
-                    <div className="absolute left-0 top-full z-50 w-56 rounded-xl border border-gray-100 bg-white shadow-2xl ring-1 ring-black/5 dark:border-gray-700 dark:bg-gray-800">
+                    <div className="absolute left-0 top-full z-50 w-40 rounded-xl border border-gray-100 bg-white shadow-2xl ring-1 ring-black/5 dark:border-gray-700 dark:bg-gray-800">
                       <div className="p-2">
                         <Link
                           href="/car-for-sale"
-                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-green-400"
+                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-green-600 hover:text-white dark:text-gray-200 dark:hover:bg-green-700 dark:hover:text-white"
                         >
-                          <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                           Cars for Sale
                         </Link>
                         <Link
                           href="/cars/leasing"
-                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-green-400"
+                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-green-600 hover:text-white dark:text-gray-200 dark:hover:bg-green-700 dark:hover:text-white"
                         >
-                          <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
-                          Lease Deals
+                        Lease Deals
                         </Link>
                       </div>
                     </div>
@@ -360,7 +434,7 @@ const HeroSection = () => {
                   onMouseEnter={() => setPagesDropdownOpen(true)}
                   onMouseLeave={() => setPagesDropdownOpen(false)}
                 >
-                  <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 transition-all duration-300 hover:bg-white/10 hover:text-white hover:shadow-lg active:scale-95">
+                  <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-green-600 hover:shadow-lg active:scale-95">
                     <span>Pages</span>
                     <svg
                       className={`h-4 w-4 transition-transform duration-300 ${pagesDropdownOpen ? "rotate-180" : ""}`}
@@ -382,23 +456,20 @@ const HeroSection = () => {
                       <div className="p-2">
                         <Link
                           href="/about"
-                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-green-400"
+                         className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-green-600 hover:text-white dark:text-gray-200 dark:hover:bg-green-700 dark:hover:text-white"
                         >
-                          <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
-                          About
+                           About
                         </Link>
                         <Link
                           href="/contact"
-                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-green-400"
+                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-green-600 hover:text-white dark:text-gray-200 dark:hover:bg-green-700 dark:hover:text-white"
                         >
-                          <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                           Contact
                         </Link>
                         <Link
                           href="/blogs"
-                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-gray-50 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-green-400"
+                          className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-green-600 hover:text-white dark:text-gray-200 dark:hover:bg-green-700 dark:hover:text-white"
                         >
-                          <span className="mr-3 h-2 w-2 rounded-full bg-green-500 opacity-0 transition-opacity group-hover:opacity-100"></span>
                           Blogs
                         </Link>
                       </div>
@@ -408,7 +479,7 @@ const HeroSection = () => {
 
                 <Link
                   href="/cars/valuation"
-                  className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 transition-all duration-300 hover:bg-white/10 hover:text-white hover:shadow-lg active:scale-95"
+                  className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-green-600 hover:shadow-lg active:scale-95"
                 >
                   <FaCalculator className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                   <span>Car valuation</span>
@@ -416,7 +487,7 @@ const HeroSection = () => {
 
                 <Link
                   href="/car-financing"
-                  className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 transition-all duration-300 hover:bg-white/10 hover:text-white hover:shadow-lg active:scale-95"
+                  className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-green-600 hover:shadow-lg active:scale-95"
                 >
                   <FaCalculator className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                   <span>Car Financing</span>
@@ -424,7 +495,7 @@ const HeroSection = () => {
 
                 <Link
                   href="/cars/about-us"
-                  className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white/90 transition-all duration-300 hover:bg-white/10 hover:text-white hover:shadow-lg active:scale-95"
+                   className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:bg-green-600 hover:shadow-lg active:scale-95"
                 >
                   <FaHandshake className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                   <span>Vehicle Services</span>
@@ -570,6 +641,13 @@ const HeroSection = () => {
                     Car Financing
                   </Link>
                   <Link
+                    href="/cars/valuation"
+                    onClick={handleMobileMenuClose}
+                    className="block py-2 text-gray-900 dark:text-white"
+                  >
+                    Car valuation
+                  </Link>
+                  <Link
                     href="/about"
                     onClick={handleMobileMenuClose}
                     className="block py-2 text-gray-900 dark:text-white"
@@ -638,31 +716,22 @@ const HeroSection = () => {
                   Make
                 </label>
                 <div className="relative">
-                  <select
-                    id={`${idPrefix}-make`}
-                    value={selectedMake}
-                    onChange={(e) => setSelectedMake(e.target.value)}
-                   className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors duration-200 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:outline-none hover:border-green-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white [&>option:hover]:bg-green-50 [&>option:focus]:bg-green-50 [&>option]:bg-white [&>option]:text-gray-900"
-                    disabled={carSearchLoading}
-                  >
-                    <option value="">Select Make</option>
-                    {carSearchMakes.map((make, index) => {
-                      const makeData = carSearchData?.find(
-                        (item) => item.Maker === make,
-                      );
-                      const modelString = makeData?.["model "];
-                      const modelCount =
-                        typeof modelString === "string"
-                          ? modelString.split(",").length
-                          : 0;
-
-                      return (
-                        <option key={index} value={make}>
-                          {make}{" "}({modelCount})
-                        </option>
-                      );
-                    })}
-                  </select>
+                 <CustomSelect
+  id={`${idPrefix}-make`}
+  options={carSearchMakes.map((make, index) => {
+    const makeData = carSearchData?.find(item => item.Maker === make);
+    const modelString = makeData?.["model "];
+    const modelCount = typeof modelString === "string" ? modelString.split(",").length : 0;
+    return {
+      value: make,
+      label: `${make} (${modelCount})`
+    };
+  })}
+  value={selectedMake}
+  onChange={(e) => setSelectedMake(e.target.value)}
+  placeholder="Select Make"
+  disabled={carSearchLoading}
+/>
                   {carSearchLoading && (
                     <div className="absolute right-3 top-1/2 -translate-y-1/2">
                       <div className="h-4 w-4 animate-spin rounded-full border-2 border-green-500 border-t-transparent"></div>
@@ -677,27 +746,23 @@ const HeroSection = () => {
   >
     Model
   </label>
-  <select
-    id={`${idPrefix}-model`}
-    value={selectedModel}
-    onChange={(e) => setSelectedModel(e.target.value)}
-    className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 transition-colors duration-200 focus:border-green-500 focus:ring-2 focus:ring-green-500 disabled:cursor-not-allowed disabled:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:disabled:bg-gray-600"
-    disabled={!selectedMake || carSearchLoading}
-  >
-    <option value="">Select Model</option>
-    {carSearchModels.map((model, index) => {
-      const modelCount = carsData.filter(car => 
-        car.model?.toLowerCase() === model.toLowerCase() && 
-        car.make?.toLowerCase() === selectedMake.toLowerCase()
-      ).length;
-      
-      return (
-        <option key={index} value={model}>
-          {model} ({modelCount})
-        </option>
-      );
-    })}
-  </select>
+ <CustomSelect
+  id={`${idPrefix}-model`}
+  options={carSearchModels.map((model, index) => {
+    const modelCount = carsData.filter(car => 
+      car.model?.toLowerCase() === model.toLowerCase() && 
+      car.make?.toLowerCase() === selectedMake.toLowerCase()
+    ).length;
+    return {
+      value: model,
+      label: `${model} (${modelCount})`
+    };
+  })}
+  value={selectedModel}
+  onChange={(e) => setSelectedModel(e.target.value)}
+  placeholder="Select Model"
+  disabled={!selectedMake || carSearchLoading}
+/>
 </div>
               <div className="space-y-2">
                 <label

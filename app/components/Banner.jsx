@@ -47,9 +47,8 @@ const Banner = () => {
     <div className="bg-gradient-to-r from-slate-800 fixed w-full z-50 top-0 left-0 right-0 via-slate-900 to-slate-800 text-white">
       <div className="mx-auto flex h-16 max-w-7xl items-center px-2 sm:h-16 sm:px-4">
         <div className="flex w-full items-center justify-between gap-2 sm:gap-4">
-          {/* Left Section - Brand and Dropdown */}
           <div className="flex min-w-0 flex-shrink-0 items-center gap-2 sm:gap-4">
-            {/* Brand */}
+            <Link href="https://www.automotivewebsolutions.com" target="_blank" rel="noopener noreferrer">
             <div className="flex-shrink-0">
               <h1 className="sm:text-sm text-xs font-semibold tracking-wide text-white xl:text-xl">
                 <span className="block text-center sm:hidden">
@@ -60,8 +59,7 @@ const Banner = () => {
                 <span className="hidden sm:block">Automotivewebsolutions</span>
               </h1>
             </div>
-
-            {/* Website Selector */}
+            </Link>
             <div className="relative flex-shrink-0">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -95,6 +93,7 @@ const Banner = () => {
           </div>
 
           {/* Center Section - Theme Customization */}
+            <Link href="https://www.automotivewebsolutions.com/add-ons" target="_blank" rel="noopener noreferrer">
           <div className="hidden flex-shrink-0 flex-col items-center text-center lg:flex">
             <div className="mb-0.5 flex items-center gap-1">
               <TbSettingsCode size={30} className=" text-green-400" />
@@ -106,6 +105,7 @@ const Banner = () => {
               Get a free quote
             </p>
           </div>
+            </Link>
 
           <Link
             href="/blogs"
@@ -123,9 +123,13 @@ const Banner = () => {
               <p className="text-xs font-bold text-white lg:text-sm">
                 Powered by
               </p>
-              <p className="text-xs font-bold text-green-400 md:ml-1 lg:text-sm">
+              <Link 
+              href="https://sysfoc.com" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold text-green-400 md:ml-1 lg:text-sm">
                 Sysfoc
-              </p>
+              </Link>
             </div>
 
             {/* Subscribe Button / Bell Icon */}

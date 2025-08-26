@@ -22,6 +22,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
 import { useCurrency } from "../context/CurrencyContext";
 import { useDistance } from "../context/DistanceContext";
+import { Check } from "lucide-react";
 
 const CardetailCard = () => {
   const [cars, setCars] = useState([]);
@@ -933,9 +934,17 @@ const CardetailCard = () => {
                       </h3>
 
                       {!isGridView && car.features?.length > 0 && (
-                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                          {car.features.join(" • ")}
-                        </p>
+                        <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                          {car.features.slice(0, 9).map((feature, idx) => (
+                            <span
+                              key={idx}
+                               className="flex items-center gap-1.5 rounded bg-gray-100 px-2 py-1 text-xs text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                            >
+                              <Check className="h-3 w-3 text-green-500 flex-shrink-0" />
+                              {feature}
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </div>
 

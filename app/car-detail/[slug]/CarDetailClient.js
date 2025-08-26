@@ -1,14 +1,12 @@
 "use client";
-
 import { useParams } from "next/navigation";
-
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { FaWhatsapp } from "react-icons/fa";
-import { useCurrency } from "../../context/CurrencyContext"; // Import useCurrency hook
-import SliderComponent from "../../components/Slider"; // Import SliderComponent
-import SellerCommentComponent from "../../components/SellerComment"; // Import SellerCommentComponent
-import { LuMessageCircle, LuMail, LuPhone } from "react-icons/lu";
+import { useCurrency } from "../../context/CurrencyContext";
+import SliderComponent from "../../components/Slider";
+import SellerCommentComponent from "../../components/SellerComment";
+import { LuPhone } from "react-icons/lu";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -224,9 +222,7 @@ export default function CarDetail() {
   return (
     <div className="mt-16 min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        {/* Main Content Grid - matches reference layout */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {/* Left Column - Main Content (2/3 width) */}
           <div className="space-y-6 lg:col-span-2">
             <div className="">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -240,7 +236,7 @@ export default function CarDetail() {
                       {car?.modelYear || "N/A"}
                     </span>
                   </div>
-                  <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
+                  <h1 className="mb-2 text-sm sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white">
                     {loading ? (
                       <Skeleton width={300} />
                     ) : (
@@ -250,26 +246,22 @@ export default function CarDetail() {
                 </div>
 
                 <div className="bg-green-500 text-right">
-                  <div className="px-4 py-1 text-lg font-bold text-white dark:text-gray-100 sm:text-2xl md:text-3xl">
+                  <div className="px-3 py-1 text-sm font-semibold text-white dark:text-gray-100 sm:text-lg md:text-xl">
                     {loading ? (
                       <Skeleton width={200} />
                     ) : (
                       `${selectedCurrency?.symbol}${Math.round(car?.price || 0).toLocaleString()}`
                     )}
                   </div>
-                  {/* <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    {car?.kms ? `${car.kms} km` : "Mileage not provided"}
-                  </p> */}
                 </div>
               </div>
             </div>
 
-            {/* Image Slider */}
             <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
               <SliderComponent loadingState={loading} carData={car} />
             </div>
             <div className="">
-              <div className="p-6">
+              <div className="pt-6 px-6">
                 <ResponsiveSpecsGrid
                   loadingState={loading}
                   carData={car}
@@ -278,34 +270,29 @@ export default function CarDetail() {
               </div>
             </div>
 
- {car?.features && car.features.length > 0 && (
-  <div>
-    {/* Header */}
-    <div className="px-6">
-     <div className="h-0.5 w-full bg-teal-900 mb-6"></div>
-      <h3 className="text-lg mb-4 font-semibold text-gray-900 dark:text-white">
-        Features
-      </h3>
-    </div>
+            {car?.features && car.features.length > 0 && (
+              <div>
+                <div className="px-6">
+                  <div className="mb-6 h-0.5 w-full bg-teal-900"></div>
+                  <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+                    Features
+                  </h3>
+                </div>
+                <div className="px-6">
+                  <div className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 md:grid-cols-3">
+                    {car.features.map((feature, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <IoCheckmarkCircle className="h-5 w-5 flex-shrink-0 text-green-500" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
 
-    {/* Features Grid */}
-    <div className="px-6">
-      <div className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
-        {car.features.map((feature, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <IoCheckmarkCircle className="h-5 w-5 flex-shrink-0 text-green-500" />
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-              {feature}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-)}
-
-
-            {/* Seller Comments */}
             <div>
               <div className="px-6">
                 {car ? (
@@ -358,7 +345,7 @@ export default function CarDetail() {
                       </p>
                       <button
                         onClick={handleWhatsAppClick}
-                        className="flex w-full items-center justify-center rounded-md border-[1px] border-gray-400 bg-white px-4 py-3 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100"
+                        className="flex w-full items-center justify-center rounded-md border-[1px] border-gray-400 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100"
                       >
                         <FaWhatsapp color="green" className="mr-2 h-5 w-5" />
                         CHAT VIA WHATSAPP
@@ -369,13 +356,13 @@ export default function CarDetail() {
                             `mailto:${dealer.email}?subject=Inquiry from [Your Company]&body=Hello,\n\nI am interested in your dealership services.\n\nBest regards,`,
                           )
                         }
-                        className="mt-3 flex w-full items-center justify-center rounded-md border-[1px] border-gray-400 bg-white px-4 py-3 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100"
+                        className="mt-3 flex w-full items-center justify-center rounded-md border-[1px] border-gray-400 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100"
                       >
                         <Mail className="mr-2 h-5 w-5" />
                         MESSAGE TO DEALER
                       </button>
                     </div>
-                    <div className="flex flex-col gap-3 border-t border-gray-200 pt-4 dark:border-gray-700">
+                    <div className="flex flex-col gap-3 border-t border-gray-200 pt-4 text-sm dark:border-gray-700">
                       <button
                         onClick={() => setOpenModal(true)}
                         className="group flex w-full items-center justify-between rounded-lg 
@@ -414,7 +401,6 @@ export default function CarDetail() {
                         </span>
                       </button>
                     </div>
-                    {/* Map Section */}
                     <div className="flex items-center">
                       <MapPin className="mr-2 h-5 w-5 text-teal-600" />
                       <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -455,75 +441,69 @@ export default function CarDetail() {
               </div>
             </div>
 
-      <div className="">
-  {/* Header */}
-  <div className="border-b border-gray-200 px-4 py-2 dark:border-gray-700">
-    <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wide">
-      Similar Listings
-    </h3>
-  </div>
+            <div className="">
+             
+                <h3 className="text-sm font-bold uppercase mb-2 tracking-wide text-gray-900 dark:text-white">
+                  Similar Listings
+                </h3>
+                  <div className="h-0.5 w-full bg-teal-900 mb-4"></div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {relatedCars.length > 0 ? (
+                  relatedCars.map((relatedCar, index) => (
+                    <Link
+                      href={`/car-detail/${relatedCar.slug}`}
+                      key={index}
+                      className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                      <div className="h-14 w-20 flex-shrink-0 overflow-hidden rounded-md bg-gray-200 dark:bg-gray-600">
+                        {relatedCar.imageUrls && relatedCar.imageUrls[0] ? (
+                          <Image
+                            src={relatedCar.imageUrls[0]}
+                            alt={`${relatedCar.make} ${relatedCar.model}`}
+                            width={80}
+                            height={56}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-gray-400">
+                            🚗
+                          </div>
+                        )}
+                      </div>
 
-  {/* Listings */}
-  <div className="divide-y divide-gray-200 dark:divide-gray-700">
-    {relatedCars.length > 0 ? (
-      relatedCars.map((relatedCar, index) => (
-        <Link
-          href={`/car-detail/${relatedCar.slug}`}
-          key={index}
-          className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700"
-        >
-          {/* Thumbnail */}
-          <div className="h-14 w-20 flex-shrink-0 overflow-hidden rounded-md bg-gray-200 dark:bg-gray-600">
-            {relatedCar.imageUrls && relatedCar.imageUrls[0] ? (
-              <Image
-                src={relatedCar.imageUrls[0]}
-                alt={`${relatedCar.make} ${relatedCar.model}`}
-                width={80}
-                height={56}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-gray-400">
-                🚗
+                      <div className="min-w-0 flex-1">
+                        <h4 className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                          {relatedCar.make} {relatedCar.model}
+                        </h4>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {relatedCar.tag || "Unknown Dealer"}
+                        </p>
+                        <div className="mt-1 flex items-center gap-2">
+                          <span className="rounded bg-green-500 px-2 py-0.5 text-xs font-bold text-white">
+                            {selectedCurrency?.symbol}
+                            {Math.round(relatedCar.price || 0).toLocaleString()}
+                          </span>
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                            ⚙ {relatedCar.gearbox || "Manual"}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <div className="py-6 text-center">
+                    <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
+                      🚗
+                    </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      No similar cars found
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-
-          {/* Details */}
-          <div className="min-w-0 flex-1">
-            <h4 className="truncate text-sm font-semibold text-gray-900 dark:text-white">
-              {relatedCar.make} {relatedCar.model}
-            </h4>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              {relatedCar.dealer || "Unknown Dealer"}
-            </p>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="rounded bg-green-500 px-2 py-0.5 text-xs font-bold text-white">
-                ${Math.round(relatedCar.price || 0).toLocaleString()}
-              </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">
-                ⚙ {relatedCar.gearbox || "Manual"}
-              </span>
             </div>
           </div>
-        </Link>
-      ))
-    ) : (
-      <div className="py-6 text-center">
-        <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
-          🚗
         </div>
-        <p className="text-xs text-gray-600 dark:text-gray-400">
-          No similar cars found
-        </p>
-      </div>
-    )}
-  </div>
-</div>
-
-          </div>
-        </div>
-        {/* Enquiry Modal */}
         <Modal
           dismissible
           show={openModal}
@@ -736,39 +716,37 @@ const ResponsiveSpecsGrid = ({ loadingState, carData, translation: t }) => {
     },
   ];
   return (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-2">
-    {loading
-      ? Array.from({ length: 16 }).map((_, index) => (
-          <div
-            key={index}
-            className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700"
-          >
-            <div className="mb-2 flex items-center gap-3">
-              <div className="h-6 w-6 animate-pulse rounded bg-gray-200 dark:bg-gray-600"></div>
-              <Skeleton width={80} height={16} />
+    <div className="grid grid-cols-1 gap-x-5 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+      {loading
+        ? Array.from({ length: 16 }).map((_, index) => (
+            <div
+              key={index}
+              className="rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-700"
+            >
+              <div className="mb-2 flex items-center gap-3">
+                <div className="h-6 w-6 animate-pulse rounded bg-gray-200 dark:bg-gray-600"></div>
+                <Skeleton width={80} height={16} />
+              </div>
+              <Skeleton width={100} height={20} />
             </div>
-            <Skeleton width={100} height={20} />
-          </div>
-        ))
-      : specifications.map((spec, index) => (
-          <div
-            key={index}
-            className="grid gap-10 grid-cols-2 items-center py-3 border-b-2 border-gray-300 dark:border-gray-700 last:border-b-0"
-          >
-            {/* Icon + Label */}
-            <div className="flex items-center gap-3">
-              <spec.icon className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
-              <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                {spec.label}
+          ))
+        : specifications.map((spec, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-2 items-center gap-10 border-b-2 border-gray-300 py-3 last:border-b-0 dark:border-gray-700"
+            >
+              <div className="flex items-center gap-3">
+                <spec.icon className="h-5 w-5 flex-shrink-0 text-green-600 dark:text-green-400" />
+                <span className="truncate whitespace-nowrap text-sm font-normal text-gray-500 dark:text-gray-400">
+                  {spec.label}
+                </span>
+              </div>
+
+              <span className="truncate whitespace-nowrap text-left text-sm font-semibold text-gray-900 dark:text-white">
+                {spec.value}
               </span>
             </div>
-
-            {/* Value */}
-            <span className="text-sm font-semibold text-gray-900 dark:text-white text-left">
-              {spec.value}
-            </span>
-          </div>
-        ))}
-  </div>
-);
-}
+          ))}
+    </div>
+  );
+};
