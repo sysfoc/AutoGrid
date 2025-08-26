@@ -127,7 +127,7 @@ const Banner = () => {
               href="https://sysfoc.com" 
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-bold text-green-400 md:ml-1 lg:text-sm">
+              className="text-xs font-bold hover:underline text-green-400 md:ml-1 lg:text-sm">
                 Sysfoc
               </Link>
             </div>

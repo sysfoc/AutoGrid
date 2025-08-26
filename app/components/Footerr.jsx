@@ -429,6 +429,7 @@ const Footerr = () => {
                 <span className="text-slate-600 dark:text-slate-300">
                   by {" "}
                   <Link
+                  className="hover:underline"
                     href="https://sysfoc.com"
                     target="_blank"
                     rel="noopener noreferrer"
