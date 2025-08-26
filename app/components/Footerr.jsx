@@ -427,7 +427,7 @@ const Footerr = () => {
                   •
                 </span>
                 <span className="text-slate-600 dark:text-slate-300">
-                  by
+                  by {" "}
                   <Link
                     href="https://sysfoc.com"
                     target="_blank"
