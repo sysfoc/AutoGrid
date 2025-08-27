@@ -5,7 +5,7 @@ import { Chart } from "react-google-charts";
 const BarChart = () => {
   const [chartData, setChartData] = useState([
     ["Month", "New Listings", "Total Inventory"],
-    ["Loading...", 0, 0]
+    ["Loading...", 0, 0],
   ]);
   const [loading, setLoading] = useState(true);
   const [totalValue, setTotalValue] = useState(0);
@@ -13,26 +13,38 @@ const BarChart = () => {
   useEffect(() => {
     const fetchCarData = async () => {
       try {
-        const response = await fetch('/api/cars');
+        const response = await fetch("/api/cars");
         const data = await response.json();
-        
+
         if (data.cars && data.cars.length > 0) {
           // Process cars by month based on createdAt
           const monthlyData = {};
           const currentYear = new Date().getFullYear();
-          
+
           // Initialize all months
-          const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                         'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-          
-          months.forEach(month => {
+          const months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ];
+
+          months.forEach((month) => {
             monthlyData[month] = { newListings: 0, totalInventory: 0 };
           });
-          
+
           // Calculate cumulative inventory and monthly additions
           let cumulativeInventory = 0;
-          
-          data.cars.forEach(car => {
+
+          data.cars.forEach((car) => {
             const carDate = new Date(car.createdAt);
             if (carDate.getFullYear() === currentYear) {
               const monthIndex = carDate.getMonth();
@@ -40,42 +52,42 @@ const BarChart = () => {
               monthlyData[monthName].newListings += 1;
             }
           });
-          
+
           // Calculate cumulative inventory for each month
-          months.forEach(month => {
+          months.forEach((month) => {
             cumulativeInventory += monthlyData[month].newListings;
             monthlyData[month].totalInventory = cumulativeInventory;
           });
-          
+
           // Convert to chart format
-          const chartDataArray = months.map(month => [
+          const chartDataArray = months.map((month) => [
             month,
             monthlyData[month].newListings,
-            monthlyData[month].totalInventory
+            monthlyData[month].totalInventory,
           ]);
-          
+
           setChartData([
             ["Month", "New Listings", "Total Inventory"],
-            ...chartDataArray
+            ...chartDataArray,
           ]);
-          
+
           // Calculate total inventory value
           const totalInventoryValue = data.cars.reduce((sum, car) => {
             return sum + (car.price || 0);
           }, 0);
-          
+
           setTotalValue(totalInventoryValue);
         } else {
           setChartData([
             ["Month", "New Listings", "Total Inventory"],
-            ["No Data", 0, 0]
+            ["No Data", 0, 0],
           ]);
         }
       } catch (error) {
         console.error("Error fetching car data:", error);
         setChartData([
           ["Month", "New Listings", "Total Inventory"],
-          ["Error", 0, 0]
+          ["Error", 0, 0],
         ]);
       } finally {
         setLoading(false);
@@ -90,25 +102,25 @@ const BarChart = () => {
       title: "Vehicle Inventory Analytics",
       subtitle: "Monthly new listings and cumulative inventory growth",
     },
-    bars: 'vertical',
+    bars: "vertical",
     vAxis: {
       title: "Number of Vehicles",
       minValue: 0,
-      gridlines: { 
+      gridlines: {
         count: 8,
-        color: '#f0f0f0'
+        color: "#f0f0f0",
       },
       textStyle: {
         fontSize: 11,
-        fontName: 'Inter'
-      }
+        fontName: "Inter",
+      },
     },
-    hAxis: { 
+    hAxis: {
       title: "Months",
       textStyle: {
         fontSize: 11,
-        fontName: 'Inter'
-      }
+        fontName: "Inter",
+      },
     },
     colors: ["#3b82f6", "#10b981"],
     legend: {
@@ -116,59 +128,63 @@ const BarChart = () => {
       alignment: "center",
       textStyle: {
         fontSize: 12,
-        fontName: 'Inter'
-      }
+        fontName: "Inter",
+      },
     },
     chartArea: {
       left: 60,
       top: 80,
-      width: '85%',
-      height: '70%'
+      width: "85%",
+      height: "70%",
     },
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     titleTextStyle: {
       fontSize: 14,
-      fontName: 'Inter',
-      bold: true
+      fontName: "Inter",
+      bold: true,
     },
     animation: {
       duration: 1000,
-      easing: 'out',
-      startup: true
+      easing: "out",
+      startup: true,
     },
     bar: { groupWidth: "75%" },
-    isStacked: false
+    isStacked: false,
   };
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value);
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-      <div className="p-5 border-b border-gray-100">
-        <div className="flex justify-between items-center">
-          <h3 className="font-semibold text-gray-800">Inventory Growth Analytics</h3>
-          <div className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded-full">
+    <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
+      <div className="border-b border-gray-100 p-5">
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold text-gray-800">
+            Inventory Growth Analytics
+          </h3>
+          <div className="rounded-full bg-blue-50 px-2 py-1 text-xs text-blue-600">
             Monthly Overview
           </div>
         </div>
-        <p className="text-xs text-gray-500 mt-1">Track new listings and cumulative inventory growth</p>
+        <p className="mt-1 text-xs text-gray-500">
+          Track new listings and cumulative inventory growth
+        </p>
       </div>
-      
+
       {loading ? (
-        <div className="h-72 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        <div className="flex h-72 items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-500"></div>
         </div>
       ) : (
         <div className="p-2">
           <Chart
-            chartType='Bar'
+            chartType="Bar"
             data={chartData}
             options={options}
             width="100%"
@@ -176,11 +192,13 @@ const BarChart = () => {
           />
         </div>
       )}
-      
-      <div className="px-5 py-3 border-t border-gray-100 bg-gray-50 text-xs text-gray-500">
-        <div className="flex justify-between items-center">
+
+      <div className="border-t border-gray-100 bg-gray-50 px-5 py-3 text-xs text-gray-500">
+        <div className="flex items-center justify-between">
           <span>Total Inventory Value</span>
-          <span className="font-medium text-green-600">{formatCurrency(totalValue)}</span>
+          <span className="text-app-bg font-medium">
+            {formatCurrency(totalValue)}
+          </span>
         </div>
       </div>
     </div>

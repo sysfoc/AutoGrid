@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { ArrowUpRight, Car, Handshake, Wrench, Calculator } from 'lucide-react';
+import { ArrowUpRight, Car, Handshake, Wrench, Calculator } from "lucide-react";
 
 const Services = () => {
   const [chooseUsData, setChooseUsData] = useState(null);
@@ -20,7 +20,7 @@ const Services = () => {
 
     fetchChooseUsData();
   }, []);
-  
+
   const services = [
     {
       icon: Car,
@@ -37,8 +37,8 @@ const Services = () => {
       description: chooseUsData?.second?.description,
       buttonText: chooseUsData?.second?.buttonText,
       href: chooseUsData?.second?.link,
-      iconBg: "bg-green-100 dark:bg-green-900/30",
-      iconColor: "text-app-text dark:text-green-400",
+      iconBg: "bg-green-100 dark:bg-app-bg",
+      iconColor: "text-app-text dark:text-app-bg",
     },
     {
       icon: Wrench,
@@ -61,7 +61,7 @@ const Services = () => {
   ];
 
   return (
-    <section className="mx-0 sm:mx-4 my-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900 py-12 shadow-lg">
+    <section className="mx-0 my-6 rounded-2xl border border-gray-200 bg-gray-100 py-12 shadow-lg dark:border-gray-700 dark:bg-gray-900 sm:mx-4">
       <div className="mx-auto max-w-6xl px-3 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="mb-10 text-center">
@@ -74,32 +74,36 @@ const Services = () => {
           </p>
           <div className="mx-auto h-1.5 w-16 rounded-full bg-app-button"></div>
         </div>
-        
+
         {/* Services Grid */}
         <div className="mb-10 grid grid-cols-1 gap-6 md:grid-cols-2">
           {services.map((service, index) => (
             <div
               key={index}
-              className="group rounded-xl border border-gray-300 hover:border-app-button dark:border-gray-700 dark:hover:border-app-button bg-white dark:bg-gray-800 p-6 shadow-md transition-all duration-300 hover:shadow-lg dark:hover:shadow-xl"
+              className="group rounded-xl border border-gray-300 bg-white p-6 shadow-md transition-all duration-300 hover:border-app-button hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:hover:border-app-button dark:hover:shadow-xl"
             >
               {/* Icon */}
-              <div className={`h-12 w-12 ${service.iconBg} mb-4 flex items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110`}>
-                <service.icon className={`h-6 w-6 ${service.iconColor} group-hover:text-app-button transition-colors duration-300`} />
+              <div
+                className={`h-12 w-12 ${service.iconBg} mb-4 flex items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110`}
+              >
+                <service.icon
+                  className={`h-6 w-6 ${service.iconColor} transition-colors duration-300 group-hover:text-app-button`}
+                />
               </div>
-              
+
               {/* Content */}
               <div className="mb-5 space-y-3">
-                <h3 className="text-xl font-bold text-app-text group-hover:text-app-button dark:text-gray-100 dark:group-hover:text-app-button transition-colors duration-300">
+                <h3 className="text-xl font-bold text-app-text transition-colors duration-300 group-hover:text-app-button dark:text-gray-100 dark:group-hover:text-app-button">
                   {service.title}
                 </h3>
                 <p className="text-sm leading-relaxed text-app-text/80 dark:text-gray-300">
                   {service.description}
                 </p>
               </div>
-              
+
               {/* CTA Button */}
               <a href={service.href}>
-                <button className="flex items-center rounded-lg bg-app-button hover:bg-app-button-hover hover:-translate-y-1 px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 group-hover:shadow-lg">
+                <button className="flex items-center rounded-lg bg-app-button px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:-translate-y-1 hover:bg-app-button-hover group-hover:shadow-lg">
                   {service.buttonText}
                   <ArrowUpRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
                 </button>

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { ChevronUp, ChevronDown, Search, CircleUser } from "lucide-react";
-import  { AiFillProduct } from "react-icons/ai";
+import { AiFillProduct } from "react-icons/ai";
 import Link from "next/link";
 
 const OrdersTable = () => {
@@ -86,19 +86,19 @@ const OrdersTable = () => {
     (data) =>
       data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       data.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.id.toLowerCase().includes(searchTerm.toLowerCase())
+      data.id.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white px-6 py-10">
-      <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl p-8">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
+      <div className="mx-auto max-w-7xl rounded-2xl bg-white p-8 shadow-xl">
+        <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <div className="flex items-center gap-3 mb-2 text-gray-800">
-            <AiFillProduct  size={30}/>
-            <h1 className="text-3xl font-bold">Order Management</h1>
+            <div className="mb-2 flex items-center gap-3 text-gray-800">
+              <AiFillProduct size={30} />
+              <h1 className="text-3xl font-bold">Order Management</h1>
             </div>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="mt-1 text-sm text-gray-500">
               Track, search and sort customer orders efficiently.
             </p>
           </div>
@@ -106,7 +106,7 @@ const OrdersTable = () => {
             <input
               type="text"
               placeholder="Search orders..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 shadow-sm transition focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -130,7 +130,7 @@ const OrdersTable = () => {
                 ].map((header) => (
                   <th
                     key={header.label}
-                    className="px-6 py-3 text-left font-medium cursor-pointer hover:bg-gray-200 transition"
+                    className="cursor-pointer px-6 py-3 text-left font-medium transition hover:bg-gray-200"
                     onClick={() => header.key && handleSort(header.key)}
                   >
                     <div className="flex items-center gap-1">
@@ -138,9 +138,9 @@ const OrdersTable = () => {
                       {header.key && sortConfig.key === header.key && (
                         <>
                           {sortConfig.direction === "asc" ? (
-                            <ChevronUp className="w-4 h-4 text-blue-500" />
+                            <ChevronUp className="h-4 w-4 text-blue-500" />
                           ) : (
-                            <ChevronDown className="w-4 h-4 text-blue-500" />
+                            <ChevronDown className="h-4 w-4 text-blue-500" />
                           )}
                         </>
                       )}
@@ -155,21 +155,25 @@ const OrdersTable = () => {
                   key={data.id}
                   className={`${
                     index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                  } hover:bg-blue-50 transition`}
+                  } transition hover:bg-blue-50`}
                 >
-                  <td className="px-6 py-4 font-semibold text-gray-700">{data.id}</td>
+                  <td className="px-6 py-4 font-semibold text-gray-700">
+                    {data.id}
+                  </td>
                   <td className="px-6 py-4">{data.name}</td>
                   <td className="px-6 py-4">{data.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{data.phone}</td>
-                  <td className="px-6 py-4 whitespace-nowrap ">{data.orderDate}</td>
-                  <td className="px-6 py-4 text-blue-700 font-semibold">
+                  <td className="whitespace-nowrap px-6 py-4">{data.phone}</td>
+                  <td className="whitespace-nowrap px-6 py-4 ">
+                    {data.orderDate}
+                  </td>
+                  <td className="px-6 py-4 font-semibold text-blue-700">
                     ${data.total.toFixed(2)}
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`inline-block px-3 py-1 text-xs font-bold rounded-full ${
+                      className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${
                         data.status === "Active"
-                          ? "bg-green-100 text-green-800"
+                          ? "text-app-bg"
                           : "bg-red-100 text-red-700"
                       }`}
                     >
@@ -188,7 +192,10 @@ const OrdersTable = () => {
               ))}
               {filteredData.length === 0 && (
                 <tr>
-                  <td colSpan="8" className="px-6 py-8 text-center text-gray-500">
+                  <td
+                    colSpan="8"
+                    className="px-6 py-8 text-center text-gray-500"
+                  >
                     No orders found.
                   </td>
                 </tr>

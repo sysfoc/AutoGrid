@@ -180,7 +180,7 @@ const VehicleCard = ({
               </div>
             )}
             {!vehicle.sold && vehicle.tag && vehicle.tag !== "default" && (
-              <div className="rounded-full bg-gradient-to-r from-green-600 to-green-700 px-3 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
+              <div className="to-app-hover from-app-bg rounded-full bg-gradient-to-r px-3 py-1.5 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
                 <div className="flex items-center gap-1.5">
                   <div className="h-2 w-2 rounded-full bg-white"></div>
                   {vehicle.tag.toUpperCase()}
@@ -222,7 +222,7 @@ const VehicleCard = ({
             </div>
             <div className="ml-2">
               {/* Green price background without rounding */}
-              <div className="bg-green-600 px-2 py-1 text-right">
+              <div className="bg-app-bg px-2 py-1 text-right">
                 <div className="text-sm font-bold text-white">
                   {selectedCurrency && selectedCurrency.symbol}{" "}
                   {Math.round(
@@ -478,7 +478,7 @@ const VehicalsList = ({ loadingState }) => {
           {/* View All Button - Top Right */}
           <div className="flex items-center gap-4">
             <Link href={"/car-for-sale"}>
-              <div className="group inline-flex transform items-center gap-2 rounded-lg bg-green-600 px-4 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:bg-green-700">
+              <div className="hover:bg-app-hover bg-app-bg group inline-flex transform items-center gap-2 rounded-lg px-4 py-2 font-medium text-white shadow-sm transition-all duration-300">
                 <span>{t("viewAll")}</span>
                 <MdOutlineArrowOutward className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </div>
@@ -492,8 +492,8 @@ const VehicalsList = ({ loadingState }) => {
             onClick={() => handleFilterChange("all")}
             className={`px-4 py-2 text-sm font-medium transition-all duration-200 ${
               activeFilter === "all"
-                ? "bg-green-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
+                ? "bg-app-bg text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
             }`}
           >
             All Cars
@@ -502,8 +502,8 @@ const VehicalsList = ({ loadingState }) => {
             onClick={() => handleFilterChange("for-sale")}
             className={`px-4 py-2 text-sm font-medium transition-all duration-200 ${
               activeFilter === "for-sale"
-                ? "bg-green-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
+                ? "bg-app-bg text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
             }`}
           >
             For Sale
@@ -512,8 +512,8 @@ const VehicalsList = ({ loadingState }) => {
             onClick={() => handleFilterChange("featured")}
             className={`px-4 py-2 text-sm font-medium transition-all duration-200 ${
               activeFilter === "featured"
-                ? "bg-green-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
+                ? "bg-app-bg text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
             }`}
           >
             Featured
@@ -522,8 +522,8 @@ const VehicalsList = ({ loadingState }) => {
             onClick={() => handleFilterChange("promotion")}
             className={`px-4 py-2 text-sm font-medium transition-all duration-200 ${
               activeFilter === "promotion"
-                ? "bg-green-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
+                ? "bg-app-bg text-white"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
             }`}
           >
             Promotion
@@ -580,7 +580,7 @@ const VehicalsList = ({ loadingState }) => {
         <div className="mt-10 text-center">
           <button
             onClick={handleToggleVisibility}
-            className="group inline-flex transform items-center gap-3 rounded-lg bg-green-600 px-6 py-3 font-medium text-white shadow-md transition-all duration-300 hover:bg-green-700"
+            className="hover:bg-app-hover bg-app-bg group inline-flex transform items-center gap-3 rounded-lg px-6 py-3 font-medium text-white shadow-md transition-all duration-300"
           >
             <span>
               {visibleVehiclesCount >= filteredVehicles.length

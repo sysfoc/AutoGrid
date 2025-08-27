@@ -197,9 +197,9 @@ const VehicleFinanceCalculator = () => {
   };
 
   return (
-    <div className="mt-16 min-h-screen bg-gradient-to-br from-green-50 to-indigo-100 py-8 dark:from-gray-900 dark:to-gray-800">
+    <div className="mt-16 min-h-screen py-8 dark:from-gray-900 dark:to-gray-800">
       <style>
-      {`
+        {`
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
           -webkit-appearance: none;
@@ -209,16 +209,16 @@ const VehicleFinanceCalculator = () => {
           -moz-appearance: textfield;
         }
       `}
-    </style>
+      </style>
       <div className="mx-auto max-w-6xl px-4">
         {/* Header */}
         <div className="mb-8 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 shadow-lg dark:bg-gray-800 dark:shadow-gray-900/30">
-            <Calculator className="h-6 w-6 text-green-600 dark:text-green-400" />
-            <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-              Vehicle Finance Calculator
-            </h1>
-          </div>
+         <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 shadow-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700 dark:shadow-gray-900/30">
+  <Calculator className="text-app-bg dark:text-app-bg h-6 w-6" />
+  <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+    Vehicle Finance Calculator
+  </h1>
+</div>
           <p className="text-gray-600 dark:text-gray-300">
             Calculate your car loan repayments with our comprehensive finance
             calculator
@@ -229,30 +229,32 @@ const VehicleFinanceCalculator = () => {
           {/* Input Form */}
           <div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800 dark:shadow-gray-900/30">
             <h3 className="mb-6 flex items-center gap-2 text-xl font-semibold text-gray-800 dark:text-gray-100">
-              <Car className="h-5 w-5 text-green-600 dark:text-green-400" />
+              <Car className="text-app-bg dark:text-app-bg h-5 w-5" />
               Vehicle & Loan Details
             </h3>
 
             <div className="space-y-6">
               {/* Car Year */}
-             {/* Car Year */}
-<div>
-  <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-    Car Year *
-  </label>
-  <select
-    value={carYear}
-    onChange={(e) => setCarYear(e.target.value)}
-    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-green-500 dark:focus:ring-green-400"
-  >
-    <option value="">Select car year</option>
-    {Array.from({ length: 26 }, (_, i) => 2025 - i).map((year) => (
-      <option key={year} value={year}>
-        {year}
-      </option>
-    ))}
-  </select>
-</div>
+              {/* Car Year */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Car Year *
+                </label>
+                <select
+                  value={carYear}
+                  onChange={(e) => setCarYear(e.target.value)}
+                  className="focus:ring-app-bg dark:focus:ring-app-bg w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                >
+                  <option value="">Select car year</option>
+                  {Array.from({ length: 26 }, (_, i) => 2025 - i).map(
+                    (year) => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    ),
+                  )}
+                </select>
+              </div>
 
               {/* Car Price */}
               <div>
@@ -268,7 +270,7 @@ const VehicleFinanceCalculator = () => {
                     validateCarPrice(price);
                     validateDeposit(depositAmount, price); // Re-validate deposit
                   }}
-                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:focus:ring-green-400"
+                  className="focus:ring-app-bg dark:focus:ring-app-bg w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   placeholder="Enter car price"
                   min="0"
                   step="0.01"
@@ -293,7 +295,7 @@ const VehicleFinanceCalculator = () => {
                     setDepositAmount(deposit);
                     validateDeposit(deposit, carPrice);
                   }}
-                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:focus:ring-green-400"
+                  className="focus:ring-app-bg dark:focus:ring-app-bg w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   placeholder="Enter deposit amount"
                   min="0"
                   step="0.01"
@@ -313,7 +315,7 @@ const VehicleFinanceCalculator = () => {
                 <select
                   value={loanTerm}
                   onChange={(e) => setLoanTerm(Number.parseInt(e.target.value))}
-                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:focus:ring-green-400"
+                  className="focus:ring-app-bg dark:focus:ring-app-bg w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 >
                   {[1, 2, 3, 4, 5, 6, 7].map((year) => (
                     <option key={year} value={year}>
@@ -331,7 +333,7 @@ const VehicleFinanceCalculator = () => {
                 <select
                   value={repaymentFrequency}
                   onChange={(e) => setRepaymentFrequency(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:focus:ring-green-400"
+                  className="focus:ring-app-bg dark:focus:ring-app-bg w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 >
                   <option value="monthly">Monthly</option>
                   <option value="fortnightly">Fortnightly</option>
@@ -346,7 +348,7 @@ const VehicleFinanceCalculator = () => {
                     type="checkbox"
                     checked={hasEndOfLoanRepayment}
                     onChange={(e) => setHasEndOfLoanRepayment(e.target.checked)}
-                    className="h-4 w-4 rounded border-gray-300 bg-white text-green-600 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-green-400"
+                    className="text-app-bg focus:ring-app-bg dark:focus:ring-app-bg h-4 w-4 rounded border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-700"
                   />
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Add end of loan repayment
@@ -365,7 +367,7 @@ const VehicleFinanceCalculator = () => {
                     onChange={(e) =>
                       setEndOfLoanPercentage(Number.parseInt(e.target.value))
                     }
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:focus:ring-green-400"
+                    className="focus:ring-app-bg dark:focus:ring-app-bg w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   >
                     {Array.from({ length: 11 }, (_, i) => i * 5).map(
                       (percent) => (
@@ -383,17 +385,17 @@ const VehicleFinanceCalculator = () => {
           {/* Results Panel */}
           <div className="rounded-xl bg-white p-6 shadow-lg dark:bg-gray-800 dark:shadow-gray-900/30">
             <h3 className="mb-6 flex items-center gap-2 text-xl font-semibold text-gray-800 dark:text-gray-100">
-              <Calculator className="h-5 w-5 text-green-600 dark:text-green-400" />
+              <Calculator className="text-app-bg dark:text-app-bg h-5 w-5" />
               Loan Calculation Results
             </h3>
 
             <div className="space-y-6">
               {/* Estimated Repayments */}
-              <div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/30">
-                <h4 className="mb-2 font-semibold text-green-800 dark:text-green-200">
+              <div className="rounded-lg p-4 dark:bg-app-bg">
+                <h4 className="text-app-bg mb-2 font-semibold dark:text-green-200">
                   Estimated {getFrequencyLabel()} Repayments
                 </h4>
-                <p className="text-3xl font-bold text-green-600 dark:text-green-400">
+                <p className="text-app-bg dark:text-app-bg text-3xl font-bold">
                   {formatCurrency(calculations.periodicPayment)}
                 </p>
               </div>
@@ -455,16 +457,16 @@ const VehicleFinanceCalculator = () => {
                   </div>
                 )}
 
-                <div className="flex items-center justify-between rounded-lg bg-green-50 px-4 py-3 dark:bg-green-900/30">
-                  <span className="font-semibold text-green-800 dark:text-green-200">
+                <div className="flex items-center justify-between rounded-lg px-4 py-3">
+                  <span className="text-app-bg font-semibold dark:text-green-200">
                     Estimated Cost of Loan
                   </span>
-                  <span className="text-xl font-bold text-green-600 dark:text-green-400">
+                  <span className="text-app-bg dark:text-app-bg text-xl font-bold">
                     {formatCurrency(calculations.totalCostOfLoan)}
                   </span>
                 </div>
 
-                <div className="mt-8 rounded-xl border-2 border-green-600 bg-white p-6 text-green-600 dark:border-green-400 dark:bg-gray-800 dark:text-green-400">
+                <div className="text-app-bg border-app-bg dark:text-app-bg dark:border-app-bg mt-8 rounded-xl border-2 bg-white p-6 dark:bg-gray-800">
                   <p className="text-center text-sm">
                     <strong>Disclaimer:</strong> This calculator provides
                     estimates only. Actual loan terms, interest rates, and
@@ -478,7 +480,7 @@ const VehicleFinanceCalculator = () => {
                 <div className="flex justify-center">
                   <button
                     onClick={() => setShowModal(true)}
-                    className="inline-flex items-center gap-1 rounded-3xl bg-green-600 px-8 py-3 text-sm font-semibold text-white shadow-lg transition-colors duration-200 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
+                    className="hover:bg-app-bg dark:bg-app-bg dark:hover:bg-app-bg bg-app-bg inline-flex items-center gap-1 rounded-3xl px-8 py-3 text-sm font-semibold text-white shadow-lg transition-colors duration-200"
                   >
                     Get a Rate
                     <SiCashapp />
@@ -518,7 +520,7 @@ const VehicleFinanceCalculator = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:focus:ring-green-400"
+                    className="focus:ring-app-bg dark:focus:ring-app-bg w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -533,7 +535,7 @@ const VehicleFinanceCalculator = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:focus:ring-green-400"
+                    className="focus:ring-app-bg dark:focus:ring-app-bg w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                     placeholder="Enter your email address"
                   />
                 </div>
@@ -548,7 +550,7 @@ const VehicleFinanceCalculator = () => {
                     value={formData.mobile}
                     onChange={handleInputChange}
                     required
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:focus:ring-green-400"
+                    className="focus:ring-app-bg dark:focus:ring-app-bg w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-transparent focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                     placeholder="Enter your mobile number"
                   />
                 </div>
@@ -564,7 +566,7 @@ const VehicleFinanceCalculator = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-1 rounded-lg bg-green-600 px-4 py-2 text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-green-500 dark:hover:bg-green-600"
+                    className="hover:bg-app-bg dark:bg-app-bg dark:hover:bg-app-bg bg-app-bg flex-1 rounded-lg px-4 py-2 text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isSubmitting ? "Submitting..." : "Submit Request"}
                   </button>

@@ -394,22 +394,22 @@ export default function ViewDealers() {
                         </div>
                       </div>
                     </td>
-                     <td className="px-6 py-4">
+                    <td className="px-6 py-4">
                       <div className="inline-block rounded-md bg-slate-100 px-2 py-1">
                         <div className="text-sm font-medium text-app-text">
-                           {dealer.licence}
+                          {dealer.licence}
                         </div>
                       </div>
                     </td>
-                         
-                     <td className="px-6 py-4">
+
+                    <td className="px-6 py-4">
                       <div className="inline-block rounded-md bg-slate-100 px-2 py-1">
                         <div className="text-sm font-medium text-app-text">
                           {dealer.abn}
                         </div>
                       </div>
                     </td>
-                   <td className="px-6 py-4">
+                    <td className="px-6 py-4">
                       <div className="inline-block rounded-md bg-slate-100 px-2 py-1">
                         <div className="text-sm font-medium text-app-text">
                           {dealer.email}
@@ -422,7 +422,7 @@ export default function ViewDealers() {
                           href={dealer.map}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center space-x-1 rounded-md bg-green-50 px-3 py-1 text-sm font-medium text-green-700 transition-colors duration-200 hover:bg-green-100 hover:text-green-800"
+                          className="text-app-bg hover:text-app-bg inline-flex items-center space-x-1 rounded-md bg-green-50 px-3 py-1 text-sm font-medium transition-colors duration-200"
                         >
                           <FaEye className="text-xs" />
                           <span>View Map</span>
@@ -615,21 +615,25 @@ export default function ViewDealers() {
                 </div>
 
                 {/* Email */}
-<div className="space-y-1">
-  <label className="block text-sm font-semibold text-app-text">
-    <FaEnvelope className="inline mr-2 text-slate-400" />
-    Email Address
-  </label>
-  <input
-    type="email"
-    name="email"
-    value={editFormData.email}
-    onChange={handleEditChange}
-    className={`w-full border-2 ${errors.email ? "border-app-button bg-red-50" : "border-slate-200 bg-white"} rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-app-text focus:border-transparent transition-all duration-200`}
-    placeholder="dealer@example.com"
-  />
-  {errors.email && <div className="text-app-button text-xs font-medium">{errors.email}</div>}
-</div>
+                <div className="space-y-1">
+                  <label className="block text-sm font-semibold text-app-text">
+                    <FaEnvelope className="mr-2 inline text-slate-400" />
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={editFormData.email}
+                    onChange={handleEditChange}
+                    className={`w-full border-2 ${errors.email ? "border-app-button bg-red-50" : "border-slate-200 bg-white"} rounded-xl px-3 py-2 text-sm transition-all duration-200 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-app-text`}
+                    placeholder="dealer@example.com"
+                  />
+                  {errors.email && (
+                    <div className="text-xs font-medium text-app-button">
+                      {errors.email}
+                    </div>
+                  )}
+                </div>
 
                 {/* Map Link */}
                 <div className="space-y-1 md:col-span-2">

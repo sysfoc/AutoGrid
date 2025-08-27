@@ -1,8 +1,8 @@
 "use client";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useState } from "react"; 
-import Link from 'next/link';
+import { useState } from "react";
+import Link from "next/link";
 import {
   FaCheck,
   FaStar,
@@ -214,7 +214,7 @@ export default function Home() {
                   "Dedicated support throughout the process",
                 ].map((benefit, index) => (
                   <div key={index} className="flex items-start gap-4">
-                    <div className="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-green-500 text-white">
+                    <div className="bg-app-bg mt-1 flex h-6 w-6 items-center justify-center rounded-full text-white">
                       <FaCheck className="text-xs" />
                     </div>
                     <p className="text-gray-700 dark:text-gray-300">
@@ -274,7 +274,7 @@ export default function Home() {
                         key={featureIndex}
                         className="flex items-center gap-3"
                       >
-                        <FaCheck className="text-green-500" />
+                        <FaCheck className="text-app-bg" />
                         <span className="text-gray-700 dark:text-gray-300">
                           {feature}
                         </span>
@@ -288,23 +288,25 @@ export default function Home() {
         </div>
       </section>
 
-<section className="bg-gradient-to-r from-gray-900 to-blue-900 py-20 text-white">
-  <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-    <h2 className="text-4xl font-bold sm:text-5xl">Ready to Get Started?</h2>
-    <p className="mt-6 text-xl text-blue-100">
-      Join thousands of satisfied customers who found their perfect car loan with us.
-      Get pre-approved in minutes and drive away today.
-    </p>
-    <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-      <Link
-        href="/contact"
-        className="rounded-xl border-2 border-white/30 bg-white/10 px-10 py-4 text-lg font-semibold backdrop-blur-sm transition-all hover:bg-white/20 text-white text-center"
-      >
-        Contact us
-      </Link>
-    </div>
-  </div>
-</section>
+      <section className="bg-gradient-to-r from-gray-900 to-blue-900 py-20 text-white">
+        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-bold sm:text-5xl">
+            Ready to Get Started?
+          </h2>
+          <p className="mt-6 text-xl text-blue-100">
+            Join thousands of satisfied customers who found their perfect car
+            loan with us. Get pre-approved in minutes and drive away today.
+          </p>
+          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+            <Link
+              href="/contact"
+              className="rounded-xl border-2 border-white/30 bg-white/10 px-10 py-4 text-center text-lg font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/20"
+            >
+              Contact us
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Educational Cards */}
       <section className="bg-gray-50 py-20 dark:bg-gray-900">

@@ -148,5 +148,14 @@ body {
   transform: translate3d(-100%, 0, 0);
 }
 
+.price-shape {
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+}
 
-
+@media (max-width: 640px) {
+  .price-shape {
+    clip-path: none;
+    max-width: fit-content;
+    padding: 4px 10px;
+  }
+}

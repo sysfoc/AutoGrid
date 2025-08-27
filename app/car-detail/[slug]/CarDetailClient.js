@@ -228,15 +228,15 @@ export default function CarDetail() {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex-1">
                   <div className="mb-2 flex items-center gap-1">
-                    <span className="text-sm font-semibold text-green-500 dark:text-gray-100">
+                    <span className="text-sm font-semibold text-app-bg dark:text-gray-100">
                       {car?.condition.toUpperCase() || ""}
                     </span>
 
-                    <span className="text-sm font-semibold text-green-500 dark:text-gray-100">
+                    <span className="text-sm font-semibold text-app-bg dark:text-gray-100">
                       {car?.modelYear || "N/A"}
                     </span>
                   </div>
-                  <h1 className="mb-2 text-sm sm:text-lg md:text-xl font-bold text-gray-900 dark:text-white">
+                  <h1 className="mb-2 text-sm font-bold text-gray-900 dark:text-white sm:text-lg md:text-xl">
                     {loading ? (
                       <Skeleton width={300} />
                     ) : (
@@ -244,15 +244,12 @@ export default function CarDetail() {
                     )}
                   </h1>
                 </div>
-
-                <div className="bg-green-500 text-right">
-                  <div className="px-3 py-1 text-sm font-semibold text-white dark:text-gray-100 sm:text-lg md:text-xl">
-                    {loading ? (
-                      <Skeleton width={200} />
-                    ) : (
-                      `${selectedCurrency?.symbol}${Math.round(car?.price || 0).toLocaleString()}`
-                    )}
-                  </div>
+                <div className="price-shape inline-block bg-app-bg py-2 pl-10 pr-5 text-sm font-semibold text-white sm:text-lg md:text-xl">
+                  {loading ? (
+                    <Skeleton width={200} />
+                  ) : (
+                    `${selectedCurrency?.symbol}${Math.round(car?.price || 0).toLocaleString()}`
+                  )}
                 </div>
               </div>
             </div>
@@ -261,7 +258,7 @@ export default function CarDetail() {
               <SliderComponent loadingState={loading} carData={car} />
             </div>
             <div className="">
-              <div className="pt-6 px-6">
+              <div className="px-6 pt-6">
                 <ResponsiveSpecsGrid
                   loadingState={loading}
                   carData={car}
@@ -273,7 +270,7 @@ export default function CarDetail() {
             {car?.features && car.features.length > 0 && (
               <div>
                 <div className="px-6">
-                  <div className="mb-6 h-0.5 w-full bg-teal-900"></div>
+                  <div className="mb-6 h-0.5 w-full bg-app-bg"></div>
                   <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
                     Features
                   </h3>
@@ -282,8 +279,8 @@ export default function CarDetail() {
                   <div className="grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 md:grid-cols-3">
                     {car.features.map((feature, index) => (
                       <div key={index} className="flex items-center gap-2">
-                        <IoCheckmarkCircle className="h-5 w-5 flex-shrink-0 text-green-500" />
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                        <IoCheckmarkCircle className="h-5 w-5 flex-shrink-0 text-app-bg" />
+                        <span className="text-xs font-medium text-gray-700 dark:text-gray-200">
                           {feature}
                         </span>
                       </div>
@@ -326,7 +323,7 @@ export default function CarDetail() {
                     <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
                       <div className="mb-3 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <div className="h-5 w-5 text-green-600">
+                          <div className="h-5 w-5 text-app-bg">
                             <LuPhone size={20} />
                           </div>
                           <p className="font-medium text-gray-900 dark:text-white">
@@ -335,7 +332,7 @@ export default function CarDetail() {
                         </div>
                         <button
                           onClick={() => setShowFullWhatsApp(!showFullWhatsApp)}
-                          className="text-sm text-teal-600 hover:text-teal-700 dark:text-teal-400"
+                          className="text-sm text-app-bg hover:text-app-hover dark:text-app-border dark:hover:text-app-bg"
                         >
                           {showFullWhatsApp ? "Hide" : "Show"} number
                         </button>
@@ -345,9 +342,9 @@ export default function CarDetail() {
                       </p>
                       <button
                         onClick={handleWhatsAppClick}
-                        className="flex w-full items-center justify-center rounded-md border-[1px] border-gray-400 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100"
+                        className="flex w-full items-center justify-center rounded-md border-[1px] border-gray-400 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100 hover:border-app-bg dark:hover:border-app-border"
                       >
-                        <FaWhatsapp color="green" className="mr-2 h-5 w-5" />
+                        <FaWhatsapp color="#1bc742" className="mr-2 h-5 w-5" />
                         CHAT VIA WHATSAPP
                       </button>
                       <button
@@ -356,9 +353,9 @@ export default function CarDetail() {
                             `mailto:${dealer.email}?subject=Inquiry from [Your Company]&body=Hello,\n\nI am interested in your dealership services.\n\nBest regards,`,
                           )
                         }
-                        className="mt-3 flex w-full items-center justify-center rounded-md border-[1px] border-gray-400 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100"
+                        className="mt-3 flex w-full items-center justify-center rounded-md border-[1px] border-gray-400 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100 hover:border-app-bg dark:hover:border-app-border"
                       >
-                        <Mail className="mr-2 h-5 w-5" />
+                        <Mail className="mr-2 h-5 w-5 text-app-bg" />
                         MESSAGE TO DEALER
                       </button>
                     </div>
@@ -367,17 +364,17 @@ export default function CarDetail() {
                         onClick={() => setOpenModal(true)}
                         className="group flex w-full items-center justify-between rounded-lg 
              bg-gray-100 px-5 py-3 text-black transition-colors duration-200 
-             hover:bg-green-600 hover:text-white
-             dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-green-600 dark:hover:text-white"
+             hover:bg-app-bg hover:text-white
+             dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-app-bg dark:hover:text-white"
                       >
                         <span>MAKE AN OFFER PRICE</span>
 
                         <span
-                          className="ml-4 rounded-full bg-green-600 p-1 text-white transition-colors duration-200 
-                   group-hover:bg-white group-hover:text-green-600 
-                   dark:group-hover:bg-white dark:group-hover:text-green-600"
+                          className="ml-4 rounded-full bg-app-bg p-1 text-white transition-colors duration-200 
+                   group-hover:bg-white group-hover:text-app-bg 
+                   dark:group-hover:bg-white dark:group-hover:text-app-bg"
                         >
-                          <DollarSign className="h-3 w-3 text-white transition-colors duration-200 group-hover:text-green-600" />
+                          <DollarSign className="h-3 w-3 text-white transition-colors duration-200 group-hover:text-app-bg" />
                         </span>
                       </button>
 
@@ -387,22 +384,22 @@ export default function CarDetail() {
                         }
                         className="group flex w-full items-center justify-between rounded-lg 
              bg-gray-100 px-5 py-3 text-black transition-colors duration-200 
-             hover:bg-green-600 hover:text-white
-             dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-green-600 dark:hover:text-white"
+             hover:bg-app-bg hover:text-white
+             dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-app-bg dark:hover:text-white"
                       >
                         <span>CALL NOW</span>
 
                         <span
-                          className="ml-4 rounded-full bg-green-600 p-1 text-white transition-colors duration-200 
-                   group-hover:bg-white group-hover:text-green-600 
-                   dark:group-hover:bg-white dark:group-hover:text-green-600"
+                          className="ml-4 rounded-full bg-app-bg p-1 text-white transition-colors duration-200 
+                   group-hover:bg-white group-hover:text-app-bg 
+                   dark:group-hover:bg-white dark:group-hover:text-app-bg"
                         >
-                          <LuPhone className="h-3 w-3 text-white transition-colors duration-200 group-hover:text-green-600" />
+                          <LuPhone className="h-3 w-3 text-white transition-colors duration-200 group-hover:text-app-bg" />
                         </span>
                       </button>
                     </div>
                     <div className="flex items-center">
-                      <MapPin className="mr-2 h-5 w-5 text-teal-600" />
+                      <MapPin className="mr-2 h-5 w-5 text-app-bg" />
                       <p className="text-sm text-gray-600 dark:text-gray-400">
                         {dealer.address || "Address not available"}
                       </p>
@@ -410,7 +407,7 @@ export default function CarDetail() {
 
                     <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
                       <h4 className="mb-3 font-medium text-black dark:text-white">
-                        <Globe className="mr-2 inline h-5 w-5 text-teal-600" />
+                        <Globe className="mr-2 inline h-5 w-5 text-app-bg" />
                         Location
                       </h4>
                       {loading ? (
@@ -442,11 +439,10 @@ export default function CarDetail() {
             </div>
 
             <div className="">
-             
-                <h3 className="text-sm font-bold uppercase mb-2 tracking-wide text-gray-900 dark:text-white">
-                  Similar Listings
-                </h3>
-                  <div className="h-0.5 w-full bg-teal-900 mb-4"></div>
+              <h3 className="mb-2 text-sm font-bold uppercase tracking-wide text-gray-900 dark:text-white">
+                Similar Listings
+              </h3>
+              <div className="mb-4 h-0.5 w-full bg-app-bg"></div>
               <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 {relatedCars.length > 0 ? (
                   relatedCars.map((relatedCar, index) => (
@@ -479,7 +475,7 @@ export default function CarDetail() {
                           {relatedCar.tag || "Unknown Dealer"}
                         </p>
                         <div className="mt-1 flex items-center gap-2">
-                          <span className="rounded bg-green-500 px-2 py-0.5 text-xs font-bold text-white">
+                          <span className="rounded bg-app-bg px-2 py-0.5 text-xs font-bold text-white">
                             {selectedCurrency?.symbol}
                             {Math.round(relatedCar.price || 0).toLocaleString()}
                           </span>
@@ -511,7 +507,7 @@ export default function CarDetail() {
           className="backdrop-blur-sm"
         >
           <ModalHeader className="border-b border-gray-200 pb-4 dark:border-gray-700">
-            <h3 className="text-2xl font-bold text-app-text dark:text-white">
+            <h3 className="text-gray-900 text-2xl font-bold dark:text-white">
               Get in Touch
             </h3>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -524,7 +520,7 @@ export default function CarDetail() {
                 <div
                   className={`rounded-lg p-4 text-sm ${
                     submitMessage.includes("success")
-                      ? "border border-green-200 bg-green-50 text-green-800"
+                      ? "border border-app-border bg-green-50 text-app-bg"
                       : "border border-red-200 bg-red-50 text-red-800"
                   }`}
                 >
@@ -545,7 +541,7 @@ export default function CarDetail() {
                     value={formData.firstName}
                     onChange={handleInputChange}
                     placeholder="Enter your first name"
-                    className="rounded-xl border-gray-300 focus:border-app-button focus:ring-2 focus:ring-app-button"
+                    className="focus:border-app-bg focus:ring-app-bg rounded-xl border-gray-300 focus:ring-2"
                     required
                     disabled={isSubmitting}
                   />
@@ -563,7 +559,7 @@ export default function CarDetail() {
                     value={formData.lastName}
                     onChange={handleInputChange}
                     placeholder="Enter your last name"
-                    className="rounded-xl border-gray-300 focus:border-app-button focus:ring-2 focus:ring-app-button"
+                    className="focus:border-app-bg focus:ring-app-bg rounded-xl border-gray-300 focus:ring-2"
                     required
                     disabled={isSubmitting}
                   />
@@ -581,7 +577,7 @@ export default function CarDetail() {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="your.email@example.com"
-                    className="rounded-xl border-gray-300 focus:border-app-button focus:ring-2 focus:ring-app-button"
+                    className="focus:border-app-bg focus:ring-app-bg rounded-xl border-gray-300 focus:ring-2"
                     required
                     disabled={isSubmitting}
                   />
@@ -599,7 +595,7 @@ export default function CarDetail() {
                     value={formData.phone}
                     onChange={handleInputChange}
                     placeholder="+92 300 1234567"
-                    className="rounded-xl border-gray-300 focus:border-app-button focus:ring-2 focus:ring-app-button"
+                    className="focus:border-app-bg focus:ring-app-bg rounded-xl border-gray-300 focus:ring-2"
                     required
                     disabled={isSubmitting}
                   />
@@ -617,7 +613,7 @@ export default function CarDetail() {
                     onChange={handleInputChange}
                     rows={4}
                     placeholder="Tell us about your requirements, budget, or any specific questions..."
-                    className="resize-none rounded-xl border-gray-300 focus:border-app-button focus:ring-2 focus:ring-app-button"
+                    className="focus:border-app-bg focus:ring-app-bg resize-none rounded-xl border-gray-300 focus:ring-2"
                     disabled={isSubmitting}
                   />
                 </div>
@@ -629,7 +625,7 @@ export default function CarDetail() {
                   className={`w-full rounded-xl py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 ${
                     isSubmitting
                       ? "cursor-not-allowed bg-gray-400"
-                      : "bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-600 hover:shadow-xl"
+                      : "bg-app-bg hover:bg-app-hover hover:shadow-xl"
                   }`}
                 >
                   {isSubmitting ? (
@@ -736,7 +732,7 @@ const ResponsiveSpecsGrid = ({ loadingState, carData, translation: t }) => {
               className="grid grid-cols-2 items-center gap-10 border-b-2 border-gray-300 py-3 last:border-b-0 dark:border-gray-700"
             >
               <div className="flex items-center gap-3">
-                <spec.icon className="h-5 w-5 flex-shrink-0 text-green-600 dark:text-green-400" />
+                <spec.icon className="h-5 w-5 flex-shrink-0 text-app-bg dark:text-app-bg" />
                 <span className="truncate whitespace-nowrap text-sm font-normal text-gray-500 dark:text-gray-400">
                   {spec.label}
                 </span>

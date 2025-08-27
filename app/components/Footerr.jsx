@@ -310,7 +310,7 @@ const Footerr = () => {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="block text-sm font-medium text-slate-600 transition-all duration-300 hover:translate-x-1 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                      className="block text-sm font-medium text-slate-600 transition-all duration-300 hover:translate-x-1 hover:text-app-bg dark:text-slate-400 dark:hover:text-app-bg"
                     >
                       {link.label}
                     </Link>
@@ -338,14 +338,14 @@ const Footerr = () => {
                         className={`h-2 w-2 rounded-full ${
                           schedule.hours === t("closedHours")
                             ? "bg-red-400"
-                            : "bg-emerald-400"
+                            : "bg-app-bg"
                         }`}
                       ></div>
                       <span
                         className={`text-xs font-semibold uppercase tracking-wide ${
                           schedule.hours === t("closedHours")
                             ? "text-red-600 dark:text-red-400"
-                            : "text-emerald-600 dark:text-emerald-400"
+                            : "text-app-bg dark:text-app-bg"
                         }`}
                       >
                         {schedule.hours}
@@ -387,7 +387,7 @@ const Footerr = () => {
                             href={platform.url}
                             target="_blank"
                             rel="noreferrer"
-                            className="group relative flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 transition-all duration-300 hover:scale-110 hover:bg-green-600 hover:shadow-lg dark:bg-slate-800 dark:hover:bg-green-700"
+                            className="group relative flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:bg-app-bg dark:bg-slate-800 dark:hover:bg-app-bg"
                             aria-label={`${platform.iconValue} social link`}
                           >
                             {IconComponent ? (
@@ -420,6 +420,7 @@ const Footerr = () => {
                   href="https://www.automotivewebsolutions.com"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="hover:text-app-bg"
                 >
                   {t("copyright")}
                 </Link>
@@ -427,9 +428,9 @@ const Footerr = () => {
                   •
                 </span>
                 <span className="text-slate-600 dark:text-slate-300">
-                  by {" "}
+                  by{" "}
                   <Link
-                  className="hover:underline"
+                    className="hover:underline hover:text-app-bg"
                     href="https://sysfoc.com"
                     target="_blank"
                     rel="noopener noreferrer"

@@ -1,73 +1,78 @@
-"use client"
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import { MdOutlineArrowOutward, MdSearch, MdViewModule, MdViewList } from "react-icons/md"
-import Image from "next/image"
+"use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import {
+  MdOutlineArrowOutward,
+  MdSearch,
+  MdViewModule,
+  MdViewList,
+} from "react-icons/md";
+import Image from "next/image";
 
 const BlogsPage = () => {
-  const [blogs, setBlogs] = useState([])
-  const [filteredBlogs, setFilteredBlogs] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
-  const [searchTerm, setSearchTerm] = useState("")
-  const [currentPage, setCurrentPage] = useState(1)
-  const [viewMode, setViewMode] = useState("grid") // grid or list
-  const blogsPerPage = 6
+  const [blogs, setBlogs] = useState([]);
+  const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [viewMode, setViewMode] = useState("grid"); // grid or list
+  const blogsPerPage = 6;
 
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("/api/blog")
+        const response = await fetch("/api/blog");
         if (!response.ok) {
-          throw new Error("Failed to fetch blogs")
+          throw new Error("Failed to fetch blogs");
         }
-        const data = await response.json()
-        setBlogs(data.blogs)
-        setFilteredBlogs(data.blogs)
+        const data = await response.json();
+        setBlogs(data.blogs);
+        setFilteredBlogs(data.blogs);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to fetch blogs")
+        setError(err instanceof Error ? err.message : "Failed to fetch blogs");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchBlogs()
-  }, [])
+    fetchBlogs();
+  }, []);
 
   useEffect(() => {
-    let filtered = blogs
+    let filtered = blogs;
 
     if (searchTerm) {
       filtered = filtered.filter(
         (blog) =>
           blog.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           blog.slug?.toLowerCase().includes(searchTerm.toLowerCase()),
-      )
+      );
     }
 
-    setFilteredBlogs(filtered)
-    setCurrentPage(1)
-  }, [searchTerm, blogs])
+    setFilteredBlogs(filtered);
+    setCurrentPage(1);
+  }, [searchTerm, blogs]);
 
-  const indexOfLastBlog = currentPage * blogsPerPage
-  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage
-  const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog)
-  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage)
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
 
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber)
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 mt-20">
+      <div className="mt-20 min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto px-4 py-20">
-          <div className="max-w-md mx-auto">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 text-center">
-              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="mx-auto max-w-md">
+            <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-lg dark:border-gray-700 dark:bg-gray-800">
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/20">
                 <svg
-                  className="w-8 h-8 text-red-600 dark:text-red-400"
+                  className="h-8 w-8 text-red-600 dark:text-red-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -80,11 +85,13 @@ const BlogsPage = () => {
                   />
                 </svg>
               </div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Error Loading Blogs</h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
+              <h2 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
+                Error Loading Blogs
+              </h2>
+              <p className="mb-6 text-gray-600 dark:text-gray-400">{error}</p>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                className="hover:bg-app-bg bg-app-bg inline-flex items-center gap-2 rounded-lg px-6 py-3 font-medium text-white transition-colors"
               >
                 Go Back Home
               </Link>
@@ -92,73 +99,76 @@ const BlogsPage = () => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 mt-14">
+    <div className="mt-14 min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header Section */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
         <div className="container mx-auto px-4 py-12">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <div className="mx-auto max-w-4xl text-center">
+            <div className="text-app-bg dark:text-app-bg mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium">
+              <div className="bg-app-bg h-2 w-2 animate-pulse rounded-full"></div>
               Knowledge Hub
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-              Insights & <span className="text-green-600 dark:text-green-400">Articles</span>
+            <h1 className="mb-6 text-4xl font-bold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+              Insights &{" "}
+              <span className="text-app-bg dark:text-app-bg">Articles</span>
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-              Explore our collection of in-depth articles, tutorials, and industry insights crafted by our expert team.
+            <p className="mx-auto max-w-2xl text-xl leading-relaxed text-gray-600 dark:text-gray-400">
+              Explore our collection of in-depth articles, tutorials, and
+              industry insights crafted by our expert team.
             </p>
           </div>
         </div>
       </div>
 
       {/* Controls Section */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+      <div className="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+          <div className="flex flex-col items-center justify-between gap-4 lg:flex-row">
             {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <MdSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <div className="relative max-w-md flex-1">
+              <MdSearch className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-400" />
               <input
                 type="text"
                 placeholder="Search articles..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all"
+                className="focus:ring-app-bg w-full rounded-lg border border-gray-200 bg-gray-50 py-3 pl-12 pr-4 text-gray-900 placeholder-gray-500 transition-all focus:border-transparent focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               />
             </div>
 
             {/* Results Count */}
             {!loading && filteredBlogs.length > 0 && (
-              <div className="text-gray-600 dark:text-gray-400 text-sm">
-                {filteredBlogs.length} article{filteredBlogs.length !== 1 ? "s" : ""} found
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                {filteredBlogs.length} article
+                {filteredBlogs.length !== 1 ? "s" : ""} found
               </div>
             )}
 
             {/* View Toggle */}
-            <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+            <div className="flex items-center gap-2 rounded-lg bg-gray-100 p-1 dark:bg-gray-700">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-2 rounded-md transition-colors ${
+                className={`rounded-md p-2 transition-colors ${
                   viewMode === "grid"
-                    ? "bg-white dark:bg-gray-600 text-green-600 dark:text-green-400 shadow-sm"
-                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                    ? "text-app-bg dark:text-app-bg bg-white shadow-sm dark:bg-gray-600"
+                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                 }`}
               >
-                <MdViewModule className="w-5 h-5" />
+                <MdViewModule className="h-5 w-5" />
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-2 rounded-md transition-colors ${
+                className={`rounded-md p-2 transition-colors ${
                   viewMode === "list"
-                    ? "bg-white dark:bg-gray-600 text-green-600 dark:text-green-400 shadow-sm"
-                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                    ? "text-app-bg dark:text-app-bg bg-white shadow-sm dark:bg-gray-600"
+                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                 }`}
               >
-                <MdViewList className="w-5 h-5" />
+                <MdViewList className="h-5 w-5" />
               </button>
             </div>
           </div>
@@ -168,10 +178,12 @@ const BlogsPage = () => {
       {/* Content Section */}
       <div className="container mx-auto px-4 py-12">
         {loading && (
-          <div className="flex justify-center items-center py-20">
+          <div className="flex items-center justify-center py-20">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 border-3 border-green-200 dark:border-green-800 rounded-full animate-spin border-t-green-600"></div>
-              <span className="text-gray-600 dark:text-gray-400">Loading articles...</span>
+              <div className="border-3 border-t-app-bg dark:border-app-bg h-8 w-8 animate-spin rounded-full"></div>
+              <span className="text-gray-600 dark:text-gray-400">
+                Loading articles...
+              </span>
             </div>
           </div>
         )}
@@ -179,61 +191,71 @@ const BlogsPage = () => {
         {!loading && currentBlogs.length > 0 && (
           <>
             {viewMode === "grid" ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {currentBlogs.map((blog, index) => (
                   <article
                     key={`${blog.slug}-${index}`}
-                    className="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                    className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-800"
                   >
                     <Link href={`/blog/${blog.slug}`}>
                       <div className="relative h-48 overflow-hidden">
                         <Image
-                          src={blog.image || "/placeholder.svg?height=200&width=400&query=blog article"}
+                          src={
+                            blog.image ||
+                            "/placeholder.svg?height=200&width=400&query=blog article"
+                          }
                           alt={blog.title || blog.slug}
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                       </div>
                     </Link>
 
                     <div className="p-6">
-                      <div className="flex items-center gap-3 mb-4">
-                        <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-sm font-medium">
+                      <div className="mb-4 flex items-center gap-3">
+                        <span className="text-app-bg dark:text-app-bg rounded-full px-3 py-1 text-sm font-medium">
                           {blog.category || "Article"}
                         </span>
                         {blog.readTime && (
-                          <span className="text-gray-500 dark:text-gray-400 text-sm">{blog.readTime} min read</span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400">
+                            {blog.readTime} min read
+                          </span>
                         )}
                       </div>
 
                       <Link href={`/blog/${blog.slug}`} className="group/title">
-                        <h2 className="text-xl font-semibold text-gray-900 dark:text-white group-hover/title:text-green-600 dark:group-hover/title:text-green-400 transition-colors duration-200 line-clamp-2 mb-3">
+                        <h2 className="group-hover/title:text-app-bg dark:group-hover/title:text-app-bg mb-3 line-clamp-2 text-xl font-semibold text-gray-900 transition-colors duration-200 dark:text-white">
                           {blog.title || blog.slug}
                         </h2>
                       </Link>
 
                       {blog.excerpt && (
-                        <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4">{blog.excerpt}</p>
+                        <p className="mb-4 line-clamp-3 text-sm text-gray-600 dark:text-gray-400">
+                          {blog.excerpt}
+                        </p>
                       )}
 
                       <div className="flex items-center justify-between">
                         {blog.publishedAt && (
-                          <time className="text-gray-500 dark:text-gray-400 text-sm">
-                            {new Date(blog.publishedAt).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            })}
+                          <time className="text-sm text-gray-500 dark:text-gray-400">
+                            {new Date(blog.publishedAt).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              },
+                            )}
                           </time>
                         )}
 
                         <Link
                           href={`/blog/${blog.slug}`}
-                          className="inline-flex items-center gap-1 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm font-medium transition-colors group/link"
+                          className="text-app-bg group/link hover:text-app-bg dark:hover:text-app-bg dark:text-app-bg inline-flex items-center gap-1 text-sm font-medium transition-colors"
                         >
                           Read more
-                          <MdOutlineArrowOutward className="w-4 h-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
+                          <MdOutlineArrowOutward className="h-4 w-4 transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5" />
                         </Link>
                       </div>
                     </div>
@@ -245,13 +267,19 @@ const BlogsPage = () => {
                 {currentBlogs.map((blog, index) => (
                   <article
                     key={`${blog.slug}-${index}`}
-                    className="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300"
+                    className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
                   >
                     <div className="flex flex-col md:flex-row">
-                      <Link href={`/blog/${blog.slug}`} className="md:w-80 flex-shrink-0">
-                        <div className="relative h-48 md:h-full overflow-hidden">
+                      <Link
+                        href={`/blog/${blog.slug}`}
+                        className="flex-shrink-0 md:w-80"
+                      >
+                        <div className="relative h-48 overflow-hidden md:h-full">
                           <Image
-                            src={blog.image || "/placeholder.svg?height=200&width=320&query=blog article"}
+                            src={
+                              blog.image ||
+                              "/placeholder.svg?height=200&width=320&query=blog article"
+                            }
                             alt={blog.title || blog.slug}
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -259,45 +287,55 @@ const BlogsPage = () => {
                         </div>
                       </Link>
 
-                      <div className="flex-1 p-6 flex flex-col justify-between">
+                      <div className="flex flex-1 flex-col justify-between p-6">
                         <div>
-                          <div className="flex items-center gap-3 mb-3">
-                            <span className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full text-sm font-medium">
+                          <div className="mb-3 flex items-center gap-3">
+                            <span className="text-app-bg dark:text-app-bg rounded-full px-3 py-1 text-sm font-medium">
                               {blog.category || "Article"}
                             </span>
                             {blog.readTime && (
-                              <span className="text-gray-500 dark:text-gray-400 text-sm">{blog.readTime} min read</span>
+                              <span className="text-sm text-gray-500 dark:text-gray-400">
+                                {blog.readTime} min read
+                              </span>
                             )}
                           </div>
 
-                          <Link href={`/blog/${blog.slug}`} className="group/title">
-                            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white group-hover/title:text-green-600 dark:group-hover/title:text-green-400 transition-colors duration-200 mb-3">
+                          <Link
+                            href={`/blog/${blog.slug}`}
+                            className="group/title"
+                          >
+                            <h2 className="group-hover/title:text-app-bg dark:group-hover/title:text-app-bg mb-3 text-2xl font-semibold text-gray-900 transition-colors duration-200 dark:text-white">
                               {blog.title || blog.slug}
                             </h2>
                           </Link>
 
                           {blog.excerpt && (
-                            <p className="text-gray-600 dark:text-gray-400 line-clamp-2 mb-4">{blog.excerpt}</p>
+                            <p className="mb-4 line-clamp-2 text-gray-600 dark:text-gray-400">
+                              {blog.excerpt}
+                            </p>
                           )}
                         </div>
 
                         <div className="flex items-center justify-between">
                           {blog.publishedAt && (
-                            <time className="text-gray-500 dark:text-gray-400 text-sm">
-                              {new Date(blog.publishedAt).toLocaleDateString("en-US", {
-                                month: "long",
-                                day: "numeric",
-                                year: "numeric",
-                              })}
+                            <time className="text-sm text-gray-500 dark:text-gray-400">
+                              {new Date(blog.publishedAt).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                },
+                              )}
                             </time>
                           )}
 
                           <Link
                             href={`/blog/${blog.slug}`}
-                            className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                            className="hover:bg-app-bg bg-app-bg inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors"
                           >
                             Read Article
-                            <MdOutlineArrowOutward className="w-4 h-4" />
+                            <MdOutlineArrowOutward className="h-4 w-4" />
                           </Link>
                         </div>
                       </div>
@@ -310,15 +348,15 @@ const BlogsPage = () => {
         )}
 
         {!loading && filteredBlogs.length === 0 && (
-          <div className="text-center py-20">
-            <div className="max-w-md mx-auto">
-              <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
-                <MdSearch className="w-10 h-10 text-gray-400" />
+          <div className="py-20 text-center">
+            <div className="mx-auto max-w-md">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
+                <MdSearch className="h-10 w-10 text-gray-400" />
               </div>
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
+              <h3 className="mb-3 text-2xl font-semibold text-gray-900 dark:text-white">
                 {searchTerm ? "No articles found" : "No articles available"}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
+              <p className="mb-6 text-gray-600 dark:text-gray-400">
                 {searchTerm
                   ? `We couldn't find any articles matching "${searchTerm}". Try adjusting your search terms.`
                   : "We're working on bringing you fresh content. Check back soon!"}
@@ -326,7 +364,7 @@ const BlogsPage = () => {
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm("")}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  className="hover:bg-app-bg bg-app-bg rounded-lg px-6 py-3 font-medium text-white transition-colors"
                 >
                   Clear Search
                 </button>
@@ -337,43 +375,45 @@ const BlogsPage = () => {
 
         {/* Pagination */}
         {!loading && totalPages > 1 && (
-          <div className="flex justify-center mt-12">
+          <div className="mt-12 flex justify-center">
             <nav className="flex items-center gap-2">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className={`px-4 py-2 rounded-lg border transition-colors ${
+                className={`rounded-lg border px-4 py-2 transition-colors ${
                   currentPage === 1
-                    ? "border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
-                    : "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    ? "cursor-not-allowed border-gray-200 text-gray-400 dark:border-gray-700 dark:text-gray-500"
+                    : "border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
                 }`}
               >
                 Previous
               </button>
 
               <div className="flex items-center gap-1">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`w-10 h-10 rounded-lg transition-colors ${
-                      currentPage === page
-                        ? "bg-green-600 text-white"
-                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`h-10 w-10 rounded-lg transition-colors ${
+                        currentPage === page
+                          ? "bg-app-bg text-white"
+                          : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ),
+                )}
               </div>
 
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className={`px-4 py-2 rounded-lg border transition-colors ${
+                className={`rounded-lg border px-4 py-2 transition-colors ${
                   currentPage === totalPages
-                    ? "border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed"
-                    : "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    ? "cursor-not-allowed border-gray-200 text-gray-400 dark:border-gray-700 dark:text-gray-500"
+                    : "border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
                 }`}
               >
                 Next
@@ -383,7 +423,7 @@ const BlogsPage = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BlogsPage
+export default BlogsPage;

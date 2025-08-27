@@ -11,9 +11,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "app-text": "#182641",
-        "app-button": "#DC2626",
-        "app-button-hover": "#B91C1C",
+        "app-bg": "#1bc742",            // button background
+        "app-hover": "#16a837",        // Use this for button hovers
+        "app-border": "#22d949",       // Slightly lighter for borders
+        "app-dark": "#138d2e",        // For dark mode or accents
       },
     },
   },

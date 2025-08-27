@@ -409,7 +409,7 @@ const Dashboard = () => {
         });
 
       yPosition += 5;
-      
+
       // if (yPosition > pageHeight - 40) {
       //   doc.addPage();
       //   yPosition = 20;
@@ -490,7 +490,7 @@ const Dashboard = () => {
           <div className="flex flex-wrap items-center space-x-3">
             <button
               onClick={generatePDF}
-              className="flex items-center space-x-2 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-2 text-white shadow-lg transition-all duration-200 hover:from-green-700 hover:to-emerald-700 hover:shadow-xl dark:from-green-700 dark:to-emerald-700 dark:hover:from-green-800 dark:hover:to-emerald-800"
+              className="hover:from-app-bg dark:from-app-bg from-app-bg dark:hover:from-app-bg flex items-center space-x-2 rounded-lg bg-gradient-to-r to-emerald-600 px-4 py-2 text-white shadow-lg transition-all duration-200 hover:to-emerald-700 hover:shadow-xl dark:to-emerald-700 dark:hover:to-emerald-800"
             >
               <Download size={18} />
               <span className="font-medium">Export Report</span>
@@ -597,7 +597,7 @@ const Dashboard = () => {
           <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-3">
-                <div className="h-3 w-3 animate-pulse rounded-full bg-green-500 dark:bg-green-400"></div>
+                <div className="bg-app-bg dark:bg-app-bg h-3 w-3 animate-pulse rounded-full"></div>
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   System Operational
                 </span>

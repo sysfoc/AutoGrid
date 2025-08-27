@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import Skeleton from "react-loading-skeleton"
-import "react-loading-skeleton/dist/skeleton.css"
-import { useState } from "react"
+import Image from "next/image";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useState } from "react";
 
 const Slider = ({ loadingState, carData }) => {
-  const loading = loadingState
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const loading = loadingState;
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const imageUrls = Array.isArray(carData?.imageUrls)
     ? carData.imageUrls
     : carData?.imageUrls && typeof carData.imageUrls === "object"
       ? Object.values(carData.imageUrls)
-      : []
+      : [];
 
   const mediaItems = [
     carData?.video ? { type: "video", src: carData.video } : null,
@@ -26,27 +26,29 @@ const Slider = ({ loadingState, carData }) => {
       type: "image",
       src: image,
     })),
-  ].filter(Boolean)
+  ].filter(Boolean);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % mediaItems.length)
-  }
+    setCurrentSlide((prev) => (prev + 1) % mediaItems.length);
+  };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + mediaItems.length) % mediaItems.length)
-  }
+    setCurrentSlide(
+      (prev) => (prev - 1 + mediaItems.length) % mediaItems.length,
+    );
+  };
 
   const goToSlide = (index) => {
-    setCurrentSlide(index)
-  }
+    setCurrentSlide(index);
+  };
 
   if (!carData?.video && imageUrls.length === 0) {
     return (
-      <div className="flex items-center justify-center h-96 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-700 dark:to-gray-600 rounded-2xl">
-        <div className="text-center p-8">
-          <div className="w-16 h-16 mx-auto mb-4 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+      <div className="flex h-96 items-center justify-center rounded-2xl">
+        <div className="p-8 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full  dark:bg-green-900/30">
             <svg
-              className="w-8 h-8 text-green-600 dark:text-green-400"
+              className="text-app-bg h-8 w-8"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -59,31 +61,33 @@ const Slider = ({ loadingState, carData }) => {
               />
             </svg>
           </div>
-          <p className="text-gray-600 dark:text-gray-400 font-medium">No images available</p>
+          <p className="font-medium text-gray-600 dark:text-gray-400">
+            No images available
+          </p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="relative">
-      {/* Header with media count */}
-      <div className="absolute top-4 left-4 z-20">
-        <div className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm">
-          {mediaItems.length} {mediaItems.length === 1 ? "Media" : "Media Items"}
+      <div className="absolute left-4 top-4 z-20">
+        <div className="bg-app-bg rounded-full px-3 py-1 text-sm font-semibold text-white shadow-lg backdrop-blur-sm">
+          {mediaItems.length}{" "}
+          {mediaItems.length === 1 ? "Media" : "Media Items"}
         </div>
       </div>
 
       {/* Quality badge */}
-      <div className="absolute top-4 right-4 z-10">
-        <div className="bg-white/90 text-green-600 px-3 py-1 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm">
+      <div className="absolute right-4 top-4 z-10">
+        <div className="text-app-bg rounded-full bg-white/90 px-3 py-1 text-sm font-semibold shadow-lg backdrop-blur-sm">
           HD Quality
         </div>
       </div>
 
       {/* Main Carousel */}
-      <div className="relative h-64 sm:h-80 xl:h-96 2xl:h-[28rem] rounded-2xl overflow-hidden shadow-inner">
-        <div className="relative w-full h-full">
+      <div className="relative h-64 overflow-hidden rounded-2xl shadow-inner sm:h-80 xl:h-96 2xl:h-[28rem]">
+        <div className="relative h-full w-full">
           {mediaItems.map((media, index) => (
             <div
               key={index}
@@ -92,27 +96,27 @@ const Slider = ({ loadingState, carData }) => {
               }`}
             >
               {loading ? (
-                <div className="h-full w-full bg-gradient-to-br from-green-100 to-emerald-100 dark:from-gray-700 dark:to-gray-600 animate-pulse flex items-center justify-center">
+                <div className="flex h-full w-full animate-pulse items-center justify-center">
                   <div className="text-center">
-                    <div className="w-12 h-12 mx-auto mb-3 bg-green-200 dark:bg-green-800 rounded-full animate-pulse"></div>
+                    <div className="dark:bg-app-bg mx-auto mb-3 h-12 w-12 animate-pulse rounded-full bg-green-200"></div>
                     <Skeleton width={200} height={20} />
                   </div>
                 </div>
               ) : media.type === "video" ? (
-                <div className="relative h-full w-full group">
+                <div className="group relative h-full w-full">
                   <video
                     src={media.src}
                     controls
                     className="h-full w-full object-cover"
                     poster="/placeholder-video.jpg"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                  <div className="bg-app-bg absolute bottom-4 left-4 rounded-full px-3 py-1 text-sm font-semibold text-white">
                     Video
                   </div>
                 </div>
               ) : (
-                <div className="relative h-full w-full group">
+                <div className="group relative h-full w-full">
                   <Image
                     src={media.src || "/placeholder.svg"}
                     alt={`Vehicle Media ${index + 1}`}
@@ -121,8 +125,8 @@ const Slider = ({ loadingState, carData }) => {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={index === 0}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                  <div className="bg-app-bg absolute bottom-4 left-4 rounded-full px-3 py-1 text-sm font-semibold text-white">
                     {index + 1} / {mediaItems.length}
                   </div>
                 </div>
@@ -136,18 +140,38 @@ const Slider = ({ loadingState, carData }) => {
           <>
             <button
               onClick={prevSlide}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 flex items-center justify-center w-10 h-10 bg-white/80 hover:bg-white rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+              className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 transform items-center justify-center rounded-full bg-white/80 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-white"
             >
-              <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg
+                className="text-app-bg h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10 flex items-center justify-center w-10 h-10 bg-white/80 hover:bg-white rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+              className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 transform items-center justify-center rounded-full bg-white/80 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-white"
             >
-              <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="text-app-bg h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </>
@@ -155,14 +179,14 @@ const Slider = ({ loadingState, carData }) => {
 
         {/* Dots Indicators */}
         {mediaItems.length > 1 && (
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+          <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 transform space-x-2">
             {mediaItems.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                className={`h-2 w-2 rounded-full transition-all duration-200 ${
                   index === currentSlide
-                    ? "bg-white w-8"
+                    ? "w-8 bg-white"
                     : "bg-white/60 hover:bg-white/80"
                 }`}
               />
@@ -174,20 +198,24 @@ const Slider = ({ loadingState, carData }) => {
       {/* Thumbnails */}
       {mediaItems.length > 1 && (
         <div className="mt-4 px-2">
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+          <div className="scrollbar-hide flex gap-2 overflow-x-auto">
             {mediaItems.map((media, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`relative flex-shrink-0 w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden transition-all duration-200 hover:scale-105 ${
+                className={`relative h-12 w-16 flex-shrink-0 overflow-hidden rounded-lg transition-all duration-200 hover:scale-105 sm:h-14 sm:w-20 ${
                   currentSlide === index
-                    ? "ring-2 ring-green-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-800"
-                    : "hover:ring-1 hover:ring-green-300"
+                    ? "ring-app-bg ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-800"
+                    : "hover:ring-app-bg hover:ring-1"
                 }`}
               >
                 {media.type === "video" ? (
-                  <div className="relative w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                  <div className="relative flex h-full w-full items-center justify-center bg-gray-200 dark:bg-gray-700">
+                    <svg
+                      className="text-app-bg h-4 w-4"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path d="M8 5v14l11-7z" />
                     </svg>
                     <div className="absolute inset-0 bg-black/20"></div>
@@ -202,7 +230,7 @@ const Slider = ({ loadingState, carData }) => {
                   />
                 )}
                 {currentSlide === index && (
-                  <div className="absolute inset-0 bg-green-500/20 border-2 border-green-500 rounded-lg"></div>
+                  <div className="border-app-bg absolute inset-0 rounded-lg border-2 bg-green-500/20"></div>
                 )}
               </button>
             ))}
@@ -210,7 +238,7 @@ const Slider = ({ loadingState, carData }) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Slider
+export default Slider;

@@ -4,7 +4,7 @@
 // and a list of icon names for dropdowns.
 
 // Font Awesome 5 icons (react-icons/fa)
-import { 
+import {
   FaFacebookSquare,
   FaYoutube,
   FaInstagram,
@@ -32,17 +32,14 @@ import {
   FaViber,
   FaLine,
   FaWeibo,
-  FaWeixin
-} from "react-icons/fa"
+  FaWeixin,
+} from "react-icons/fa";
 
 // Font Awesome 6 icons (react-icons/fa6)
-import { 
-  FaTiktok,
-  FaXTwitter
-} from "react-icons/fa6"
+import { FaTiktok, FaXTwitter } from "react-icons/fa6";
 
 // Simple Icons (react-icons/si)
-import { SiGiphy } from "react-icons/si"
+import { SiGiphy } from "react-icons/si";
 
 // Define all available social media platforms with their icon component,
 // a unique string name (matching the component name), a display name,
@@ -87,8 +84,8 @@ export const allSocialPlatforms = [
     icon: SiGiphy,
     name: "SiGiphy",
     displayName: "Giphy",
-    color: "from-green-500 to-teal-600",
-    textColor: "text-green-500",
+    color: "from-app-bg to-teal-600",
+    textColor: "text-app-bg",
   },
   {
     icon: FaPinterest,
@@ -122,8 +119,8 @@ export const allSocialPlatforms = [
     icon: FaWhatsapp,
     name: "FaWhatsapp",
     displayName: "WhatsApp",
-    color: "from-green-600 to-green-700",
-    textColor: "text-green-600",
+    color: "from-app-bg to-app-bg",
+    textColor: "text-app-bg",
   },
   {
     icon: FaTelegram,
@@ -143,8 +140,8 @@ export const allSocialPlatforms = [
     icon: FaSpotify,
     name: "FaSpotify",
     displayName: "Spotify",
-    color: "from-green-500 to-green-600",
-    textColor: "text-green-500",
+    color: "from-app-bg to-app-bg",
+    textColor: "text-app-bg",
   },
   {
     icon: FaTwitch,
@@ -248,8 +245,8 @@ export const allSocialPlatforms = [
     icon: FaLine,
     name: "FaLine",
     displayName: "Line",
-    color: "from-green-500 to-green-600",
-    textColor: "text-green-500",
+    color: "from-app-bg to-app-bg",
+    textColor: "text-app-bg",
   },
   {
     icon: FaWeibo,
@@ -262,19 +259,19 @@ export const allSocialPlatforms = [
     icon: FaWeixin,
     name: "FaWeixin",
     displayName: "WeChat",
-    color: "from-green-600 to-green-700",
-    textColor: "text-green-600",
+    color: "from-app-bg to-app-bg",
+    textColor: "text-app-bg",
   },
-]
+];
 
 // Create a map for easy lookup of icon components by their string name.
 export const iconComponentsMap = allSocialPlatforms.reduce((acc, platform) => {
-  acc[platform.name] = platform.icon
-  return acc
-}, {})
+  acc[platform.name] = platform.icon;
+  return acc;
+}, {});
 
 // Create a list of icon names and display names for use in dropdowns.
 export const availableIconOptions = allSocialPlatforms.map((platform) => ({
   name: platform.name,
   displayName: platform.displayName,
-}))
+}));

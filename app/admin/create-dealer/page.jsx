@@ -227,7 +227,7 @@ export default function CreateDealer() {
             </div>
           )}
           {isSuccess && (
-            <div className="relative mb-6 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
+            <div className="text-app-bg border-app-bg relative mb-6 rounded border  px-4 py-3">
               <strong className="font-bold">Success!</strong>
               <span className="block sm:inline">
                 {" "}
@@ -295,7 +295,7 @@ export default function CreateDealer() {
                 )}
               </div>
 
-                  <div className="form-group md:col-span-2">
+              <div className="form-group md:col-span-2">
                 <label
                   htmlFor="email"
                   className="mb-1 block text-sm font-medium text-app-text"
@@ -323,22 +323,6 @@ export default function CreateDealer() {
                   </div>
                 )}
               </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
               {/* Contact Field */}
               <div className="form-group">
@@ -427,7 +411,7 @@ export default function CreateDealer() {
                   <div className="mt-1 text-sm text-red-500">{errors.abn}</div>
                 )}
               </div>
-     
+
               {/* Map Field (Optional) */}
               <div className="form-group">
                 <label

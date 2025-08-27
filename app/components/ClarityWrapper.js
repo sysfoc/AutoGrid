@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 
 const ClarityWrapper = ({ children }) => {
-    const [showBadge, setShowBadge] = useState(false);
+  const [showBadge, setShowBadge] = useState(false);
   useEffect(() => {
     const consent = localStorage.getItem("cookieConsent");
     if (consent === "all") {
       (function (c, l, a, r, i, t, y) {
-        c[a] = c[a] || function () {
-          (c[a].q = c[a].q || []).push(arguments);
-        };
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
         t = l.createElement(r);
         t.async = 1;
         t.src = "https://www.clarity.ms/tag/" + i;
@@ -22,11 +24,11 @@ const ClarityWrapper = ({ children }) => {
       })(window, document, "clarity", "script", "r7kr52kudt");
     }
   }, []);
- return (
+  return (
     <>
       {children}
       {showBadge && (
-        <div className="fixed bottom-3 left-3 bg-green-600 text-white px-4 py-2 rounded shadow-lg text-sm z-50">
+        <div className="bg-app-bg fixed bottom-3 left-3 z-50 rounded px-4 py-2 text-sm text-white shadow-lg">
           Analytics Enabled
         </div>
       )}

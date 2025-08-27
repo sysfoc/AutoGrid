@@ -22,6 +22,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useMemo } from "react";
 import { useCurrency } from "../context/CurrencyContext";
 import { useDistance } from "../context/DistanceContext";
+import { Check } from "lucide-react";
 
 const CardetailCard = () => {
   const [cars, setCars] = useState([]);
@@ -659,17 +660,17 @@ const CardetailCard = () => {
   if (loading) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
-        <div className="flex items-center space-x-4 rounded-2xl bg-gray-50 border border-gray-200 px-8 py-6 shadow-md">
+        <div className="flex items-center space-x-4 rounded-2xl bg-white px-8 py-6 shadow-sm">
           <Spinner
             aria-label="Loading vehicles"
             size="lg"
-            className="text-green-500"
+            className="text-app-bg"
           />
           <div>
-            <span className="text-lg font-semibold text-gray-900">
+            <span className="text-lg font-semibold text-gray-900 dark:text-white">
               Loading vehicles...
             </span>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-100">
               Please wait while we fetch the latest listings
             </p>
           </div>
@@ -681,7 +682,7 @@ const CardetailCard = () => {
   if (!sortedAndFilteredCars.length) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center p-8 text-center">
-        <div className="max-w-md rounded-2xl bg-gray-50 border border-gray-200 p-8 shadow-md">
+        <div className="max-w-md rounded-2xl bg-white p-8 shadow-sm">
           <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
             <svg
               className="h-10 w-10 text-gray-400"
@@ -697,10 +698,10 @@ const CardetailCard = () => {
               />
             </svg>
           </div>
-          <h3 className="mb-3 text-xl font-bold text-gray-900">
+          <h3 className="mb-3 text-xl font-bold text-gray-900 dark:text-white">
             No vehicles found
           </h3>
-          <p className="mb-6 text-gray-500">
+          <p className="mb-6 text-gray-500 dark:text-gray-100">
             We could not find any vehicles matching your current filters. Try
             adjusting your search criteria or clearing some filters.
           </p>
@@ -712,7 +713,7 @@ const CardetailCard = () => {
   return (
     <>
       <div className="mb-6">
-        <div className="flex flex-col gap-4 rounded-lg border border-gray-200 bg-gray-50 p-4 shadow-md dark:border-gray-600 dark:bg-gray-800 dark:shadow-gray-700/10 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
               <span className="font-semibold text-gray-900 dark:text-white">
@@ -728,7 +729,7 @@ const CardetailCard = () => {
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <Select
-              className="min-w-[120px] text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              className="min-w-[120px] border-gray-300 bg-white text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               value={itemsPerPage}
               onChange={(e) => {
                 setItemsPerPage(Number.parseInt(e.target.value));
@@ -743,7 +744,7 @@ const CardetailCard = () => {
 
             <Select
               icon={GrSort}
-              className="min-w-[160px] text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              className="min-w-[160px] border-gray-300 bg-white text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
             >
@@ -761,8 +762,8 @@ const CardetailCard = () => {
                 onClick={() => setIsGridView(false)}
                 className={`rounded p-2 transition-colors ${
                   !isGridView
-                    ? "bg-green-500 text-white"
-                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                    ? "bg-app-bg text-white"
+                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                 }`}
               >
                 <FiList size={16} />
@@ -771,8 +772,8 @@ const CardetailCard = () => {
                 onClick={() => setIsGridView(true)}
                 className={`rounded p-2 transition-colors ${
                   isGridView
-                    ? "bg-green-500 text-white"
-                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                    ? "bg-app-bg text-white"
+                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                 }`}
               >
                 <FiGrid size={16} />
@@ -783,7 +784,7 @@ const CardetailCard = () => {
       </div>
 
       <div
-        className={`rounded-lg bg-gray-100 p-6 transition-opacity duration-200 dark:bg-gray-900 ${isPageTransitioning ? "opacity-50" : "opacity-100"} ${
+        className={`transition-opacity duration-200 ${isPageTransitioning ? "opacity-50" : "opacity-100"} ${
           isGridView
             ? "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
             : "space-y-6"
@@ -793,7 +794,7 @@ const CardetailCard = () => {
           <div key={car._id} className="group">
             <Link href={`car-detail/${car.slug}`}>
               <div
-                className={`overflow-hidden rounded-lg border border-gray-200 bg-gray-50 shadow-md transition-all duration-300 hover:shadow-lg dark:border-gray-600 dark:bg-gray-800 dark:shadow-gray-700/10 dark:hover:shadow-gray-700/20 ${
+                className={`h-full overflow-hidden rounded-lg border border-gray-200 bg-gray-100 shadow-sm transition-all duration-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:hover:shadow-lg ${
                   isGridView ? "flex flex-col" : "flex flex-col sm:flex-row"
                 }`}
               >
@@ -835,7 +836,7 @@ const CardetailCard = () => {
                         <div className="text-center">
                           <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-600">
                             <svg
-                              className="h-8 w-8 text-gray-400 dark:text-gray-300"
+                              className="h-8 w-8 text-gray-400 dark:text-gray-500"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -859,7 +860,7 @@ const CardetailCard = () => {
                   {/* Featured banner */}
                   {!car.sold && (
                     <div className="absolute left-0 top-0">
-                      <div className="bg-green-500 px-3 py-1 text-xs font-bold text-white">
+                      <div className="bg-app-bg px-3 py-1 text-xs font-bold text-white">
                         Featured
                       </div>
                     </div>
@@ -878,7 +879,7 @@ const CardetailCard = () => {
                   <div className="absolute right-3 top-3 flex items-center gap-2">
                     {Array.isArray(car.imageUrls) &&
                       car.imageUrls.length > 1 && (
-                        <div className="flex items-center gap-1 rounded bg-black/70 px-2 py-1 text-xs text-white dark:bg-black/80">
+                        <div className="flex items-center gap-1 rounded bg-black/70 px-2 py-1 text-xs text-white">
                           <svg
                             className="h-3 w-3"
                             fill="currentColor"
@@ -899,14 +900,14 @@ const CardetailCard = () => {
                         e.preventDefault();
                         handleLikeToggle(car._id);
                       }}
-                      className="rounded-full bg-white p-2 shadow-sm transition-colors hover:bg-gray-50 dark:bg-gray-800 dark:shadow-gray-700/20 dark:hover:bg-gray-700"
+                      className="rounded-full bg-white p-2 shadow-sm transition-colors hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700"
                     >
                       {userLikedCars &&
                       Array.isArray(userLikedCars) &&
                       userLikedCars.includes(car._id) ? (
                         <FaHeart className="h-4 w-4 text-red-500" />
                       ) : (
-                        <FaRegHeart className="h-4 w-4 text-gray-600 dark:text-gray-300" />
+                        <FaRegHeart className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                       )}
                     </button>
                   </div>
@@ -931,17 +932,11 @@ const CardetailCard = () => {
                           `${car.make || "Unknown"} ${car.model || "Unknown"}`
                         )}
                       </h3>
-
-                      {!isGridView && car.features?.length > 0 && (
-                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                          {car.features.join(" • ")}
-                        </p>
-                      )}
                     </div>
 
                     <div className={`text-right ${!isGridView ? "ml-4" : ""}`}>
                       <div
-                        className={`font-bold text-green-500 dark:text-green-400 ${isGridView ? "text-xl" : "text-2xl"}`}
+                        className={`font-bold text-app-bg ${isGridView ? "text-xl" : "text-2xl"}`}
                       >
                         {loading ? (
                           <Skeleton height={28} width={100} />
@@ -952,18 +947,33 @@ const CardetailCard = () => {
                     </div>
                   </div>
 
+                  {/* Features */}
+                  {!isGridView && car.features?.length > 0 && (
+                    <div className="mb-2 grid grid-cols-1 gap-x-4 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+                      {car.features.slice(0, 6).map((feature, idx) => (
+                        <span
+                          key={idx}
+                          className="flex items-center gap-1.5 text-xs text-gray-700 dark:text-gray-300"
+                        >
+                          <Check className="h-3 w-3 flex-shrink-0 text-app-bg" />
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
                   <div
-                    className={`flex flex-wrap gap-2 ${isGridView ? "mb-4" : "mb-6"}`}
+                    className="flex flex-wrap items-start gap-2 mb-3"
                   >
-                    <span className="rounded bg-green-500 px-2 py-1 text-xs font-medium text-white dark:bg-green-600">
-                      {car.year || car.modelYear || "N/A"}
+                    <span className="rounded bg-app-bg px-2 py-1 text-xs font-medium text-white">
+                      {car.year || car.modelYear || ""}
                     </span>
-                    <div className="flex flex-wrap items-center text-sm text-gray-600 dark:text-gray-300">
+                    <div className="flex flex-col md:flex-[0.8] min-w-0 text-sm text-gray-600 dark:text-gray-300">
                       {[
                         !isGridView &&
                           (() => {
                             const v = getConvertedValues(car);
-                            return `${v.kms || "N/A"} ${v.unit || ""}`;
+                            return `${v.kms || ""} ${v.unit || ""}`;
                           })(),
                         car.gearbox,
                         car.fuelType,
@@ -972,18 +982,15 @@ const CardetailCard = () => {
                         .filter(Boolean)
                         .join(" • ")}
                     </div>
+                    {!isGridView && (
+                      <div className="w-full sm:w-auto sm:flex-shrink-0 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="text-sm  text-gray-500 dark:text-gray-400">
+                          <span className="text-app-bg">Location:</span>{" "}
+                          {car.location || "Not specified"}
+                        </span>
+                      </div>
+                    )}
                   </div>
-
-                  {!isGridView && (
-                    <div className="mb-4">
-                      <span className="text-sm text-gray-500 dark:text-gray-400">
-                        <span className="text-green-500 dark:text-green-400">
-                          Location:
-                        </span>{" "}
-                        {car.location || "Not specified"}
-                      </span>
-                    </div>
-                  )}
 
                   {/* Action button */}
                   <div className="mt-auto">
@@ -994,8 +1001,8 @@ const CardetailCard = () => {
                         setSelectedCar(car);
                         setOpenModal(true);
                       }}
-                      className={`w-fit rounded-lg bg-green-500 px-2 font-medium text-white transition-colors hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-500 ${
-                        isGridView ? "py-2 text-sm" : "py-3"
+                      className={`w-fit rounded-lg bg-app-bg px-3 font-medium text-white transition-colors hover:bg-app-hover ${
+                        isGridView ? "py-2 text-sm" : "py-2"
                       }`}
                     >
                       {t("enquireNow")}
@@ -1034,8 +1041,8 @@ const CardetailCard = () => {
               disabled={!paginationData.hasPrevPage || isPageTransitioning}
               className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 paginationData.hasPrevPage && !isPageTransitioning
-                  ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
-                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-500"
+                  ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-600"
               }`}
             >
               <svg
@@ -1067,8 +1074,8 @@ const CardetailCard = () => {
                       disabled={isPageTransitioning}
                       className={`min-w-[40px] rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                         currentPage === pageNum
-                          ? "bg-green-500 text-white dark:bg-green-600"
-                          : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+                          ? "bg-app-bg text-white"
+                          : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
                       } ${isPageTransitioning ? "cursor-not-allowed opacity-50" : ""}`}
                     >
                       {pageNum}
@@ -1083,8 +1090,8 @@ const CardetailCard = () => {
               disabled={!paginationData.hasNextPage || isPageTransitioning}
               className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 paginationData.hasNextPage && !isPageTransitioning
-                  ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
-                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-500"
+                  ? "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                  : "cursor-not-allowed border border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-600"
               }`}
             >
               Next
@@ -1130,7 +1137,6 @@ const CardetailCard = () => {
           )}
         </div>
       )}
-
       {/* Enquiry Modal */}
       <Modal
         dismissible
@@ -1150,7 +1156,7 @@ const CardetailCard = () => {
               <div
                 className={`rounded-lg p-4 text-sm ${
                   submitMessage.includes("success")
-                    ? "border border-green-200 bg-green-50 text-green-800"
+                    ? "text-app-bg"
                     : "border border-red-200 bg-red-50 text-red-800"
                 }`}
               >
@@ -1171,7 +1177,7 @@ const CardetailCard = () => {
                   value={formData.firstName}
                   onChange={handleInputChange}
                   placeholder="Enter your first name"
-                  className="rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                  className="rounded-lg border-gray-300 focus:border-app-bg focus:ring-2 focus:ring-app-bg"
                   required
                   disabled={isSubmitting}
                 />
@@ -1189,7 +1195,7 @@ const CardetailCard = () => {
                   value={formData.lastName}
                   onChange={handleInputChange}
                   placeholder="Enter your last name"
-                  className="rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                  className="rounded-lg border-gray-300 focus:border-app-bg focus:ring-2 focus:ring-app-bg"
                   required
                   disabled={isSubmitting}
                 />
@@ -1207,7 +1213,7 @@ const CardetailCard = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="your.email@example.com"
-                  className="rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                  className="rounded-lg border-gray-300 focus:border-app-bg focus:ring-2 focus:ring-app-bg"
                   required
                   disabled={isSubmitting}
                 />
@@ -1225,7 +1231,7 @@ const CardetailCard = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   placeholder="+92 300 1234567"
-                  className="rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                  className="rounded-lg border-gray-300 focus:border-app-bg focus:ring-2 focus:ring-app-bg"
                   required
                   disabled={isSubmitting}
                 />
@@ -1243,7 +1249,7 @@ const CardetailCard = () => {
                   onChange={handleInputChange}
                   rows={4}
                   placeholder="Tell us about your requirements, budget, or any specific questions..."
-                  className="resize-none rounded-lg border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-500"
+                  className="resize-none rounded-lg border-gray-300 focus:border-app-bg focus:ring-2 focus:ring-app-bg"
                   disabled={isSubmitting}
                 />
               </div>
@@ -1255,7 +1261,7 @@ const CardetailCard = () => {
                 className={`w-full rounded-lg py-4 text-lg font-semibold text-white transition-colors ${
                   isSubmitting
                     ? "cursor-not-allowed bg-gray-400"
-                    : "bg-green-500 hover:bg-green-600"
+                    : "bg-app-bg hover:bg-app-hover"
                 }`}
               >
                 {isSubmitting ? (
@@ -1274,5 +1280,4 @@ const CardetailCard = () => {
     </>
   );
 };
-
 export default CardetailCard;

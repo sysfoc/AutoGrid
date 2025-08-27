@@ -56,7 +56,6 @@ interface Car {
   updatedAt: string;
 }
 
-
 const SidebarFilters = () => {
   const t = useTranslations("Filters");
   const router = useRouter();
@@ -77,38 +76,36 @@ const SidebarFilters = () => {
     used: 0,
   });
   const [loading, setLoading] = useState(false);
-const fetchCarsAndCalculateStats = async (): Promise<void> => {
-  try {
-    setLoading(true);
-    
-    const response = await fetch('/api/cars');
-    const data = await response.json();
-    
-    setCars(data.cars);
-    
-    // Calculate stats based on condition
-    const total: number = data.cars.length;
-    const newCars: number = data.cars.filter((car: Car) => 
-      car.condition && car.condition.toLowerCase() === 'new'
-    ).length;
-    const usedCars: number = data.cars.filter((car: Car) => 
-      car.condition && car.condition.toLowerCase() === 'used'
-    ).length;
-    
-    setStats({ total, new: newCars, used: usedCars });
-    
-  } catch (error) {
-    console.error('Error fetching cars:', error);
-  } finally {
-    setLoading(false);
-  }
-};
+  const fetchCarsAndCalculateStats = async (): Promise<void> => {
+    try {
+      setLoading(true);
 
-// Usage
-useEffect(() => {
-  fetchCarsAndCalculateStats();
-}, []);
+      const response = await fetch("/api/cars");
+      const data = await response.json();
 
+      setCars(data.cars);
+
+      // Calculate stats based on condition
+      const total: number = data.cars.length;
+      const newCars: number = data.cars.filter(
+        (car: Car) => car.condition && car.condition.toLowerCase() === "new",
+      ).length;
+      const usedCars: number = data.cars.filter(
+        (car: Car) => car.condition && car.condition.toLowerCase() === "used",
+      ).length;
+
+      setStats({ total, new: newCars, used: usedCars });
+    } catch (error) {
+      console.error("Error fetching cars:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Usage
+  useEffect(() => {
+    fetchCarsAndCalculateStats();
+  }, []);
 
   useEffect(() => {
     isUpdatingFromURL.current = true;
@@ -1108,7 +1105,7 @@ useEffect(() => {
               <option value="new-york">New York</option>
               <option value="berlin">Berlin</option>
             </Select>
-            <FaLocationDot className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform text-green-500" />
+            <FaLocationDot className="text-app-bg absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
           </div>
 
           {/* Distance */}
@@ -1311,14 +1308,14 @@ useEffect(() => {
           <div className="flex justify-end gap-2">
             <button
               onClick={handleClearFilters}
-              className="text-sm font-medium text-green-500 hover:text-green-600"
+              className="hover:text-app-bg text-app-bg text-sm font-medium"
             >
               Clear all
             </button>
             <span className="text-gray-300">|</span>
             <button
               onClick={() => setShowMoreFilters(!showMoreFilters)}
-              className="flex items-center gap-1 text-sm font-medium text-green-500 hover:text-green-600"
+              className="hover:text-app-bg text-app-bg flex items-center gap-1 text-sm font-medium"
             >
               More filters
               {showMoreFilters ? (
@@ -1419,7 +1416,7 @@ useEffect(() => {
                   id="lease-filter"
                   checked={localFilters.lease === "true"}
                   onChange={handleLeaseChange}
-                  className="h-4 w-4 rounded border-gray-300 text-green-500 focus:ring-green-500"
+                  className="text-app-bg focus:ring-app-bg h-4 w-4 rounded border-gray-300"
                 />
                 <label
                   htmlFor="lease-filter"
@@ -1449,7 +1446,7 @@ useEffect(() => {
                 !localFilters.condition ||
                 (Array.isArray(localFilters.condition) &&
                   localFilters.condition.length === 0)
-                  ? "border-green-500 text-green-500"
+                  ? "border-app-bg text-app-bg"
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
@@ -1460,7 +1457,7 @@ useEffect(() => {
               className={`border-b-2 pb-2 text-sm font-medium transition-colors ${
                 Array.isArray(localFilters.condition) &&
                 localFilters.condition.includes("new")
-                  ? "border-green-500 text-green-500"
+                  ? "border-app-bg text-app-bg"
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
@@ -1471,7 +1468,7 @@ useEffect(() => {
               className={`border-b-2 pb-2 text-sm font-medium transition-colors ${
                 Array.isArray(localFilters.condition) &&
                 localFilters.condition.includes("used")
-                  ? "border-green-500 text-green-500"
+                  ? "border-app-bg text-app-bg"
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >

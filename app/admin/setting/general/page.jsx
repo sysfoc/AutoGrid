@@ -242,9 +242,9 @@ const Page = () => {
                         className="w-full"
                       >
                        
-                        <option value="logo4">autoGrid-theme</option>
-                        <option value="logo5">autoGrid-demo1</option>
-                        <option value="logo6">autoGrid-demo2</option>
+                        <option value="logo4">Theme-4</option>
+                        <option value="logo5">Theme-5</option>
+                        <option value="logo6">Theme-6</option>
                       </Select>
                     </div>
                     <div className="rounded-lg bg-slate-50 p-4">

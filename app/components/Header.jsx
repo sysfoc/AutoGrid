@@ -300,10 +300,10 @@ const Header = () => {
     const logoContent = (
       <div className="flex items-center space-x-3">
         <div className="flex flex-col">
-          <span className="bg-gradient-to-r from-gray-800 via-green-600 to-gray-800 bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-white dark:via-green-400 dark:to-white">
+          <span className="via-app-bg dark:via-app-bg bg-gradient-to-r from-gray-800 to-gray-800 bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-white dark:to-white">
             WindScreen
           </span>
-          <span className="text-xs font-medium text-gray-600 transition-colors duration-300 group-hover:text-green-600 dark:text-gray-400 dark:group-hover:text-green-400">
+          <span className="group-hover:text-app-bg dark:group-hover:text-app-bg text-xs font-medium text-gray-600 transition-colors duration-300 dark:text-gray-400">
             Built to Sell Cars
           </span>
         </div>
@@ -361,7 +361,7 @@ const Header = () => {
                 onMouseEnter={() => setListingsDropdownOpen(true)}
                 onMouseLeave={() => setListingsDropdownOpen(false)}
               >
-                <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white hover:shadow-lg hover:shadow-green-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white">
+                <button className="hover:from-app-bg hover:to-app-bg group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:text-white hover:shadow-lg hover:shadow-app-bg active:scale-95 dark:text-gray-300 dark:hover:text-white">
                   <span>Listings</span>
                   <svg
                     className={`h-4 w-4 transition-transform duration-300 ${listingsDropdownOpen ? "rotate-180" : ""}`}
@@ -387,13 +387,13 @@ const Header = () => {
                     <div className="p-2">
                       <Link
                         href="/car-for-sale"
-                        className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-green-600 hover:text-white dark:text-gray-300 dark:hover:bg-green-700 dark:hover:text-white"
+                        className="dark:hover:bg-app-bg hover:bg-app-bg flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:text-white dark:text-gray-300 dark:hover:text-white"
                       >
                         Cars for Sale
                       </Link>
                       <Link
                         href="/cars/leasing"
-                        className="flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-green-600 hover:text-white dark:text-gray-300 dark:hover:bg-green-700 dark:hover:text-white"
+                        className="dark:hover:bg-app-bg hover:bg-app-bg flex items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:text-white dark:text-gray-300 dark:hover:text-white"
                       >
                         Lease Deals
                       </Link>
@@ -407,7 +407,7 @@ const Header = () => {
                 onMouseEnter={() => setPagesDropdownOpen(true)}
                 onMouseLeave={() => setPagesDropdownOpen(false)}
               >
-                <button className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white hover:shadow-lg hover:shadow-green-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white">
+                <button className="hover:from-app-bg hover:to-app-bg group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:text-white hover:shadow-lg hover:shadow-app-bg active:scale-95 dark:text-gray-300 dark:hover:text-white">
                   <span>Pages</span>
                   <svg
                     className={`h-4 w-4 transition-transform duration-300 ${pagesDropdownOpen ? "rotate-180" : ""}`}
@@ -433,19 +433,19 @@ const Header = () => {
                     <div className="py-2">
                       <Link
                         href="/about"
-                        className="flex w-48 items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-green-600 hover:text-white dark:text-gray-300 dark:hover:bg-green-700 dark:hover:text-white"
+                        className="dark:hover:bg-app-bg hover:bg-app-bg flex w-48 items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:text-white dark:text-gray-300 dark:hover:text-white"
                       >
                         About
                       </Link>
                       <Link
                         href="/contact"
-                        className="flex w-48 items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-green-600 hover:text-white dark:text-gray-300 dark:hover:bg-green-700 dark:hover:text-white"
+                        className="dark:hover:bg-app-bg hover:bg-app-bg flex w-48 items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:text-white dark:text-gray-300 dark:hover:text-white"
                       >
                         Contact
                       </Link>
                       <Link
                         href="/blogs"
-                        className="flex w-48 items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:bg-green-600 hover:text-white dark:text-gray-300 dark:hover:bg-green-700 dark:hover:text-white"
+                        className="dark:hover:bg-app-bg hover:bg-app-bg flex w-48 items-center rounded-lg px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:translate-x-1 hover:text-white dark:text-gray-300 dark:hover:text-white"
                       >
                         Blogs
                       </Link>
@@ -468,7 +468,7 @@ const Header = () => {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-600 hover:text-white hover:shadow-lg hover:shadow-green-500/25 active:scale-95 dark:text-gray-300 dark:hover:text-white"
+                      className="hover:from-app-bg hover:to-app-bg group flex items-center space-x-2 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:text-white hover:shadow-lg hover:shadow-app-bg active:scale-95 dark:text-gray-300 dark:hover:text-white"
                     >
                       <IconComponent className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                       <span>{link.name}</span>
@@ -481,7 +481,7 @@ const Header = () => {
               <button
                 onClick={navigateToLogin}
                 aria-label="Login"
-                className={`hidden items-center space-x-2 rounded-xl bg-gray-100 px-4 py-3 text-gray-600 transition-all duration-300 hover:scale-105 hover:bg-gray-200 hover:text-green-600 focus:outline-none focus:ring-0 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-green-600 lg:flex ${isLoading ? "opacity-75" : "opacity-100"}`}
+                className={`hover:text-app-hover dark:hover:text-app-hover hidden items-center space-x-2 rounded-xl bg-gray-100 px-4 py-3 text-gray-600 transition-all duration-300 hover:scale-105 hover:bg-gray-200 focus:outline-none focus:ring-0 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 lg:flex ${isLoading ? "opacity-75" : "opacity-100"}`}
               >
                 <FaUser className="h-5 w-5" />
                 <span className="text-sm font-medium">Login</span>
@@ -490,7 +490,7 @@ const Header = () => {
               <button
                 onClick={handleMobileMenuOpen}
                 aria-label="Open Menu"
-                className="group relative rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-green-500 hover:to-green-600 hover:shadow-lg hover:shadow-green-500/25 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:ring-offset-2 focus:ring-offset-white dark:bg-gray-800 dark:focus:ring-offset-gray-900 lg:hidden"
+                className="hover:from-app-bg hover:to-app-hover group relative rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:shadow-lg hover:shadow-app-bg focus:outline-none focus:ring-2 focus:ring-app-border focus:ring-offset-2 focus:ring-offset-white dark:bg-gray-800 dark:focus:ring-offset-gray-900 lg:hidden"
               >
                 <svg
                   className="h-5 w-5 text-gray-700 transition-colors duration-300 group-hover:text-white dark:text-gray-300"
@@ -511,7 +511,7 @@ const Header = () => {
                 <button
                   onClick={navigateToLikedCars}
                   aria-label="Liked Cars"
-                  className={`group relative hidden rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-green-500 hover:to-green-600 hover:shadow-lg hover:shadow-green-500/25 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:ring-offset-2 focus:ring-offset-white dark:bg-gray-800 dark:focus:ring-offset-gray-900 md:flex ${isLoading ? "opacity-75" : "opacity-100"}`}
+                  className={`hover:from-app-bg hover:to-app-hover group relative hidden rounded-xl bg-gray-100 p-3 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:shadow-lg hover:shadow-app-bg focus:outline-none focus:ring-2 focus:ring-app-border focus:ring-offset-2 focus:ring-offset-white dark:bg-gray-800 dark:focus:ring-offset-gray-900 md:flex ${isLoading ? "opacity-75" : "opacity-100"}`}
                 >
                   <FaHeart className="h-5 w-5 text-gray-700 transition-colors duration-300 group-hover:text-white dark:text-gray-300" />
                 </button>
@@ -521,7 +521,7 @@ const Header = () => {
                 {!topSettings.hideDarkMode && (
                   <button
                     onClick={toggleDarkMode}
-                    className={`group relative rounded-xl bg-gray-100 p-3 text-gray-700 ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-green-500 hover:to-green-600 hover:text-white hover:shadow-lg hover:shadow-green-500/25 hover:ring-green-500/50 dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700 ${isLoading ? "opacity-75" : "opacity-100"}`}
+                    className={`hover:from-app-bg hover:to-app-hover group relative rounded-xl bg-gray-100 p-3 text-gray-700 ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:text-white hover:shadow-lg hover:shadow-app-bg hover:ring-app-border dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700 ${isLoading ? "opacity-75" : "opacity-100"}`}
                     aria-label="Toggle dark mode"
                   >
                     {darkMode ? (
@@ -537,7 +537,7 @@ const Header = () => {
                 {!topSettings.hideDarkMode && (
                   <button
                     onClick={toggleDarkMode}
-                    className={`group rounded-xl bg-gray-100 p-3 text-gray-700 ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-green-500 hover:to-green-600 hover:text-white hover:ring-green-500/50 dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700 ${isLoading ? "opacity-75" : "opacity-100"}`}
+                    className={`hover:from-app-bg hover:to-app-hover group rounded-xl bg-gray-100 p-3 text-gray-700 ring-1 ring-gray-200 backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:text-white hover:ring-app-border dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-700 ${isLoading ? "opacity-75" : "opacity-100"}`}
                     aria-label="Toggle dark mode"
                   >
                     {darkMode ? (
@@ -569,13 +569,13 @@ const Header = () => {
       >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white p-4 dark:border-gray-700 dark:from-gray-800 dark:to-gray-900">
-            <h2 className="bg-gradient-to-r from-gray-800 via-green-600 to-gray-800 bg-clip-text text-lg font-semibold text-transparent dark:from-white dark:via-green-400 dark:to-gray-200">
+            <h2 className="via-app-bg dark:via-app-bg bg-gradient-to-r from-gray-800 to-gray-800 bg-clip-text text-lg font-semibold text-transparent dark:from-white dark:to-gray-200">
               Quick Links
             </h2>
             <button
               onClick={handleMobileMenuClose}
               aria-label="Close Menu"
-              className="rounded-lg p-2 text-gray-600 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 hover:text-green-600 focus:outline-none focus:ring-2 focus:ring-green-500/50 dark:text-gray-400 dark:hover:from-green-900/20 dark:hover:to-green-800/20 dark:hover:text-green-400"
+              className="hover:text-app-hover dark:hover:text-app-hover rounded-lg p-2 text-gray-600 transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-app-border dark:text-gray-400"
             >
               <FaTimes className="h-4 w-4" />
             </button>
@@ -590,14 +590,14 @@ const Header = () => {
               <Link
                 href="/car-for-sale"
                 onClick={handleMobileMenuClose}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
+                className="hover:text-app-hover dark:hover:text-app-hover flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
               >
                 <span>Cars for Sale</span>
               </Link>
               <Link
                 href="/cars/leasing"
                 onClick={handleMobileMenuClose}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
+                className="hover:text-app-hover dark:hover:text-app-hover flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
               >
                 <span>Lease Deals</span>
               </Link>
@@ -611,21 +611,21 @@ const Header = () => {
               <Link
                 href="/about"
                 onClick={handleMobileMenuClose}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
+                className="hover:text-app-hover dark:hover:text-app-hover flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
               >
                 <span>About</span>
               </Link>
               <Link
                 href="/contact"
                 onClick={handleMobileMenuClose}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
+                className="hover:text-app-hover dark:hover:text-app-hover flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
               >
                 <span>Contact</span>
               </Link>
               <Link
                 href="/blogs"
                 onClick={handleMobileMenuClose}
-                className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
+                className="hover:text-app-hover dark:hover:text-app-hover flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
               >
                 <span>Blogs</span>
               </Link>
@@ -645,7 +645,7 @@ const Header = () => {
                     key={link.href}
                     href={link.href}
                     onClick={handleMobileMenuClose}
-                    className="flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-green-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-green-500"
+                    className="hover:text-app-hover dark:hover:text-app-hover flex items-center space-x-3 rounded-lg px-3 py-2 text-base font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
                   >
                     <IconComponent className="h-5 w-5" />
                     <span>{link.name}</span>
