@@ -6,31 +6,18 @@ import { FaBlog } from "react-icons/fa";
 import Link from "next/link";
 
 const Banner = () => {
-  const [selectedWebsite, setSelectedWebsite] = useState("windscreen");
+  const [selectedWebsite, setSelectedWebsite] = useState("main");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const websiteOptions = [
-    {
-      value: "auto",
-      label: "Automotive Solutions",
-      url: "https://automotivewebsolutions.com",
-    },
-    {
-      value: "cruise",
-      label: "Cruise Control",
-      url: "https://demo3.automotivewebsolutions.com",
-    },
-    {
-      value: "frontseat",
-      label: "Front Seat",
-      url: "https://demo2.automotivewebsolutions.com",
-    },
-    {
-      value: "windscreen",
-      label: "Windscreen",
-      url: "https://demo1.automotivewebsolutions.com",
-    },
-  ];
+const websiteOptions = [
+  { value: "main", label: "Automotive Web Solutions", url: "https://www.automotivewebsolutions.com/" },
+  { value: "theme1", label: "Theme 1 – Classic", url: "https://theme1.automotivewebsolutions.com/" },
+  { value: "theme2", label: "Theme 2 – Modern", url: "https://theme2.automotivewebsolutions.com/" },
+  { value: "theme3", label: "Theme 3 – Premium", url: "https://theme3.automotivewebsolutions.com/" },
+  { value: "theme4", label: "Theme 4 – Sporty", url: "https://theme4.automotivewebsolutions.com/" },
+  { value: "theme5", label: "Theme 5 – Luxury", url: "https://theme5.automotivewebsolutions.com/" },
+  { value: "theme6", label: "Theme 6 – Elegant", url: "https://theme6.automotivewebsolutions.com/" },
+];
 
   const handleWebsiteChange = (option) => {
     setSelectedWebsite(option.value);
