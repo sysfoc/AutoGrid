@@ -10,6 +10,9 @@ import { FaHeart, FaEye, FaLock } from "react-icons/fa"
 import { AiOutlineDelete } from "react-icons/ai"
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
+import { useCurrency } from "../context/CurrencyContext";
+
+
 
 const LikedCarsPage = () => {
   const [likedCars, setLikedCars] = useState([])
@@ -19,6 +22,7 @@ const LikedCarsPage = () => {
   const [removingCarId, setRemovingCarId] = useState(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [authLoading, setAuthLoading] = useState(true)
+  const { selectedCurrency } = useCurrency();
 
   useEffect(() => {
     const initializePage = async () => {
@@ -114,7 +118,7 @@ const LikedCarsPage = () => {
         <div className="container mx-auto px-4 py-20">
           <div className="flex items-center justify-center">
             <div className="flex flex-col items-center space-y-4">
-              <div className="h-12 w-12 animate-spin rounded-full border-4 border-slate-300 border-t-slate-900 dark:border-slate-600 dark:border-t-slate-100"></div>
+              <div className="h-12 w-12 animate-spin rounded-full border-4 border-slate-300 border-t-app-bg dark:border-slate-600 dark:border-t-app-border"></div>
               <p className="text-lg text-slate-600 dark:text-slate-400">Checking authentication...</p>
             </div>
           </div>
@@ -128,17 +132,17 @@ const LikedCarsPage = () => {
       <div className="min-h-screen mt-20 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
         <div className="container mx-auto mt-16 px-4 py-8">
           <div className="mx-auto max-w-md text-center">
-            <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-app-button/10 to-app-button/20 shadow-lg dark:from-app-button/30 dark:to-app-button/30">
-              <FaLock className="h-10 w-10 text-app-button dark:text-orange-400" />
+            <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-app-bg/10 to-app-bg/20 shadow-lg dark:from-app-border/20 dark:to-app-bg/30">
+              <FaLock className="h-10 w-10 text-app-bg dark:text-app-border" />
             </div>
-            <h2 className="mb-4 bg-gradient-to-br from-app-text via-gray-800 to-gray-600 bg-clip-text text-3xl font-bold text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300">
+            <h2 className="mb-4 bg-gradient-to-br from-slate-900 via-gray-800 to-gray-600 bg-clip-text text-3xl font-bold text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300">
               Login Required
             </h2>
             <p className="mb-8 text-lg leading-relaxed text-slate-600 dark:text-slate-400">
               Please log in to view your liked cars and manage your favorites collection.
             </p>
             <Link href="/login">
-              <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-button to-app-button-hover px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-button-hover hover:to-app-button hover:shadow-xl">
+              <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-bg to-app-hover px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-hover hover:to-app-bg hover:shadow-xl">
                 <MdLogin className="h-5 w-5" />
                 <span>Login to Continue</span>
                 <MdOutlineArrowOutward className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
@@ -147,7 +151,7 @@ const LikedCarsPage = () => {
             <div className="mt-6 space-y-4">
               <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
                 <Link href="/car-for-sale">
-                  <div className="group flex items-center justify-center gap-2 rounded-2xl border-2 border-gray-200 bg-white px-6 py-3 font-medium text-app-text transition-all duration-300 hover:border-gray-300 hover:bg-gray-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-700">
+                  <div className="group flex items-center justify-center gap-2 rounded-2xl border-2 border-gray-200 bg-white px-6 py-3 font-medium text-slate-900 transition-all duration-300 hover:border-gray-300 hover:bg-gray-50 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-700">
                     <span>Browse Cars</span>
                     <MdOutlineArrowOutward className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
                   </div>
@@ -180,13 +184,13 @@ const LikedCarsPage = () => {
                 />
               </svg>
             </div>
-            <h3 className="mb-3 text-2xl font-semibold text-app-text dark:text-slate-100">Authentication Required</h3>
+            <h3 className="mb-3 text-2xl font-semibold text-slate-900 dark:text-slate-100">Authentication Required</h3>
             <p className="mb-8 text-slate-600 dark:text-slate-400">
               Please log in to view your liked cars and manage your favorites.
             </p>
             <Link
               href="/login"
-              className="inline-flex items-center rounded-md bg-app-button px-6 py-3 text-base font-medium text-white transition-colors hover:bg-app-button-hover dark:bg-app-button dark:text-white dark:hover:bg-app-button-hover"
+              className="inline-flex items-center rounded-md bg-app-bg px-6 py-3 text-base font-medium text-white transition-colors hover:bg-app-hover dark:bg-app-bg dark:text-white dark:hover:bg-app-hover"
             >
               Log In
             </Link>
@@ -202,11 +206,11 @@ const LikedCarsPage = () => {
         <div className="mb-12">
           <div className="flex items-center justify-between">
             <div>
-              {/* <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-app-button/10 px-4 py-2 text-sm font-medium text-app-button dark:bg-app-button/30 dark:text-orange-400">
+              {/* <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-app-bg/10 px-4 py-2 text-sm font-medium text-app-bg dark:bg-app-border/20 dark:text-app-border">
                 <MdFavorite className="h-4 w-4" />
                 <span>Favorites Collection</span>
               </div> */}
-              <h1 className="mb-4 bg-gradient-to-br from-app-text via-gray-800 to-gray-600 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300 md:text-5xl">
+              <h1 className="mb-4 bg-gradient-to-br from-slate-900 via-gray-800 to-gray-600 bg-clip-text text-4xl font-bold leading-tight text-transparent dark:from-white dark:via-slate-100 dark:to-slate-300 md:text-5xl">
                 My Liked Cars
               </h1>
               <p className="text-lg text-slate-600 dark:text-slate-400">
@@ -216,7 +220,7 @@ const LikedCarsPage = () => {
               </p>
             </div>
             <Link href="/car-for-sale">
-              <div className="group hidden transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-button to-app-button-hover px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-button-hover hover:to-app-button hover:shadow-2xl dark:from-app-button dark:to-orange-500 dark:text-white dark:hover:from-app-button-hover dark:hover:to-orange-600 sm:inline-flex">
+              <div className="group hidden transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-bg to-app-hover px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-hover hover:to-app-bg hover:shadow-2xl dark:from-app-bg dark:to-app-hover dark:text-white dark:hover:from-app-hover dark:hover:to-app-border sm:inline-flex">
                 <span>Browse More Cars</span>
                 <MdOutlineArrowOutward className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
               </div>
@@ -262,12 +266,12 @@ const LikedCarsPage = () => {
             <div className="mx-auto mb-8 flex h-32 w-32 items-center justify-center rounded-full bg-slate-100 shadow-inner dark:bg-slate-800">
               <FaHeart className="h-16 w-16 text-slate-400" />
             </div>
-            <h3 className="mb-4 text-3xl font-bold text-app-text dark:text-white">No Liked Cars Yet</h3>
+            <h3 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white">No Liked Cars Yet</h3>
             <p className="mx-auto mb-8 max-w-md text-lg text-slate-600 dark:text-slate-400">
               Start exploring our premium collection and save your favorite vehicles to see them here.
             </p>
             <Link href="/car-for-sale">
-              <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-button to-app-button-hover px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-button-hover hover:to-app-button hover:shadow-2xl dark:from-app-button dark:to-orange-500 dark:text-white dark:hover:from-app-button-hover dark:hover:to-orange-600">
+              <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-bg to-app-hover px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-hover hover:to-app-bg hover:shadow-2xl dark:from-app-bg dark:to-app-hover dark:text-white dark:hover:from-app-hover dark:hover:to-app-border">
                 <span>Browse Vehicles</span>
                 <MdOutlineArrowOutward className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
               </div>
@@ -290,7 +294,7 @@ const LikedCarsPage = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                     <div className="absolute left-4 top-4 flex flex-wrap gap-1.5">
-                      <div className="rounded-full bg-app-button px-3 py-1.5 text-xs font-semibold text-white shadow-lg backdrop-blur-sm">
+                      <div className="rounded-full bg-app-bg px-3 py-1.5 text-xs font-semibold text-white shadow-lg backdrop-blur-sm">
                         <div className="flex items-center gap-1.5">
                           <FaHeart className="h-3 w-3" />
                           Liked
@@ -313,17 +317,17 @@ const LikedCarsPage = () => {
                           handleRemoveLike(vehicle._id)
                         }}
                         disabled={removingCarId === vehicle._id}
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-app-button shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:shadow-xl disabled:opacity-50"
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-app-bg shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:shadow-xl disabled:opacity-50"
                       >
                         {removingCarId === vehicle._id ? (
-                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-app-button border-t-transparent"></div>
+                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-app-bg border-t-transparent"></div>
                         ) : (
                           <AiOutlineDelete className="h-4 w-4" />
                         )}
                       </button>
                       <button
                         aria-label="View Car Details"
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-slate-600 shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:text-app-button hover:shadow-xl"
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-slate-600 shadow-lg backdrop-blur-md transition-all duration-200 hover:scale-110 hover:bg-white hover:text-app-bg hover:shadow-xl"
                       >
                         <FaEye className="h-4 w-4" />
                       </button>
@@ -331,8 +335,8 @@ const LikedCarsPage = () => {
                     <div className="absolute bottom-4 right-4 rounded-2xl bg-white/95 px-4 py-2 shadow-lg backdrop-blur-md dark:bg-slate-800/95">
                       <div className="text-right">
                         <p className="text-xs font-medium text-slate-500 dark:text-slate-400">Price</p>
-                        <p className="bg-gradient-to-r from-app-text to-gray-600 bg-clip-text text-lg font-bold text-transparent dark:from-white dark:to-slate-300">
-                          ${vehicle?.price?.toLocaleString() || "N/A"}
+                        <p className="bg-gradient-to-r from-slate-900 to-gray-600 bg-clip-text text-lg font-bold text-transparent dark:from-white dark:to-slate-300">
+                         {`${selectedCurrency?.symbol} ${vehicle?.price?.toLocaleString() || "N/A"}`}
                         </p>
                       </div>
                     </div>
@@ -340,7 +344,7 @@ const LikedCarsPage = () => {
                 </div>
                 <div className="p-6">
                   <div className="mb-4">
-                    <h3 className="mb-2 text-xl font-bold text-app-text transition-colors duration-300 group-hover:text-app-button dark:text-white dark:group-hover:text-orange-400">
+                    <h3 className="mb-2 text-xl font-bold text-slate-900 transition-colors duration-300 group-hover:text-app-bg dark:text-white dark:group-hover:text-app-border">
                       {vehicle?.make} {vehicle?.model}
                     </h3>
                     <p className="line-clamp-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
@@ -349,30 +353,30 @@ const LikedCarsPage = () => {
                   </div>
                   <div className="mb-6 space-y-3">
                     <div className="flex items-center gap-3 text-sm">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-button/10 dark:bg-app-button/20">
-                        <IoSpeedometer className="h-4 w-4 text-app-button dark:text-orange-400" />
+                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-bg/10 dark:bg-app-border/20">
+                        <IoSpeedometer className="h-4 w-4 text-app-bg dark:text-app-border" />
                       </div>
                       <span className="text-slate-600 dark:text-slate-400">Mileage:</span>
-                      <span className="font-semibold text-app-text dark:text-white">{vehicle?.kms || "N/A"} KM</span>
+                      <span className="font-semibold text-slate-900 dark:text-white">{vehicle?.kms || "N/A"} KM</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-button/10 dark:bg-app-button/20">
-                        <GiGasPump className="h-4 w-4 text-app-button dark:text-orange-400" />
+                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-bg/10 dark:bg-app-border/20">
+                        <GiGasPump className="h-4 w-4 text-app-bg dark:text-app-border" />
                       </div>
                       <span className="text-slate-600 dark:text-slate-400">Fuel Type:</span>
-                      <span className="font-semibold text-app-text dark:text-white">{vehicle?.fuelType || "N/A"}</span>
+                      <span className="font-semibold text-slate-900 dark:text-white">{vehicle?.fuelType || "N/A"}</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-button/10 dark:bg-app-button/20">
-                        <TbManualGearboxFilled className="h-4 w-4 text-app-button dark:text-orange-400" />
+                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-app-bg/10 dark:bg-app-border/20">
+                        <TbManualGearboxFilled className="h-4 w-4 text-app-bg dark:text-app-border" />
                       </div>
                       <span className="text-slate-600 dark:text-slate-400">Transmission:</span>
-                      <span className="font-semibold text-app-text dark:text-white">{vehicle?.gearbox || "N/A"}</span>
+                      <span className="font-semibold text-slate-900 dark:text-white">{vehicle?.gearbox || "N/A"}</span>
                     </div>
                   </div>
                   <div className="space-y-3">
                     <Link href={`/car-detail/${vehicle.slug || vehicle._id}`} className="group/cta block w-full">
-                      <div className="transform rounded-2xl bg-gradient-to-r from-app-button to-app-button-hover px-6 py-3.5 text-center font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-app-button-hover hover:to-app-button hover:shadow-xl dark:from-app-button dark:to-orange-500 dark:text-white dark:hover:from-app-button-hover dark:hover:to-orange-600">
+                      <div className="transform rounded-2xl bg-gradient-to-r from-app-bg to-app-hover px-6 py-3.5 text-center font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:from-app-hover hover:to-app-bg hover:shadow-xl dark:from-app-bg dark:to-app-hover dark:text-white dark:hover:from-app-hover dark:hover:to-app-border">
                         <div className="flex items-center justify-center gap-2">
                           <span>View Details</span>
                           <MdOutlineArrowOutward className="h-4 w-4 transition-transform duration-300 group-hover/cta:-translate-y-1 group-hover/cta:translate-x-1" />
@@ -385,11 +389,11 @@ const LikedCarsPage = () => {
                         handleRemoveLike(vehicle._id)
                       }}
                       disabled={removingCarId === vehicle._id}
-                      className="group/remove flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-app-button/20 bg-app-button/5 px-6 py-3 font-semibold text-app-button transition-all duration-300 hover:border-app-button/30 hover:bg-app-button/10 hover:shadow-md disabled:opacity-50 dark:border-app-button/30 dark:bg-app-button/20 dark:text-orange-400 dark:hover:border-app-button/40 dark:hover:bg-app-button/30"
+                      className="group/remove flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-app-bg/20 bg-app-bg/5 px-6 py-3 font-semibold text-app-bg transition-all duration-300 hover:border-app-bg/30 hover:bg-app-bg/10 hover:shadow-md disabled:opacity-50 dark:border-app-border/30 dark:bg-app-border/10 dark:text-app-border dark:hover:border-app-border/40 dark:hover:bg-app-border/20"
                     >
                       {removingCarId === vehicle._id ? (
                         <>
-                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-app-button border-t-transparent"></div>
+                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-app-bg border-t-transparent dark:border-app-border"></div>
                           <span>Removing...</span>
                         </>
                       ) : (
@@ -408,7 +412,7 @@ const LikedCarsPage = () => {
         {likedCars.length > 0 && (
           <div className="mt-12 text-center sm:hidden">
             <Link href="/car-for-sale">
-              <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-button to-app-button-hover px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-button-hover hover:to-app-button hover:shadow-2xl dark:from-app-button dark:to-orange-500 dark:text-white dark:hover:from-app-button-hover dark:hover:to-orange-600">
+              <div className="group inline-flex transform items-center gap-3 rounded-2xl bg-gradient-to-r from-app-bg to-app-hover px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:from-app-hover hover:to-app-bg hover:shadow-2xl dark:from-app-bg dark:to-app-hover dark:text-white dark:hover:from-app-hover dark:hover:to-app-border">
                 <span>Browse More Cars</span>
                 <MdOutlineArrowOutward className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
               </div>

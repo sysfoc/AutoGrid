@@ -328,7 +328,7 @@ const Footerr = () => {
                 {tradingHours.map((schedule, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between rounded-lg px-3 transition-colors duration-200 hover:bg-white dark:hover:bg-slate-800/50"
+                    className="flex items-center justify-between rounded-lg px-3 transition-colors duration-200"
                   >
                     <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       {schedule.day}
