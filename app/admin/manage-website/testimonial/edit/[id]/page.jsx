@@ -179,7 +179,7 @@ const Page = () => {
         </div>
         <Button 
           type="submit" 
-          className="mt-3 w-full bg-app-button hover:bg-app-button-hover border-app-button hover:border-app-button-hover"
+          className="mt-3 w-full  bg-gradient-to-r text-white from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
         >
           <span className="text-white">
             Update Changes

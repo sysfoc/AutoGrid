@@ -227,7 +227,7 @@ export default function CreateDealer() {
             </div>
           )}
           {isSuccess && (
-            <div className="text-app-bg border-app-bg relative mb-6 rounded border  px-4 py-3">
+            <div className="text-app-bg border-app-border relative mb-6 rounded border  px-4 py-3">
               <strong className="font-bold">Success!</strong>
               <span className="block sm:inline">
                 {" "}
@@ -256,7 +256,7 @@ export default function CreateDealer() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className={`w-full border ${errors.name ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-button`}
+                    className={`w-full border ${errors.name ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
                     placeholder="Dealer Name"
                   />
                 </div>
@@ -284,7 +284,7 @@ export default function CreateDealer() {
                     required
                     value={formData.address}
                     onChange={handleChange}
-                    className={`w-full border ${errors.address ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-button`}
+                    className={`w-full border ${errors.address ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
                     placeholder="123 Main St, City, Country"
                   />
                 </div>
@@ -313,7 +313,7 @@ export default function CreateDealer() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className={`w-full border ${errors.email ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-button`}
+                    className={`w-full border ${errors.email ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
                     placeholder="dealer@example.com"
                   />
                 </div>
@@ -343,7 +343,7 @@ export default function CreateDealer() {
                     required
                     value={formData.contact}
                     onChange={handleChange}
-                    className={`w-full border ${errors.contact ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-button`}
+                    className={`w-full border ${errors.contact ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
                     placeholder="+1234567890"
                   />
                 </div>
@@ -373,7 +373,7 @@ export default function CreateDealer() {
                     required
                     value={formData.licence}
                     onChange={handleChange}
-                    className={`w-full border ${errors.licence ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-button`}
+                    className={`w-full border ${errors.licence ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
                     placeholder="DL123456"
                   />
                 </div>
@@ -403,7 +403,7 @@ export default function CreateDealer() {
                     required
                     value={formData.abn}
                     onChange={handleChange}
-                    className={`w-full border ${errors.abn ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-button`}
+                    className={`w-full border ${errors.abn ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
                     placeholder="12 345 678 901"
                   />
                 </div>
@@ -430,7 +430,7 @@ export default function CreateDealer() {
                     rows="3"
                     value={formData.map}
                     onChange={handleChange}
-                    className={`w-full border ${errors.map ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-button`}
+                    className={`w-full border ${errors.map ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
                     placeholder="Enter Google Maps URL or paste iframe embed code..."
                   />
                 </div>
@@ -449,7 +449,7 @@ export default function CreateDealer() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex w-full items-center justify-center rounded-md bg-app-button py-3 text-white transition duration-200 hover:bg-app-button-hover disabled:opacity-50"
+                className="flex w-full items-center justify-center rounded-md bg-app-bg py-3 text-white transition duration-200 hover:bg-app-hover disabled:opacity-50"
               >
                 <FaUserPlus className="mr-2" />
                 {isSubmitting ? "Creating..." : "Create Dealer"}

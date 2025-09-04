@@ -146,7 +146,7 @@ export default function Page() {
                 </div>
                 <Link
                   href="/admin/manage-website/testimonial/add"
-                  className="flex items-center justify-center space-x-2 rounded-xl bg-app-button px-4 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:bg-app-button-hover hover:shadow-xl sm:px-6 sm:text-base"
+                  className="flex items-center justify-center space-x-2 rounded-xl  px-4 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-200 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 sm:px-6 sm:text-base"
                 >
                   <svg
                     className="h-4 w-4 sm:h-5 sm:w-5"
@@ -383,7 +383,7 @@ export default function Page() {
                           </Link>
                           <button
                             onClick={() => handleDelete(testimonial._id)}
-                            className="flex items-center space-x-2 rounded-lg bg-app-button px-4 py-2 font-medium text-white shadow-md transition-colors duration-200 hover:bg-app-button-hover hover:shadow-lg"
+                            className="flex items-center space-x-2 rounded-lg  px-4 py-2 font-medium text-white shadow-md transition-colors duration-200 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
                           >
                             <svg
                               className="h-4 w-4"

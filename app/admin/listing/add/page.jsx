@@ -933,7 +933,7 @@ const Page = () => {
             <Button 
               type="submit" 
               size={"md"} 
-              className="w-full bg-app-button hover:bg-app-button-hover text-white border-app-button hover:border-app-button-hover"
+              className="w-full text-white bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
             >
               Submit
             </Button>

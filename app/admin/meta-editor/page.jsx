@@ -148,7 +148,7 @@ const MetaEditor = () => {
             <div className="flex justify-end">
               <Button
                 type="submit"
-                className="bg-app-button hover:bg-app-button-hover text-white"
+                className="bg-gradient-to-r text-white from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
                 disabled={isSaving || isLoading}
               >
                 {isSaving ? (
