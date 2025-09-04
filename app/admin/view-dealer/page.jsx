@@ -253,7 +253,7 @@ export default function ViewDealers() {
       <div className="max-w-8xl mx-auto space-y-6">
         {/* Header Section - Made Compact */}
         <div className="overflow-hidden rounded-xl border border-slate-200/60 bg-white shadow-lg">
-          <div className="bg-gradient-to-r from-app-text to-slate-700 px-4 py-4 sm:px-6">
+          <div className=" bg-gradient-to-r text-white from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 px-4 py-4 sm:px-6">
             <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:space-x-3 sm:space-y-0">
               <div className="flex flex-1 items-center space-x-3">
                 <div className="rounded-lg bg-white/20 p-2 backdrop-blur-sm">
