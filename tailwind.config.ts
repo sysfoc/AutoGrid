@@ -14,7 +14,9 @@ const config: Config = {
         "app-bg": "#1bc742",            // button background
         "app-hover": "#16a837",        // Use this for button hovers
         "app-border": "#22d949",       // Slightly lighter for borders
-        "app-dark": "#138d2e",        // For dark mode or accents
+        "app-dark": "#138d2e", 
+        "app-button" : "#662bcc",
+        "app-button-hover": "#5524ab"      // For dark mode or accents
       },
     },
   },
