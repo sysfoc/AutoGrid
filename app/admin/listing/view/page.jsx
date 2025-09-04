@@ -132,7 +132,7 @@ export default function Listing() {
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/admin/listing/add"
-                className="inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+                className="inline-flex items-center justify-center rounded-xl bg-app-button px-6 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:bg-app-button-hover hover:shadow-xl"
               >
                 <svg
                   className="mr-2 h-5 w-5"

@@ -9,7 +9,6 @@ import {
   FaPhone,
   FaFileAlt,
   FaBuilding,
-  FaEnvelope,
   FaMap,
 } from "react-icons/fa"; // Using react-icons/fa for consistency
 
@@ -18,7 +17,6 @@ export default function CreateDealer() {
     name: "",
     address: "",
     contact: "",
-    email: "",
     licence: "",
     abn: "",
     map: "", // Optional field
@@ -113,11 +111,6 @@ export default function CreateDealer() {
     if (!formData.abn.trim()) {
       newErrors.abn = "ABN is required";
     }
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      newErrors.email = "Please enter a valid email address";
-    }
 
     // Updated map validation
     if (formData.map && formData.map.trim() !== "") {
@@ -168,8 +161,6 @@ export default function CreateDealer() {
         else if (errorMessage.includes("licence"))
           serverErrors.licence = data.error;
         else if (errorMessage.includes("abn")) serverErrors.abn = data.error;
-        else if (errorMessage.includes("email"))
-          serverErrors.email = data.error;
         else if (errorMessage.includes("map")) serverErrors.map = data.error;
         else serverErrors.general = data.error || "Failed to create dealer.";
 
@@ -183,7 +174,6 @@ export default function CreateDealer() {
         address: "",
         contact: "",
         licence: "",
-        email: "",
         abn: "",
         map: "",
       });
@@ -210,15 +200,15 @@ export default function CreateDealer() {
     );
   }
 
-  return (
-    <div className="flex min-h-screen bg-gray-100">
+return (
+    <div className="flex min-h-screen bg-background-secondary">
       <div className="flex flex-1 items-center justify-center p-6">
-        <div className="w-full max-w-xl rounded-lg bg-white p-8 shadow-lg">
+        <div className="w-full max-w-xl rounded-lg bg-background p-8 shadow-lg">
           <div className="mb-8 text-center">
-            <h1 className="mb-2 text-3xl font-bold text-app-text">
+            <h1 className="mb-2 text-3xl font-bold text-text">
               Create New Dealer
             </h1>
-            <p className="text-gray-600">Add new dealership to the system</p>
+            <p className="text-text-secondary">Add new dealership to the system</p>
           </div>
           {errors.general && (
             <div className="relative mb-6 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">
@@ -227,7 +217,7 @@ export default function CreateDealer() {
             </div>
           )}
           {isSuccess && (
-            <div className="text-app-bg border-app-border relative mb-6 rounded border  px-4 py-3">
+            <div className="relative mb-6 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700">
               <strong className="font-bold">Success!</strong>
               <span className="block sm:inline">
                 {" "}
@@ -241,7 +231,7 @@ export default function CreateDealer() {
               <div className="form-group md:col-span-2">
                 <label
                   htmlFor="name"
-                  className="mb-1 block text-sm font-medium text-app-text"
+                  className="mb-1 block text-sm font-medium text-text"
                 >
                   Name
                 </label>
@@ -256,7 +246,7 @@ export default function CreateDealer() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className={`w-full border ${errors.name ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
+                    className={`w-full border ${errors.name ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-primary`}
                     placeholder="Dealer Name"
                   />
                 </div>
@@ -269,7 +259,7 @@ export default function CreateDealer() {
               <div className="form-group md:col-span-2">
                 <label
                   htmlFor="address"
-                  className="mb-1 block text-sm font-medium text-app-text"
+                  className="mb-1 block text-sm font-medium text-text"
                 >
                   Address
                 </label>
@@ -284,7 +274,7 @@ export default function CreateDealer() {
                     required
                     value={formData.address}
                     onChange={handleChange}
-                    className={`w-full border ${errors.address ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
+                    className={`w-full border ${errors.address ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-primary`}
                     placeholder="123 Main St, City, Country"
                   />
                 </div>
@@ -295,40 +285,11 @@ export default function CreateDealer() {
                 )}
               </div>
 
-              <div className="form-group md:col-span-2">
-                <label
-                  htmlFor="email"
-                  className="mb-1 block text-sm font-medium text-app-text"
-                >
-                  Email
-                </label>
-                <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <FaEnvelope className="text-gray-400" />
-                  </div>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`w-full border ${errors.email ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
-                    placeholder="dealer@example.com"
-                  />
-                </div>
-                {errors.email && (
-                  <div className="mt-1 text-sm text-red-500">
-                    {errors.email}
-                  </div>
-                )}
-              </div>
-
               {/* Contact Field */}
               <div className="form-group">
                 <label
                   htmlFor="contact"
-                  className="mb-1 block text-sm font-medium text-app-text"
+                  className="mb-1 block text-sm font-medium text-text"
                 >
                   Contact
                 </label>
@@ -343,7 +304,7 @@ export default function CreateDealer() {
                     required
                     value={formData.contact}
                     onChange={handleChange}
-                    className={`w-full border ${errors.contact ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
+                    className={`w-full border ${errors.contact ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-primary`}
                     placeholder="+1234567890"
                   />
                 </div>
@@ -358,7 +319,7 @@ export default function CreateDealer() {
               <div className="form-group">
                 <label
                   htmlFor="licence"
-                  className="mb-1 block text-sm font-medium text-app-text"
+                  className="mb-1 block text-sm font-medium text-text"
                 >
                   Licence
                 </label>
@@ -373,7 +334,7 @@ export default function CreateDealer() {
                     required
                     value={formData.licence}
                     onChange={handleChange}
-                    className={`w-full border ${errors.licence ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
+                    className={`w-full border ${errors.licence ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-primary`}
                     placeholder="DL123456"
                   />
                 </div>
@@ -388,7 +349,7 @@ export default function CreateDealer() {
               <div className="form-group">
                 <label
                   htmlFor="abn"
-                  className="mb-1 block text-sm font-medium text-app-text"
+                  className="mb-1 block text-sm font-medium text-text"
                 >
                   ABN
                 </label>
@@ -403,7 +364,7 @@ export default function CreateDealer() {
                     required
                     value={formData.abn}
                     onChange={handleChange}
-                    className={`w-full border ${errors.abn ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
+                    className={`w-full border ${errors.abn ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-primary`}
                     placeholder="12 345 678 901"
                   />
                 </div>
@@ -413,10 +374,12 @@ export default function CreateDealer() {
               </div>
 
               {/* Map Field (Optional) */}
+
+              {/* Map Field (Optional) */}
               <div className="form-group">
                 <label
                   htmlFor="map"
-                  className="mb-1 block text-sm font-medium text-app-text"
+                  className="mb-1 block text-sm font-medium text-text"
                 >
                   Map (Optional)
                 </label>
@@ -430,14 +393,14 @@ export default function CreateDealer() {
                     rows="3"
                     value={formData.map}
                     onChange={handleChange}
-                    className={`w-full border ${errors.map ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-app-bg`}
+                    className={`w-full border ${errors.map ? "border-red-500" : "border-gray-300"} rounded-md py-3 pl-10 pr-3 focus:outline-none focus:ring-1 focus:ring-primary`}
                     placeholder="Enter Google Maps URL or paste iframe embed code..."
                   />
                 </div>
                 {errors.map && (
                   <div className="mt-1 text-sm text-red-500">{errors.map}</div>
                 )}
-                <div className="mt-1 text-xs text-gray-500">
+                <div className="mt-1 text-xs text-text-secondary">
                   You can paste either a Google Maps URL or the full iframe
                   embed code
                 </div>
@@ -449,7 +412,7 @@ export default function CreateDealer() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex w-full items-center justify-center rounded-md bg-app-bg py-3 text-white transition duration-200 hover:bg-app-hover disabled:opacity-50"
+                className="flex w-full items-center justify-center rounded-md bg-primary py-3 text-text-inverse transition duration-200 hover:bg-primary-hover disabled:opacity-50"
               >
                 <FaUserPlus className="mr-2" />
                 {isSubmitting ? "Creating..." : "Create Dealer"}
