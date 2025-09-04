@@ -378,7 +378,7 @@ const AdminContactPage = () => {
             <div className="flex items-center gap-3">
               <button
                 onClick={fetchContactMessages}
-                className="flex items-center gap-2 rounded-lg border border-gray-300 bg-app-button px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-app-button-hover sm:px-4"
+                className="flex items-center gap-2 rounded-lg border border-gray-300 bg-app-bg px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-app-button-hover sm:px-4"
               >
                 <RefreshCw size={16} />
                 <span className="hidden sm:inline">Refresh</span>
