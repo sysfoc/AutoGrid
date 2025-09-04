@@ -136,7 +136,7 @@ const Page = () => {
     <div>
       <Link
         href={"/admin/blog"}
-        className="rounded-lg bg-app-button hover:bg-app-button-hover p-3 text-sm text-white transition-colors duration-200"
+        className="rounded-lg  bg-gradient-to-r text-white from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
       >
         View All
       </Link>
@@ -192,7 +192,7 @@ const Page = () => {
     <div>
       <Button 
         type="submit" 
-        className="mt-3 w-full bg-app-button hover:bg-app-button-hover border-0 focus:ring-app-button transition-colors duration-200" 
+        className="mt-3 w-full bg-gradient-to-r text-white from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700" 
         color={"dark"}
       >
         Submit

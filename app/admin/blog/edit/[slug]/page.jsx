@@ -204,7 +204,7 @@ export default function EditBlogPage() {
     <div>
       <Button 
         color="dark" 
-        className="w-full bg-app-button hover:bg-app-button-hover border-0 focus:ring-app-button transition-colors duration-200" 
+        className="w-full bg-gradient-to-r text-white from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700" 
         type="submit"
       >
         Update Changes
