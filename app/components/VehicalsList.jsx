@@ -242,7 +242,7 @@ const VehicleCard = ({
               <div className="mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
                 <IoSpeedometer className="h-3 w-3 text-gray-600 dark:text-gray-300" />
               </div>
-              <div className="text-xs font-semibold text-gray-800 dark:text-white">
+              <div className="text-xs line-clamp-1 font-semibold text-gray-800 dark:text-white">
                 {convertedValues.kms}
               </div>
               <div className="text-[10px] text-gray-500 dark:text-gray-400">
@@ -254,7 +254,7 @@ const VehicleCard = ({
               <div className="mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
                 <GiGasPump className="h-3 w-3 text-gray-600 dark:text-gray-300" />
               </div>
-              <div className="text-xs font-semibold text-gray-800 dark:text-white">
+              <div className="text-xs font-semibold line-clamp-1 text-gray-800 dark:text-white">
                 {vehicle && vehicle.fuelType}
               </div>
               <div className="text-[10px] text-gray-500 dark:text-gray-400">
@@ -266,7 +266,7 @@ const VehicleCard = ({
               <div className="mb-1 flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
                 <TbManualGearbox className="h-3 w-3 text-gray-600 dark:text-gray-300" />
               </div>
-              <div className="text-xs font-semibold text-gray-800 dark:text-white">
+              <div className="text-xs line-clamp-1 font-semibold text-gray-800 dark:text-white">
                 {vehicle && vehicle.gearbox}
               </div>
               <div className="text-[10px] text-gray-500 dark:text-gray-400">
