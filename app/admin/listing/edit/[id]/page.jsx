@@ -300,12 +300,11 @@ const CarEditPage = ({ params }) => {
       }
     }
 
-    // Append existing image URLs to preserve them
-    imagePreviews.forEach((preview) => {
-      if (!preview.startsWith("blob:")) {
-        formDataToSend.append("existingImages", preview);
-      }
-    });
+   imagePreviews.forEach((preview) => {
+  if (!preview.isNew) {
+    formDataToSend.append("existingImages", preview.url);
+  }
+});
 
     try {
       const res = await fetch(`/api/cars/${id}`, {
@@ -377,28 +376,30 @@ const handleImageDelete = (id) => {
   setImagePreviews(prev => prev.filter(img => img.id !== id));
 };
 
- // Cleanup function for object URLs
+// Cleanup function for object URLs
 useEffect(() => {
   return () => {
     imagePreviews.forEach((preview) => {
-      if (preview.url.startsWith("blob:")) {  // Changed this line
-        URL.revokeObjectURL(preview.url);     // And this line
+      if (preview.url && preview.url.startsWith("blob:")) {
+        URL.revokeObjectURL(preview.url);
       }
     });
   };
 }, [imagePreviews]);
 
-  useEffect(() => {
+useEffect(() => {
   return () => {
     // Clean up object URLs for new images
     selectedImages.forEach((image) => {
-      URL.revokeObjectURL(image.preview);
+      if (image.preview && image.preview.startsWith("blob:")) {
+        URL.revokeObjectURL(image.preview);
+      }
     });
     
     // Clean up any blob URLs in imagePreviews
     imagePreviews.forEach((preview) => {
-      if (preview.isNew && preview.url.startsWith("blob:")) {  // Changed
-        URL.revokeObjectURL(preview.url);                      // Changed
+      if (preview.isNew && preview.url && preview.url.startsWith("blob:")) {
+        URL.revokeObjectURL(preview.url);
       }
     });
   };
